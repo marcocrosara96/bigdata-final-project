@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="bigdata-final-project:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/bigdata_final_project_jar</output-path>
+    <root id="archive" name="bigdata-final-project.jar">
+      <element id="module-output" name="bigdata-final-project" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hadoop-hdfs.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/log4j-1.2.17.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hadoop-common.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hadoop-annotations.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hadoop-core-2.6.0-mr1-cdh5.7.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/webarchive-commons-jar-with-dependencies.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
