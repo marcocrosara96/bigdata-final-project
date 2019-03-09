@@ -6,8 +6,36 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ReaderTest {
+    public static final String filePath = "./dataset/data/cdx-00000";
 
     public static void main(String[] args) {
+        showLines();
+    }
+
+    public static void searchLine(){
+        String searchline;
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("from_line:");
+        searchline = scanner.nextLine();
+
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            String line = reader.readLine();
+            while (line != null) {
+                if(line.contains(searchline)) {
+                    System.out.println(line);
+                    break;
+                }
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showLines(){
         int from, to;
         Scanner scanner = new Scanner(System.in);
         System.out.print("from_line:");
@@ -17,11 +45,12 @@ public class ReaderTest {
 
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader("/home/mark/Desktop/CC-MAIN-20190224023850-20190224045850-00324.warc"));
+            reader = new BufferedReader(new FileReader(filePath));
             String line = reader.readLine();
             int i = 0;
-            while (i >= from && i <= to && line != null) {
-                System.out.println(line);
+            while (i <= to && line != null) {
+                if(i >= from)
+                    System.out.println(line);
                 line = reader.readLine();
                 i++;
             }
@@ -30,4 +59,6 @@ public class ReaderTest {
             e.printStackTrace();
         }
     }
+
+    //http://0204mm.com/?PUT=a_show&AID=68666&FID=1361239&R2=&CHANNEL=
 }
