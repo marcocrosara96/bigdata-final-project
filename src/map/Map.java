@@ -16,9 +16,9 @@ public class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
 
     /**
      *
-     * @param offset --> non la utilizzeremo mai
-     * @param lineText --> verrà trasformata un una line di tipo stringa --> per essere maneggiata dai metodi di String
-     * @param context --> è il canale che mi porta al reducer
+     * @param offset [non lo usiamo]
+     * @param lineText --> pagina con il relativo header che ci arriva da NLinesRecordReader
+     * @param context --> collegamento al reducer
      * @throws IOException
      * @throws InterruptedException
      */
