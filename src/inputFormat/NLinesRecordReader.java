@@ -15,7 +15,6 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 
 public class NLinesRecordReader extends RecordReader<LongWritable, Text>{
-    //private final int NLINESTOPROCESS = 3;
     private LineReader in;
 
     private LongWritable key;
@@ -92,25 +91,28 @@ public class NLinesRecordReader extends RecordReader<LongWritable, Text>{
         final Text endline = new Text("\n");
         int newSize = 0;
 
-        Text v = new Text(""); //line read on the file
-        Text PageEndLine = new Text("WARC/1.0"); //delimits the end of the page and the beginning of another
-        while(!v.equals(PageEndLine)){
+        Text v = new Text(); //line read on the file
+        Text pageEndLine = new Text("WARC/1.0"); //delimits the end of the page and the beginning of another
+        Text emptyLine = new Text("");
+
+        //A input for the mapper is a page from "WARC/1.0" to the next "WARC/1.0" or to the end of file
+        while(!(v.equals(pageEndLine)) && pos != end){ /*pos != end <-- check it isn't the end of file*/
             v = new Text();
-            while (pos < end) {
+            boolean readFullLineFlag = false;
+            while (pos < end && readFullLineFlag == false) { /*se il buffer non è sufficente per leggere una riga troppo
+                                                                lunga, al ciclo successivo finisco di leggerla*/
                 newSize = in.readLine(  v,
                                         maxLineLength,
                                         Math.max((int)Math.min(Integer.MAX_VALUE, end-pos), maxLineLength));
-                if(!v.equals(PageEndLine)) {
-                    value.append(v.getBytes(), 0, v.getLength());
-                    value.append(endline.getBytes(), 0, endline.getLength());
+
+                if(!v.equals(pageEndLine) && !v.equals(emptyLine)) {
+                    value.append(v.getBytes(), 0, v.getLength()); //concateno la riga letta nel file all'input
+                    value.append(endline.getBytes(), 0, endline.getLength()); //aggiungo newline all'input
                 }
-                if (newSize == 0) {
-                    break;
-                }
+
                 pos += newSize;
-                if (newSize < maxLineLength) {
-                    break;
-                }
+                if (/*newSize == 0 ||*/ newSize < maxLineLength)
+                    readFullLineFlag = true;
             }
         }
 

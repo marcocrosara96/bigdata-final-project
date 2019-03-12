@@ -58,16 +58,18 @@ public class Analyzer extends Configured implements Tool {
          * @throws InterruptedException
          */
         public void map(LongWritable offset, Text lineText, Context context) throws IOException, InterruptedException {
-            String line = lineText.toString();
+            /*String line = lineText.toString();
             Text currentWord = new Text(); //facciamo così per evitare di ricrearlo ad ogni ciclo
-            /*for (String word : WORD_BOUNDARY.split(line)) {
+            for (String word : WORD_BOUNDARY.split(line)) {
                 if (word.isEmpty()) {
                     continue;
                 }
                 currentWord.set(word); //NB <--- Set
                 context.write(currentWord, one); //one --> IntWritable (vedi sopra)
             }*/
-            context.write(lineText, new IntWritable(100)); //one --> IntWritable (vedi sopra)
+
+            //System.out.println("map-line: ");
+            context.write(lineText, new IntWritable(1)); //one --> IntWritable (vedi sopra)
         }
     }
 
@@ -78,11 +80,13 @@ public class Analyzer extends Configured implements Tool {
     public static class Reduce extends Reducer<Text, IntWritable, Text, IntWritable> {
         @Override
         public void reduce(Text word, Iterable<IntWritable> counts, Context context) throws IOException, InterruptedException {
-            int sum = 0;
+            /*int sum = 0;
             for (IntWritable count : counts) {
                 sum += count.get();
             }
-            context.write(word, new IntWritable(sum));
+            context.write(word, new IntWritable(sum));*/
+            //System.out.println("reduce-line: " + word.toString());
+            context.write(word, new IntWritable(1));
         }
     }
 }

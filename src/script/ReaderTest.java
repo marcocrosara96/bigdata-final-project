@@ -1,4 +1,4 @@
-package test;
+package script;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,7 +9,8 @@ public class ReaderTest {
     public static final String filePath = "./dataset/data/cdx-00000";
 
     public static void main(String[] args) {
-        showLines();
+        //showLines();
+        //System.out.println(Analyzer.Map.class);
     }
 
     public static void searchLine(){
@@ -59,6 +60,4 @@ public class ReaderTest {
             e.printStackTrace();
         }
     }
-
-    //http://0204mm.com/?PUT=a_show&AID=68666&FID=1361239&R2=&CHANNEL=
 }
