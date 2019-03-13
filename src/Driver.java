@@ -20,6 +20,7 @@ public class Driver extends Configured implements Tool {
     /*--- CONFIGURATION ----*/
     public static String JOB_NAME = "Analyzer";
     public static String INPUT_PATH = "/input/00000_sample.wet"; //input file path or input directory path
+    public static String DICTIONARY_100 = "/input/dictionary_100.json";
     public static String OUTPUT_PATH = "/output/" + uniqueId(); //output path
     public static int NUM_REDUCE_TASK = 1;
 
@@ -43,7 +44,7 @@ public class Driver extends Configured implements Tool {
         job.setInputFormatClass(PageAndHeaderInputFormat.class); //Set the new input format class
 
         //Set Distributed Cache (Dictionary Files)
-        DistributedCache.addCacheFile(new Path(args[2]).toUri(), job.getConfiguration());
+        DistributedCache.addCacheFile(new Path(DICTIONARY_100).toUri(), job.getConfiguration());
 
         return job.waitForCompletion(true) ? 0 : 1;
     }

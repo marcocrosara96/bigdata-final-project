@@ -1,5 +1,7 @@
 package map;
 
+import org.apache.hadoop.filecache.DistributedCache;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -36,4 +38,26 @@ public class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
         //System.out.println("map-line: ");
         context.write(lineText, new IntWritable(1)); //one --> IntWritable (vedi sopra)
     }
+
+    /**
+     * Mi permette di recuperare tutti i path dei file in Distributed Cache
+     * @param context
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    /*@Override
+    protected void setup(Context context) throws IOException, InterruptedException {
+        try{
+            Path[] stopWordsFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());
+            if(stopWordsFiles != null && stopWordsFiles.length > 0) {
+                for(Path stopWordFile : stopWordsFiles) {
+                    //readFile(stopWordFile);
+                }
+            }
+        } catch(IOException ex) {
+            System.err.println("Exception in mapper setup: " + ex.getMessage());
+        }
+    }*/
+
+
 }
