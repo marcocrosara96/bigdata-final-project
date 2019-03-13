@@ -7,18 +7,18 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 
 /**
- *                                        <Coppia Input>      <Coppia Output>
+ *                                <Coppia Input><Coppia Output>
  *
  */
-public class Reduce extends Reducer<Text, IntWritable, Text, IntWritable> {
+public class Reduce extends Reducer<Text, Text, Text, Text> {
     @Override
-    public void reduce(Text word, Iterable<IntWritable> counts, Context context) throws IOException, InterruptedException {
+    public void reduce(Text url, Iterable<Text> description, Context context) throws IOException, InterruptedException {
             /*int sum = 0;
             for (IntWritable count : counts) {
                 sum += count.get();
             }
             context.write(word, new IntWritable(sum));*/
         //System.out.println("reduce-line: " + word.toString());
-        context.write(word, new IntWritable(1));
+        context.write(url, description.iterator().next());
     }
 }

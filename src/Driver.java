@@ -10,7 +10,6 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 
 import java.text.SimpleDateFormat;
@@ -37,7 +36,7 @@ public class Driver extends Configured implements Tool {
         job.setMapperClass(Map.class);
         job.setReducerClass(Reduce.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputValueClass(Text.class);
 
         // Use TextInputFormat, the default unless job.setInputFormatClass is used
         job.setInputFormatClass(PageAndHeaderInputFormat.class); //Set the new input format class

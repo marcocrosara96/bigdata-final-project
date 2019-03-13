@@ -8,15 +8,18 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.regex.Pattern;
 
-public class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
+public class Map extends Mapper<LongWritable, Text, Text, Text> {
     public static String DICTIONARY_100 = "/input/dictionary_100.json";
+    private static final Pattern WORD_BOUNDARY = Pattern.compile("\\s*\\b\\s*");//Indent. gli spazi vuoti da word a word
     private Dictionary dict;
     //private final static IntWritable one = new IntWritable(1);
     //private Text word = new Text();
     //private long numRecords = 0;
-    //private static final Pattern WORD_BOUNDARY = Pattern.compile("\\s*\\b\\s*");
 
     /**
      * Mi permette di fare i settaggi iniziali del mapper tra cui di recuperare ed elaborare tutte le informazioni dei
@@ -48,21 +51,10 @@ public class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
         if(url == null)
             return;
 
-        context.write(new Text(url), new IntWritable(1)); //one --> IntWritable (vedi sopra)
+        context.write(new Text(url), wordsToText(getPageWords(lineText.toString()))); //one --> IntWritable (vedi sopra)
 
 
-
-        /*String line = lineText.toString();
-        Text currentWord = new Text(); //facciamo così per evitare di ricrearlo ad ogni ciclo
-        for (String word : WORD_BOUNDARY.split(line)) {
-            if (word.isEmpty()) {
-                continue;
-            }
-            currentWord.set(word); //NB <--- Set
-            context.write(currentWord, one); //one --> IntWritable (vedi sopra)
-        }*/
-
-        //System.out.println("map-line: ");
+        //NB <--- use Set per assegnare la stringa al testo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11!!!!
     }
 
     /**
@@ -90,12 +82,42 @@ public class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
     }
 
     /**
-     *
+     * Ritorna il testo della pagina privo dell'header
      * @param fullPage
      * @return
      */
     private String getPageText(String fullPage){
-        String textPage = null;
-        return textPage;
+        int lastLineIndex = fullPage.indexOf("Content-Length:");
+        int cutIndex = fullPage.indexOf('\n',lastLineIndex);
+        return fullPage.substring(cutIndex + 1);
+    }
+
+    /**
+     * Ritorna la lista delle parole nel testo, applica i filtri necessari
+     * @param fullPage
+     * @return
+     */
+    private HashSet<String> getPageWords(String fullPage){
+        String textPage = getPageText(fullPage);
+        HashSet<String> words = new HashSet<>();
+        for (String word : WORD_BOUNDARY.split(textPage)) {
+            if (word.isEmpty())
+                continue;
+            words.add(word);
+        }
+        return filterAndCleanWords(words);
+    }
+
+    private HashSet<String> filterAndCleanWords(HashSet<String> words){
+        //HashSet<String> wordsCleaned = new HashSet<>();
+        return words;
+    }
+
+    private Text wordsToText(HashSet<String> words){
+        String output = "";
+        for (String word: words) {
+            output += word + ";";
+        }
+        return new Text(output);
     }
 }
