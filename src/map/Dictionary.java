@@ -16,8 +16,12 @@ public class Dictionary {
         dict = new HashMap<>();
     }
 
-    public void addWord(String name, Language language){
-        dict.put(name, language);
+    public void addWord(String word, Language language){
+        dict.put(word, language);
+    }
+
+    public Language getLanguage(String word){
+        return dict.get(word);
     }
 
     @Override

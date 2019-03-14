@@ -14,9 +14,11 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Map extends Mapper<LongWritable, Text, Text, Text> {
-    public static String DICTIONARY_100 = "/input/dictionary_100.json";
+    public static String DICTIONARY_100_FILENAME = "dictionary_100.json";
+    public static String DICTIONARY_100 = "/input/" + DICTIONARY_100_FILENAME;
     private static final Pattern WORD_BOUNDARY = Pattern.compile("\\s*\\b\\s*");//Indent. gli spazi vuoti da word a word
     private Dictionary dict;
+    private LanguageElect langelect;
     //private final static IntWritable one = new IntWritable(1);
     //private Text word = new Text();
     //private long numRecords = 0;
@@ -31,7 +33,19 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         try{
-            dict = JsonParser.loadDictionary100(DICTIONARY_100);
+            //Recupero il file relativo al dizionario dalla cache
+            String localPathOfDictionary100 = null;
+            Path[] localFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());
+            for (Path eachPath : localFiles) {
+                if(eachPath.toString().endsWith(DICTIONARY_100_FILENAME))
+                    localPathOfDictionary100 = eachPath.toString();
+
+            }
+            //Carico il dizionario dall'url locale dello stesso
+            dict = JsonParser.loadDictionary100(localPathOfDictionary100);
+
+            //Avvio l'istanza di LanguageElect
+            langelect = new LanguageElect(dict);
         } catch(Exception e) {
             System.err.println("Exception in mapper setup: " + e.getMessage());
         }
@@ -51,8 +65,11 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
         if(url == null)
             return;
 
-        context.write(new Text(url), wordsToText(getPageWords(lineText.toString()))); //one --> IntWritable (vedi sopra)
-
+        //context.write(new Text(url), wordsToText(getPageWords(lineText.toString()))); //one --> IntWritable (vedi sopra)
+        context.write(new Text(url), new Text(
+                                        langelect.getLanguagesWithStats(
+                                                getPageWords(
+                                                        lineText.toString()))));
 
         //NB <--- use Set per assegnare la stringa al testo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11!!!!
     }
