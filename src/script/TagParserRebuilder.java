@@ -1,40 +1,47 @@
 package script;
 
 import java.io.*;
-import java.nio.file.StandardOpenOption;
-import java.util.Scanner;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 public class TagParserRebuilder {
-    public static String input_PATH = "./dataset/TagDataset/0_origin/cdx-00000";
+    public static String input_DIR = "./dataset/TagDataset/0_origin/";
     public static String output_DIR = "./dataset/TagDataset/";
-    //public static String pattern = "-0000\\d.warc.gz";
     public static int N = 10;
+    public static File[] inputFiles;
     public static File[] f_out = new File[N];
     public static BufferedWriter[] b_out = new BufferedWriter[N];
 
     public static void main(String[] args) {
         inizializeOutputFiles();
         try {
-            File f_in = new File(input_PATH);
+            BufferedReader b_in;
+            //Ciclo su tutti i file di input
+            for (File f : inputFiles) {
+                b_in = new BufferedReader(new FileReader(f));
 
-            BufferedReader b_in = new BufferedReader(new FileReader(f_in));
-
-            String readLine = "", printLine = "";
-            while ((readLine = b_in.readLine()) != null) {
-                int filenum = getNumFile(readLine);
-                if(filenum >= 0 && filenum < N){
-                    printLine = getUrl(readLine) + '\t' + getLanguages(readLine) + '\t' + getcharset(readLine) + "\n";
-                    b_out[filenum].write(printLine);
+                String readLine = "", printLine = "";
+                //Ciclo su tutte le righe del file
+                while ((readLine = b_in.readLine()) != null) {
+                    int filenum = getNumFile(readLine);
+                    if(filenum >= 0 && filenum < N){
+                        printLine = getUrl(readLine) + '\t' + getLanguages(readLine) + '\t' + getcharset(readLine) + "\n";
+                        b_out[filenum].write(printLine);
+                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        closeAll();
     }
 
     public static void inizializeOutputFiles(){
         try {
+            //Preparazione file di lettura
+            File folder = new File(input_DIR);
+            inputFiles = folder.listFiles();
+
+            //Preparazione file di scrittura
             for(int i = 0; i < N; i++){
                 String filename = output_DIR + "info-0000" + i + ".info";
                 f_out[i] = new File(filename);
@@ -47,6 +54,17 @@ public class TagParserRebuilder {
             }
         } catch (Exception e) {
             System.out.println("Errore inizializzazione file " + e.getMessage());
+        }
+    }
+
+
+    public static void closeAll(){
+        try {
+            for (BufferedWriter bw : b_out) {
+                bw.close();
+            }
+        }catch (Exception e){
+            System.out.println("CloseAll exception: " + e.getMessage());
         }
     }
 
