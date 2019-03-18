@@ -1,0 +1,649 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{color}
+\usepackage[hidelinks]{hyperref}
+
+\setlist[itemize,1]{label=$\--$}
+
+% ------------------- COMMANDS
+
+\newcommand{\py}{Python }
+\newcommand{\pycode}[1]{\textit{#1}}
+\newcommand{\filename}[1]{\textit{#1}}
+\newcommand{\function}[1]{\textit{#1}}
+\newcommand{\command}[1]{\texttt{#1}}
+%\newcommand{\path}[1]{\textit{#1}} #already defined
+
+% ------------------- ENVIROMENTS AND THEOREMS
+\newtheorem*{definition}{Definizione}
+
+\title{Relazione Progetto Big Data\\Analisi della lingua di pagine html}
+\author{Crosara Marco VR434403}
+\date{Marzo 2019 / Aprile 2019}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\vspace{\fill}
+
+\begin{center}
+  UNIVERSITÀ DEGLI STUDI DI VERONA\\
+Anno Accademico 2018/2019
+\end{center}
+
+\newpage
+
+%Indice
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+
+%\addtocounter{section}{-1}
+
+\section{Introduzione}
+
+Il progetto è partito dalla curiosità di analizzare un grosso quantitativo di pagine web con lo scopo di farne in qualche modo categorizzazione. Come punto di partenza si è scelto di cercare un dataset opportuno a questo tipo di analisi, dopo una ricerca approfondita è stato scelto Common Crawl\cite{commoncrawl}:un 
+
+\begin{definition}
+Il Crawler, comunemente chiamato anche Spider o Bot, è un software/script che ha lo scopo di scansionare dei dati. Tale termine viene tipicamente associato alla scansione di pagine web oppure di database con il fine di estrapolarne i contenuti. In particolare nella SEO il Crawler viene associato allo spider di Google. In realtà il crawling è una delle fasi per l’indicizzazione dei siti nella SERP(Search Engine Results Page), la pagina dei risultati di un motore di ricerca.
+\end{definition}
+
+The Common Crawl corpus contains petabytes of data collected over the last 7 years. It contains raw web page data, extracted metadata and text extractions.
+
+Data Location
+The Common Crawl dataset lives on Amazon S3 as part of the Amazon Public Datasets program.
+From Public Data Sets, you can download the files entirely free using HTTP or S3.
+
+As the Common Crawl Foundation has evolved over the years, so has the format and metadata that accompany the crawls themselves.
+
+s3://commoncrawl/crawl-data/CC-MAIN-2019-04 – January 2019
+s3://commoncrawl/crawl-data/CC-MAIN-2019-09 – February 2019
+For all crawls since 2013, the data has been stored in the WARC file format and also contains metadata (WAT) and text data (WET) extracts. We also provide file path lists for the segments, WARC, WAT, and WET files, which can be found at CC-MAIN-YYYY-DD/[segment|warc|wat|wet].paths.gz.
+
+By replacing s3://commoncrawl/ with https://commoncrawl.s3.amazonaws.com/ on each line, you can obtain the HTTP path for any of the files stored on S3.
+
+Data Format
+Common Crawl currently stores the crawl data using the Web ARChive (WARC) format.
+Before that point, the crawl was stored in the ARC file format.
+The WARC format allows for more efficient storage and processing of Common Crawl’s free multi-billion page web archives, which can be hundreds of terabytes in size.
+This document aims to give you an introduction to working with the new format, specifically the difference between:
+
+WARC files which store the raw crawl data
+WAT files which store computed metadata for the data stored in the WARC
+WET files which store extracted plaintext from the data stored in the WARC
+If you want all the nitty gritty details, the best source is the ISO standard, for which the final draft is available.
+If you’re more interested in diving into code, we’ve provided three introductory examples in Java that use the Hadoop framework to process WAT, WET and WARC.
+
+WARC Format
+The WARC format is the raw data from the crawl, providing a direct mapping to the crawl process. Not only does the format store the HTTP response from the websites it contacts (WARC-Type: response), it also stores information about how that information was requested (WARC-Type: request) and metadata on the crawl process itself (WARC-Type: metadata).
+
+For the HTTP responses themselves, the raw response is stored. This not only includes the response itself, what you would get if you downloaded the file, but also the HTTP header information, which can be used to glean a number of interesting insights.
+In the example below, we can see the crawler contacted http://news.bbc.co.uk/2/hi/africa/3414345.stm and received a HTML page in response. We can also see the page was served from the Apache web server, sets caching details, and attempts to set a cookie (shortened for display here).
+
+Full WARC extract
+
+WARC/1.0
+WARC-Type: response
+WARC-Date: 2014-08-02T09:52:13Z
+WARC-Record-ID: 
+Content-Length: 43428
+Content-Type: application/http; msgtype=response
+WARC-Warcinfo-ID: 
+WARC-Concurrent-To: 
+WARC-IP-Address: 212.58.244.61
+WARC-Target-URI: http://news.bbc.co.uk/2/hi/africa/3414345.stm
+WARC-Payload-Digest: sha1:M63W6MNGFDWXDSLTHF7GWUPCJUH4JK3J
+WARC-Block-Digest: sha1:YHKQUSBOS4CLYFEKQDVGJ457OAPD6IJO
+WARC-Truncated: length
+
+HTTP/1.1 200 OK
+Server: Apache
+Vary: X-CDN
+Cache-Control: max-age=0
+Content-Type: text/html
+Date: Sat, 02 Aug 2014 09:52:13 GMT
+Expires: Sat, 02 Aug 2014 09:52:13 GMT
+Connection: close
+Set-Cookie: BBC-UID=...; expires=Sun, 02-Aug-15 09:52:13 GMT; path=/; domain=bbc.co.uk;
+
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<title>
+	BBC NEWS | Africa | Namibia braces for Nujoma exit
+</title>
+...
+WAT Response Format
+WAT files contain important metadata about the records stored in the WARC format above. This metadata is computed for each of the three types of records (metadata, request, and response). If the information crawled is HTML, the computed metadata includes the HTTP headers returned and the links (including the type of link) listed on the page.
+
+This information is stored as JSON. To keep the file sizes as small as possible, the JSON is stored with all unnecessary whitespace stripped, resulting in a relatively unreadable format for humans. If you want to inspect the JSON file yourself, you can use one of the many JSON pretty print tools available.
+
+The HTTP response metadata is most likely to be of interest to Common Crawl users. The skeleton of the JSON format is outlined below.
+
+Envelope
+  WARC-Header-Metadata
+    WARC-Target-URI [string]
+    WARC-Type [string]
+    WARC-Date [datetime string]
+    ...
+  Payload-Metadata
+    HTTP-Response-Metadata
+      Headers
+        Content-Language
+        Content-Encoding
+        ...
+      HTML-Metadata
+        Head
+          Title [string]
+          Link [list]
+          Metas [list]
+        Links [list]
+      Headers-Length [int]
+      Entity-Length [int]
+      ...
+    ...
+  ...
+Container
+  Gzip-Metadata [object]
+  Compressed [boolean]
+  Offset [int]
+As an example in Python, if we parsed the JSON into the data object, we could easily pull out interesting information from the BBC article easily…
+
+Full WAT extract
+
+>> data['Envelope']['WARC-Header-Metadata']['WARC-Type']
+"response"
+>> data['Envelope']['Payload-Metadata']['HTTP-Response-Metadata']['Headers']['Server']
+"Apache"
+>> data['Envelope']['Payload-Metadata']['HTTP-Response-Metadata']['HTML-Metadata']['Head']['Title']
+" BBC NEWS | Africa | Namibia braces for Nujoma exit "
+>> len(data['Envelope']['Payload-Metadata']['HTTP-Response-Metadata']['HTML-Metadata']['Links'])
+42
+>> data['Envelope']['Payload-Metadata']['HTTP-Response-Metadata']['HTML-Metadata']['Links'][28]
+{"path": "A@/href", "title": "Home of BBC Sport on the internet", "url": "http://news.bbc.co.uk/sport1/hi/default.stm"}
+WET Response Format
+As many tasks only require textual information, the Common Crawl dataset provides WET files that only contain extracted plaintext. The way in which this textual data is stored in the WET format is quite simple. The WARC metadata contains various details, including the URL and the length of the plaintext data, with the plaintext data following immediately afterwards.
+
+Full WET extract
+
+WARC/1.0
+WARC-Type: conversion
+WARC-Target-URI: http://news.bbc.co.uk/2/hi/africa/3414345.stm
+WARC-Date: 2014-08-02T09:52:13Z
+WARC-Record-ID: 
+WARC-Refers-To: 
+WARC-Block-Digest: sha1:JROHLCS5SKMBR6XY46WXREW7RXM64EJC
+Content-Type: text/plain
+Content-Length: 6724
+
+BBC NEWS | Africa | Namibia braces for Nujoma exit
+...
+President Sam Nujoma works in very pleasant surroundings in the small but beautiful old State House...
+
+
+%  ________   __ _____   __ 
+% |  ____\ \ / // ____| /_ |
+% | |__   \ V /| (___    | |
+% |  __|   > <  \___ \   | |
+% | |____ / . \ ____) |  | |
+% |______/_/ \_\_____/   |_|
+% --------------- ESERCIZIO 1
+\section{Esercizio 1}
+
+\begin{consegna}
+Implementare dei test di unità adeguati a verificare la correttezza delle procedure viste a lezione per il calcolo del codice fiscale, in modo tale da ottenere una copertura dei sorgenti quanto più vicina al 100\%. Motivare adeguatamente l’eventuale mancato raggiungimento del 100\% di copertura.
+\end{consegna}
+
+\subsection{File dell'esercizio}
+\begin{itemize}
+    \item \filename{codicefiscale.py} : programma visto a lezione per il calcolo del codice fiscale 
+    \item \filename{codicefiscale-test.py} : file con gli unit test
+    \item \filename{.coverage} : risultati coverage
+\end{itemize}
+
+\subsection{Considerazioni}
+Il codice di \filename{codicefiscale.py} è quello visto a lezione, tuttavia è leggermente modificato poiché ne è stato fatto il porting del codice da \py 2 a \py 3. Il codice presenta degli errori che sono già stati riscontrati durante la lezione: ad esempio vi sono problemi se il cognome è troppo corto, il nome è troppo lungo o contiene uno spazio, oppure se la persona è nata il giorno 31 di qualsiasi mese.
+
+\subsection{Unit Testing}
+\'E stato realizzato il file di unit testing \filename{codicefiscale-test.py} che fa il testing del \function{main} e di tutte le procedure ausiliarie: \function{estrai\_nome\_cognome}, \function{genera\_mese}, \function{codice\_comune}, \function{genera\_giorno}, \function{genera\_codice\_controllo}.
+
+Gli unit test da implementare sono pochi poiché fin da subito si notano dei risultati discrepanti sull'output delle procedure che permettono di dichiarare il software come non corretto.
+Gli unit test test implementati che vengono `falliti' sono 5.
+
+I test presenti sul file consentono comunque di ottenere il 100\% della copertura. \'E stato aggiunto il flag \pycode{\#pragma: no cover} sul costrutto if relativo alla distinzione del file eseguito come script a se stante o richiamato come modulo, infatti tale ramo di esecuzione non risulta utile ai fini della verifica di copertura.
+
+A seguito i risultati sulla verifica di copertura 100\% del codice.
+\begin{minted}{bash}
+mark@mark-XPS:~/.../progetto-finale/1$ python3-coverage report -m
+Name                    Stmts   Miss  Cover   Missing
+-----------------------------------------------------
+codicefiscale-test.py      59      0   100%
+codicefiscale.py           72      0   100%
+-----------------------------------------------------
+TOTAL                     131      0   100%
+\end{minted}
+
+L'esercizio si può considerare svolto con successo poiché si è riusciti tramite i test a dimostrare che il programma \filename{codicefiscale.py} è errato. Prima di svolgere ulteriori test per rilevare eventuali altri errori bisognerebbe correggere le procedure errate (non richiesto dalla consegna) e successivamente effettuare nuovi test su queste ultime. Siamo infine stati in grado di raggiungere la coverage 100\%.
+
+%  ________   __ _____   ___  
+% |  ____\ \ / // ____| |__ \ 
+% | |__   \ V /| (___      ) |
+% |  __|   > <  \___ \    / / 
+% | |____ / . \ ____) |  / /_ 
+% |______/_/ \_\_____/  |____|
+% --------------- ESERCIZIO 2
+\section{Esercizio 2}
+
+\begin{consegna}
+Implementare in \py una procedura non ricorsiva per il calcolo dell’IRPEF.
+Implementare quindi dei test di unità adeguati a verificare la correttezza della procedura implementata, in modo tale da ottenere una copertura dei sorgenti quanto più vicina al 100\%. Motivare adeguatamente l’eventuale mancato raggiungimento del 100\% di copertura.
+\end{consegna}
+
+\subsection{File dell'esercizio}
+\begin{itemize}
+    \item \filename{irpef.py} : programma realizzato per il calcolo dell'irpef
+    \item \filename{irpef-test.py} : file con gli unit test
+    \item \filename{.coverage} : risultati coverage
+\end{itemize}
+
+\subsection{Considerazioni}
+Il programma \filename{irpef.py} riceve in input un argomento passato tramite riga di comando che rappresenta il reddito lordo annuo e ritorna l'aliquota applicata e la tassazione. La procedura implementata sfrutta il tipo di dato Decimal per fare un calcolo più preciso della tassazione da applicare al reddito, il calcolo da effettuare per ottenere la tassa è $reddito * aliquota - correttivo\_fisso$. L'aliquota e il correttivo fisso vengono scelti in base allo scaglione consultando una tabella, rappresentata nel codice come dizionario. L'arrotondamento viene effettuato all'unità di euro per il saldo annuo e al centesimo di euro per la tassa irpef.
+
+Mostriamo ora un esempio di esecuzione del programma \filename{irpef.py}
+\begin{minted}{bash}
+mark@mark-XPS:~/.../2$ python3 irpef.py 15011
+Sul tuo reddito di 15011 è stato  applicato il 0.27% e un corretti
+vo di 600 euro
+La quota irpef risulta quindi di 3452.97 euro
+\end{minted}
+
+\subsection{Unit Testing}
+Il file di unit test \filename{irpef-test.py} testa la procedura realizzata sui diversi scaglioni. Per effetto che nel codice è stato fatto l'uso del dizionario, che rappresenta la tabella con gli scaglioni, anche un solo unit test porta la coverage al 100\%. Se fossero stati usati molteplici costrutti if al posto del dizionario questo fatto non si sarebbe verificato. 
+Anche in questo caso, come nell'esercizio precedente, è stato aggiunto il flag \pycode{\#pragma: no cover} sul costrutto if del file come script o richiamato come modulo.
+
+A seguito vengono mostrati i risultati degli unit tests e della verifica di copertura 100\% del codice.
+\begin{minted}{bash}
+mark@mark-XPS:~/.../2$ python3-coverage run irpef-test.py
+    [...]
+------------------------------------------------------------------
+Ran 8 tests in 0.001s
+OK
+
+mark@mark-XPS:~/.../progetto-finale/2$ python3-coverage report -m
+Name            Stmts   Miss  Cover   Missing
+---------------------------------------------
+irpef-test.py      33      0   100%
+irpef.py           18      0   100%
+---------------------------------------------
+TOTAL              51      0   100%
+\end{minted}
+
+Su questo esercizio è stata fatta la scelta di scrivere una procedura che consideri in input solo il reddito complessivo annuo, tuttavia online si possono trovare degli strumenti di calcolo che richiedono anche altri dati relativi all'abitazione o agli oneri deducibili.
+L'esercizio si può considerare svolto con successo poiché siamo riusciti, indipendentemente dalla realizzazione di una procedura per il calcolo dell'irpef più o meno completa, ad implementare un programma corretto e a mostrare tale correttezza tramite l'ausilio degli unit test che hanno raggiunto la copertura del 100\% del codice.
+
+%  ________   __ _____   ____  
+% |  ____\ \ / // ____| |___ \ 
+% | |__   \ V /| (___     __) |
+% |  __|   > <  \___ \   |__ < 
+% | |____ / . \ ____) |  ___) |
+% |______/_/ \_\_____/  |____/ 
+% --------------- ESERCIZIO 3
+\section{Esercizio 3}
+
+\begin{consegna}
+Implementare in \py una procedura per il calcolo della Pasqua.
+Implementare quindi dei test di unità adeguati a verificare la correttezza della procedura implementata, in modo tale da ottenere una copertura dei sorgenti quanto più vicina al 100\%. Motivare adeguatamente l’eventuale mancato raggiungimento del 100\% di copertura.
+\end{consegna}
+
+\subsection{File dell'esercizio}
+\begin{itemize}
+    \item \filename{pasqua.py} : programma realizzato per il calcolo della Pasqua dato l'anno
+    \item \filename{pasqua-test.py} : file con gli unit test
+    \item \filename{pasqua-test-complete.py} : file con altri gli unit test che utilizza un database di riferimento per testare tutte le date del giorno di pasqua per ogni anno
+    \item \filename{DB\_pasqua\_confronto.txt} : database di riferimento con le date corrette del giorno di pasqua per ogni anno
+    \item \filename{.coverage} : risultati coverage
+\end{itemize}
+
+\subsection{Considerazioni}
+Come da specifiche è stato realizzato un programma \py con una procedura che consente il calcolo del giorno di Pasqua, dato in input come argomento l'anno. Per il calcolo si dovrebbero usare teoricamente due fenomeni: l'equinozio di primavera e le fasi lunari, tuttavia solitamente quando se ne deve implementare l'algoritmo si usa il metodo di Gauss \cite{pasqua1} \cite{pasqua2}. Quest'ultimo consente di ottenere la data di Pasqua tramite il calcolo di alcuni coefficienti e l'uso di una opportuna tabella, vi sono inoltre delle eccezioni su alcuni anni che vanno gestite opportunamente nel codice. Per ulteriori specifiche implementative si demanda ai commenti sul programma e alla intuitività del codice \py.
+Mostriamo ora un esempio di esecuzione del programma \filename{pasqua.py}
+\begin{minted}{bash}
+mark@mark-XPS:~/.../progetto-finale/3$ python3 pasqua.py 2018
+La Pasqua è il giorno 1 Aprile 2018
+\end{minted}
+
+\subsection{Unit Testing}
+Successivamente alla realizzazione di \filename{pasqua.py}, sono stati realizzati i rispettivi file di unit test \filename{pasqua-test.py} e \filename{pasqua-test-complete.py}. Il primo testa la procedura di calcolo della Pasqua su alcuni casi, finalizzando i test alla coverage 100\%, la seconda confronta invece i risultati ottenuti dalla funzione con quelli di un database affidabile trovato online per verificare la correttezza di ogni singolo anno in input accettato dal programma (anni dal 1583 al 2599).
+A seguito l'esecuzione dei vari unit test con rispettiva verifica della coverage.
+
+Riguardo a \filename{pasqua-test.py}:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash}
+mark@mark-XPS:~/.../3$ python3-coverage run pasqua-test.py
+>> Avvio i test ...
+Anno non valido: inserire un anno compreso tra il 1583 e il 2599
+.La Pasqua è il giorno 19 Aprile 1609
+.La Pasqua è il giorno 27 Marzo 2016
+.La Pasqua è il giorno 1 Aprile 2018
+.Anno non valido: inserire un anno compreso tra il 1583 e il 2599
+.... Test conclusi <<
+------------------------------------------------------------------
+Ran 5 tests in 0.000s
+OK
+\end{minted}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash}
+mark@mark-XPS:~/.../progetto-finale/3$ python3-coverage report -m
+Name             Stmts   Miss  Cover   Missing
+----------------------------------------------
+pasqua-test.py      24      0   100%
+pasqua.py           26      0   100%
+----------------------------------------------
+TOTAL               50      0   100%
+\end{minted}
+
+Riguardo a \filename{pasqua-test-complete.py}:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash}
+mark@mark-XPS:~.../3$ python3-coverage run pasqua-test-complete.py
+>> Avvio i test ...
+    [...]
+Effettuati 1017 test (con anni validi)
+.... i test sono stati conclusi <<
+------------------------------------------------------------------
+Ran 3 tests in 0.125s
+OK
+\end{minted}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash}
+mark@mark-XPS:~/.../progetto-finale/3$ python3-coverage report -m
+Name                      Stmts   Miss  Cover   Missing
+-------------------------------------------------------
+pasqua-test-complete.py      27      0   100%
+pasqua.py                    26      0   100%
+-------------------------------------------------------
+TOTAL                        53      0   100%
+\end{minted}
+
+Si sarebbe potuto migliorare ulteriormente la procedura aumentando il range di anni accettati in input, tuttavia la cosa non risulta essere di grande utilità.
+Come nel caso dell'esercizio precedente possiamo affermare di aver soddisfatto quanto richiesto dalla consegna poiché si è implementato un programma corretto, con degli unit test più che adeguati a verificarne la correttezza e a farne raggiungere la coverage 100\%.
+
+%  ________   __ _____   _  _   
+% |  ____\ \ / // ____| | || |  
+% | |__   \ V /| (___   | || |_ 
+% |  __|   > <  \___ \  |__   _|
+% | |____ / . \ ____) |    | |  
+% |______/_/ \_\_____/     |_|  
+% --------------- ESERCIZIO 4
+\section{Esercizio 4}
+
+\begin{consegna}
+Utilizzando gli strumenti di analisi dinamica introdotti nel corso del laboratorio, verificare la possibilità di monitorare i fork di processo ed analizzare lo scambio di messaggi tra processo padre e figlio.
+Verificare la possibilità di furto di dati sensibili, quali credenziali di accesso, ad esempio effettuando tale attività sul processo sshd.
+\end{consegna}
+
+\subsection{File dell'esercizio}
+\begin{itemize}
+    \item \filename{fork\_program.c} : programma di test che esegue il fork di processo
+    \item \filename{fork\_program} : compilato del precedente
+    \item \filename{fork\_program.py} : corrispettivo \py di \filename{fork\_program.c} (serve solo per confronto di codice, non ha alcuna finalità per l'esercizio)
+    \item \filename{sshd.log} : log generato usando \command{strace} sul processo sshd
+\end{itemize}
+
+\subsection{Considerazioni e Realizzazione}
+\'E stato realizzato il programma \filename{fork\_program.c} che una volta eseguito il fork emula un trasferimento su pipe di informazioni sensibili non criptate tra il processo padre e il processo figlio. Nello specifico se il fork ha successo il figlio richiede all'utente la password per l'avvio di un ipotetico servizio e invia al padre tale password inserita assieme a quella corretta (hardcoded sul codice). Quando le due password arrivano al padre tramite la pipe, quest'ultimo le compara e se sono uguali procede ad avviare il servizio, altrimenti termina. Questo programma, chiaramente vulnerabile per diversi motivi, ci serve solo a capire se sia possibile monitorare i fork e la comunicazione padre/figlio.\\
+
+Procediamo all'analisi di \filename{fork\_program} tramite il comando \command{strace} con l'opzione \command{-e} in particolare andiamo a tracciare `process', `read' e `write'. Aggiungiamo infine l'opzione \command{-f} che come suggerito dal manuale ci consente di seguire i fork di processo. L'output del comando sarà il seguente (vengono mostrate solo le parti a noi utili).
+
+\begin{minted}{bash}
+mark@ma.../4$ strace -f -e trace=process,read,write ./fork_program
+    [...]
+clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SET
+TID|SIGCHLD, child_tidptr=0x7f41315bf7d0) = 20341
+    strace: Process 20341 attached
+[pid 20340] read(3,  <unfinished ...>
+[pid 20341] write(1, "FIGLIO: Inserisci la password pe"..., 55FIGL
+IO: Inserisci la password per avviare il servizio: ) = 55
+[pid 20341] read(0, jerry11@"jerry11@\n", 1024) = 9
+[pid 20341] write(15, "jerry11@|mario1234\0", 19 <unfinished ...>
+[pid 20340] <... read resumed> "jerry11@|mario1234\0", 111) = 19
+    [...]
+\end{minted}
+
+Come possiamo notare è possibile chiaramente distinguere il momento in cui il processo padre ha richiesto il fork tramite la system call `clone', vediamo inoltre il nuovo pid [pid 20341] che viene ritornato dal sistema e assegnato al processo figlio. Il nuovo processo chiede all'utente di inserire la password per l'avvio del servizio e quando l'ha ottenuta la invia sulla pipe al padre assieme a quella corretta (\command{write(15, "jerry11@|mario1234", 19 <unfinished ...>}), nella riga esattamente successiva abbiamo invece la lettura dalla pipe da parte del padre. In questo momento, monitorando i processi, riusciamo dunque a carpire la password corretta.
+
+\subsection{sshd}
+
+Passiamo ora all'analisi del processo \function{sshd} e alla eventuale possibilità di furto di dati sensibili. Se non fosse installato Secure Shell (SSH) procediamo all'installazione tramite il comando \command{sudo apt install openssh-server}, una volta fatto questo verifichiamo che tutti i servizi siano correttamente avviati tramite il comando seguente:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash} 
+mark@mark-XPS:~/.../4$  sudo service ssh status
+  ssh.service - OpenBSD Secure Shell server
+  Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor
+  preset: enabled)
+    [...]
+ Main PID: 1096 (sshd)
+    Tasks: 1 (limit: 4915)
+   CGroup: /system.slice/ssh.service
+           1096 /usr/sbin/sshd -D
+    [...]
+\end{minted}
+
+Da questo comando leggiamo il pid del processo sshd: 1096 e lo usiamo per avviare il monitoraggio con \command{sudo strace -f -p 1096 -o sshd.log}. Rispetto a prima abbiamo aggiunto l'opzione \command{-p} per monitorare tramite pid un determinato processo già in esecuzione e l'opzione \command{-o} per chiedere a strace di fare il log sul file \filename{sshd.log}. Procediamo infine con la simulazione di una eventuale connessione ssh, eseguendo su un altro terminale il comando \command{ssh username@localhost}, ci verrà richiesta la password dell'utente e alla conferma della stessa verrà dunque avviata la shell remota. Terminiamo ora il monitoraggio di sshd e analizziamo i log generati.
+
+Il file \filename{sshd.log} è stato lasciato per intero per la consultazione (con una ovvia modifica alla password), vedremo ora solamente le parti che ci interessano.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash}
+    [...]
+1096  clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|
+CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0x7fa2f2f3abd0) = 21578
+    [...]
+21578 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|
+CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0x7f87dff78bd0) = 21579
+    [...]
+21579 write(4, "\0\0\0\rPerryThePlatypus", 17 <unfinished ...>
+    [...]
+21578 read(6, "\f\0\0\0\rPerryThePlatypus", 18) = 18
+    [...]
+\end{minted}
+
+Il processo padre sshd con id 1096 effettua molte operazioni ed esegue molti fork, tuttavia ci interessano in particolare quelli riportati qui sopra: possiamo infatti notare che viene avviato il processo figlio 21578 che a sua volta effettuerà una clonazione e genererà il processo figlio 21579. Senza approfondire ulteriormente la cosa e osservando gli ultimi due log riportati qui sopra possiamo intuire che 21578 e 21579 si occupino tra le altre cose dell'autenticazione alla shell remota e possiamo in particolare notare che si scambiano la password in chiaro.
+
+Concludiamo quindi che si può dare risposta positiva alla domanda sull'esistenza del rischio di furto di dati sensibili, quali credenziali di accesso, tramite il monitoraggio del processo sshd. Abbiamo infatti dimostrato che tramite l'utilizzo del comando \command{strace} è possibile carpire la password di login alla shell remota.
+
+%  ________   __ _____   _____       
+% |  ____\ \ / // ____| | ____|      
+% | |__   \ V /| (___   | |__   __ _ 
+% |  __|   > <  \___ \  |___ \ / _` |
+% | |____ / . \ ____) |  ___) | (_| |
+% |______/_/ \_\_____/  |____/ \__,_|
+% --------------- ESERCIZIO 5a
+\section{Esercizio 5a}
+
+\begin{consegna}
+Implementare una procedura che tenta di scrivere in un file posto in una directory per cui non è concessa autorizzazione di scrittura o accesso (e.g. \path{/var}).
+Utilizzando gli strumenti di analisi dinamica introdotti nel corso del laboratorio, verificare la possibilità di monitorare tali tentativi di scrittura e gestirli generando un log.
+\end{consegna}
+
+\subsection{File dell'esercizio}
+\begin{itemize}
+    \item \filename{sum\_malware.c} : programma che tenta di scrivere su un file esistente in \path{/var}
+    \item \filename{sum\_malware} : compilato del precedente
+    \item \filename{hello\_name.c} : programma che tenta di creare un nuovo file in \path{/var}
+    \item \filename{hello\_name} : compilato del precedente
+    \item \filename{eacces.log} : file di log che registra tutti i tentativi falliti di accesso a un file per mancanza di autorizzazione di lettura/scrittura
+    \item \filename{AnalyzerPathAccess.java} : programma scritto in java che consente di monitorare gli accessi a file che si trovano in directory per cui non si dispone dei diritti. \filename{AnalyzerPathAccess.java} genera inoltre il file di log
+    \item \filename{AnalyzerPathAccess.class}
+\end{itemize}
+
+\subsection{Considerazioni e Realizzazione}
+Per prima cosa è stato realizzato \filename{sum\_malware.c}, esso rappresenta un programma che oltre al funzionamento consueto di svolgere la somma tra due numeri interi dati in input come argomenti, presenta anche un comportamento malevolo. Nello specifico prima di terminare esso chiama una procedura che tenta di scrivere in un file di una directory per cui non è concessa autorizzazione di scrittura o accesso (nel nostro caso \path{/var}). Tentando di eseguire lo stesso, dopo aver ottenuto il risultato della somma, avremo anche un `Segmentation fault' che corrisponde al tentativo fallito di accedere in scrittura al file \path{/var/run/acpid.pid}. Si noti che se si esegue \filename{sum\_malware} su un elaboratore che non ha il file sopra citato nella cartella \path{/var/run/}, il risultato dell'esecuzione potrebbe essere diverso e potrebbe non verificarsi l'errore di accesso negato. Qui sotto l'esempio.
+
+\begin{minted}{bash}
+mark@mark-XPS:~/.../progetto-finale/5a$ ./sum_malware 8 22
+SOMMA DI DUE NUMERI
+La somma dei numeri in input è: 30
+Segmentation fault (core dumped)
+\end{minted}
+ 
+L'idea è che per poter monitorare questi accessi basti utilizzare il comando \command{strace}, restringendo l'output con l'opzione \command{-e trace=openat} e in particolare ricercando tra i vari log generati dal comando il codice di errore EACCES. Tale errore identifica appunto una negazione del permesso di accesso ad un file per cui non si dispone delle dovute autorizzazioni. 
+
+\begin{minted}{bash}
+mark@mark-XPS:~/.../5a$ strace -e trace=openat ./sum_malware 8 22
+    [...]
+SOMMA DI DUE NUMERI
+La somma dei numeri in input è: 30
+openat(AT_FDCWD, "/var/run/acpid.pid", O_WRONLY|O_CREAT|O_TRUNC, 
+0666) =-1 EACCES (Permission denied)
+--- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=NULL}
++++ killed by SIGSEGV (core dumped) +++
+Segmentation fault (core dumped)
+\end{minted}
+
+Il passo finale è stato la realizzazione di un programma java che tramite l'esecuzione del comando sopra citato si occupi di popolare un log \filename{eaccess.log} con data, ora e l'indicazione del tentativo fallito di accesso a un file per cui non si dispone dei diritti.
+L'idea è di richiedere tramite il programma \filename{AnalyzerPathAccess.java} una esecuzione del comando \command{strace -ttfe trace=openat ./sum\_malware 1 2} e di ricercare tra i vari log così ottenuti una negazione sulla richiesta di apertura di un file per cui non si dispone dei diritti: tale negazione corrisponde come già detto all'errore `EACCES'. Come si può vedere il comando utilizzato dall'analizzatore ha delle opzioni in più su strace rispetto all'esempio fatto prima: aggiungiamo infatti l'opzione \command{-f} per seguire eventuali fork e \command{-tt} per aggiungere il timestamp ad ogni log.
+Ulteriori specifiche in merito al funzionamento di \filename{AnalyzerPathAccess.java} si demandano ai commenti sul codice, qui sotto un esempio di utilizzo.
+
+\begin{minted}{bash}
+mark@mark-XPS:~/.../5a$ java AnalyzerPathAccess ./sum_malware 1 2
+eacces.log aggiornato con 1 nuovo messaggio di log
+\end{minted}
+
+Una volta eseguito il programma verrà aggiunta una nuova riga al file di log con il nuovo tentativo fallito. Qui a seguito un esempio di una riga di log generata sul file \filename{eacces.log}. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash}
+2019-01-08 15:05:57 ./sum_malware /var/run/acpid.pid 15:05:57.3641
+25 openat(AT_FDCWD, "/var/run/acpid.pid", O_WRONLY|O_CREAT|O_TRUNC
+, 0666) = -1 EACCES (Permission denied)
+\end{minted}
+
+Analizziamo il messaggio di log:
+\begin{itemize}
+    \item \mintinline{bash}{2019-01-08 15:05:57} : data e ora in cui \filename{AnalyzerPathAccess.java} ha salvato il log sul file
+    \item \mintinline{bash}{./sum_malware} : programma analizzato da \filename{AnalyzerPathAccess.java}
+    \item \mintinline{bash}{/var/run/acpid.pid} : file a cui è stato negato l'accesso poiché non si dispone dei diritti
+    \item \mintinline{bash}{15:05:57.364125} : ora:minuti:secondi.millesimi in cui strace ha generato il log (disponibile grazie all'opzione \command{-tt} su strace). Si noti che per programmi con una esecuzione molto lunga questo tempo potrebbe differire dal primo, infatti prima strace genera il log e solo successivamente \filename{AnalyzerPathAccess.java} lo salva su \filename{eacces.log}
+    \item \mintinline{bash}{openat(AT_FDCWD, "/var/run/acpid.pid", O_WRONLY|O_CREAT|O_TRU}
+    \mintinline{bash}{NC, 0666) = -1 EACCES (Permission denied)} : messaggio di log strace originale
+\end{itemize}
+
+Oltre a \filename{sum\_malware.c} è stato scritto anche il programma \filename{hello\_name.c}, quest'ultimo è simile al primo ma differisce dal fatto che dopo aver preso in input come argomento un nome e dopo aver salutato l'utente, esegue il comportamento `malevolo' di tentare la creazione di un file \filename{nome.txt} su \path{\var}. Possiamo dunque dare in pasto ad \filename{AnalyzerPathAccess.java} anche questo programma, il log ottenuto sarà simile a quello precedente. Qui sotto il l'esecuzione e il messaggio di log risultante.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash}
+mark@mark-XPS:~/.../5a$ java AnalyzerPathAccess ./hello_name marco
+eacces.log aggiornato con 1 nuovo messaggio di log
+\end{minted}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash}
+2019-01-08 17:43:59 ./hello_name /var/marco.txt 17:43:59.236726 
+openat(AT_FDCWD, "/var/marco.txt", O_WRONLY|O_CREAT|O_TRUNC, 0666)
+= -1 EACCES (Permission denied)
+\end{minted}
+
+L'esercizio si può considerare svolto con successo poiché tramite l'uso del comando \command{strace} visto a lezione, è stato possibile realizzare un programma che consente di monitorare e fare il log dei tentativi di accesso a un file posto in una cartella di cui non si dispone dei diritti di lettura/scrittura.
+
+%  ________   __ _____   _____ _     
+% |  ____\ \ / // ____| | ____| |    
+% | |__   \ V /| (___   | |__ | |__  
+% |  __|   > <  \___ \  |___ \| '_ \ 
+% | |____ / . \ ____) |  ___) | |_) |
+% |______/_/ \_\_____/  |____/|_.__/ 
+% --------------- ESERCIZIO 5b
+\section{Esercizio 5b}
+
+\begin{consegna}
+Implementare in C una procedura che accede ad aree di memoria scelte in modo casuale.
+Utilizzando gli strumenti di analisi dinamica introdotti nel corso del laboratorio, verificare la possibilità di monitorare i tentativi di accesso ad aree di memoria non allocate al processo e gestirli generando un log.
+\end{consegna}
+
+\subsection{File dell'esercizio}
+\begin{itemize}
+    \item \filename{random\_memory.c} : programma molto semplice che tenta di accedere a un indirizzo di memoria casuale per cui non dispone dei diritti
+    \item \filename{random\_memory} : compilato del precedente
+    \item \filename{memorydenied.log} : file di log che registra tutti i tentativi falliti di accesso a una zona di memoria.
+    \item \filename{AnalyzerMemoryAccess.java} : programma scritto in java che consente di monitorare gli accessi a zone di memoria per cui non si dispone dei diritti. \filename{AnalyzerMemoryAccess.java} genera inoltre il file di log
+    \item \filename{AnalyzerMemoryAccess.class}
+\end{itemize}
+
+\subsection{Considerazioni e Realizzazione}
+Prima di tutto, seguendo le istruzioni, è stato realizzato il programma \filename{random\_memory.c} che ogni volta che viene avviato accede anche ad aree di memoria scelte in modo casuale, questa operazione viene fatta tramite l'utilizzo della procedura \pycode{rand()}. La richiesta di accesso viene ovviamente negata dal sistema operativo e provoca dunque la terminazione dell'applicazione con il segnale `SIGSEGV':
+
+\begin{minted}{bash}
+mark@mark-XPS:~/.../progetto-finale/5b$ ./random_memory
+PROGRAM ADDRESS: 0x55b8e60db260
+              >>: 5
+RANDOM ADDRESS: 0x25afb298
+Segmentation fault (core dumped)
+\end{minted}
+
+Il prossimo passo è rilevare l'accesso alle aree di memoria non allocate al processo, dunque le zone di memoria per cui \filename{random\_memory} non dispone dei permessi. L'idea per procedere è simile a quella del precedente esercizio: si utilizza \command{strace} per rilevare il Segmentation fault e per osservare se quest'ultimo avviene a causa dell'accesso negato a un indirizzo di memoria, se questo fatto è verificato allora salviamo i risultati acquisiti in un messaggio su un file di log.
+Partiamo quindi dal precedente programma di analisi realizzato e lo modifichiamo per adattarlo a questo nuovo esercizio. Con poche modifiche al codice si ottiene il programma \filename{AnalyzerMemoryAccess.java} che a differenza del precedente osserva se strace ritorna un log contenente un `SIGSEGV'. Avendo tali messaggi basta ora verificare che il Segmentation fault sia causato da l'accesso a un indirizzo di memoria. Per fare questa verifica, nella procedura \pycode{logIntegration(...)} controlliamo che il campo \command{si\_addr} sia popolato con un indirizzo, in tal caso procediamo alla composizione del messaggio di log che \filename{AnalyzerMemoryAccess} aggiungerà in append al file \filename{memorydenied.log}. Per ulteriori specifiche implementative si demanda al solito ai commenti sul codice.
+
+Qui sotto l'esecuzione di \filename{AnalyzerMemoryAccess} su \filename{random\_memory} e il relativo messaggio di log generato e salvato sul file.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash}
+mark@mark-XPS:~/.../5a$ java AnalyzerMemoryAccess ./random_memory
+memorydenied.log aggiornato con 1 nuovo messaggio di log
+\end{minted}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minted}{bash}
+2019-01-08 22:31:41 ./random_memory 0x52944b80 22:31:40.851871 ---
+SIGSEGV{si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x52944b80}
+\end{minted}
+
+Analizziamo il messaggio di log:
+\begin{itemize}
+    \item \mintinline{bash}{2019-01-08 22:31:41} : data e ora in cui l'analizzatore java ha salvato il messaggio di log sul file
+    \item \mintinline{bash}{./random_memory} : programma analizzato
+    \item \mintinline{bash}{0x52944b80} : indirizzo di memoria a cui il sistema operativo ha negato l'accesso e che ha causato il Segmentation fault
+    \item \mintinline{bash}{22:31:40.851871} : ora:minuti:secondi.millesimi in cui strace ha generato il log (\command{-tt}). Come nell'esercizio precedente, si noti che su programmi con una esecuzione molto lunga questo tempo potrebbe differire dal primo.
+    \item \mintinline{bash}{SIGSEGV (si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x529}
+    \mintinline{bash}{44b80)} : messaggio di log strace originale
+\end{itemize}
+
+L'esercizio si può considerare svolto con successo poiché tramite \command{strace} è stato possibile realizzare un analizzatore java che consente di fare il log dei tentativi di accesso a indirizzi di memoria non allocate al processo.
+
+\section{Considerazioni conclusive}
+
+In alcuni esercizi si sarebbe potuto discutere l'utilizzo di \command{ltrace} anziché \command{strace} tuttavia abbiamo preferito il primo per comodità e continuità di utilizzo.
+
+A riguardo degli esercizi 5a e 5b: \filename{AnalyzerPathAccess.java} e \filename{AnalyzerMemoryAccess.java} sono programmi pressoché uguali, infatti entrambi svolgono la funzione di ricerca di particolari log offerti da strace. Si sarebbe quindi potuto realizzare un unico programma di analisi per gli esercizi 5a e 5b oppure realizzare una libreria con le funzioni comuni, questo non è stato fatto per una logica di separazione degli esercizi.
+
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[scale=1.7]{universe}
+%\caption{The Universe}
+%\label{fig:universe}
+%\end{figure}
+
+\newpage
+
+%bibliografia
+\bibliographystyle{plain}
+\bibliography{references}
+
+%bibliografia senza citazioni
+\nocite{strace}
+\nocite{crawler}
+
+\end{document}
