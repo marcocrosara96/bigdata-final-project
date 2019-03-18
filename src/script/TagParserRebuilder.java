@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class TagParserRebuilder {
-    public static String input_DIR = "/media/mark/Data/indexes_00000/0-49/";//default = ./dataset/TagDataset/0_origin/
+    public static String input_DIR = "./dataset/TagDataset/0_origin/";//default = ./dataset/TagDataset/0_origin/
     public static String output_DIR = "./dataset/TagDataset/";
     public static int N = 10;
     public static File[] inputFiles;
@@ -12,6 +12,7 @@ public class TagParserRebuilder {
     public static BufferedWriter[] b_out = new BufferedWriter[N];
 
     public static void main(String[] args) {
+        System.exit(1); //Per sicurezza
         System.out.println("process --> START");
         inizializeOutputFiles();
         try {
@@ -56,7 +57,7 @@ public class TagParserRebuilder {
                 String filename = output_DIR + "info-0000" + i + ".info";
                 f_out[i] = new File(filename);
                 if(!f_out[i].exists()){
-                        f_out[i].createNewFile();
+                    f_out[i].createNewFile();
                 }
 
                 //inizializzo i bufferedWriter
