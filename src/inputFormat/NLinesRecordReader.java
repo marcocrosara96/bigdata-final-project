@@ -17,7 +17,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 public class NLinesRecordReader extends RecordReader<LongWritable, Text>{
     private LineReader in;
 
-    private LongWritable key;
+    private LongWritable key = new LongWritable();
     private Text value = new Text();
 
     private long start = 0;
@@ -41,6 +41,7 @@ public class NLinesRecordReader extends RecordReader<LongWritable, Text>{
     public Text getCurrentValue() throws IOException, InterruptedException {
         return value;
     }
+
 
     @Override
     public float getProgress() throws IOException, InterruptedException {
@@ -79,9 +80,6 @@ public class NLinesRecordReader extends RecordReader<LongWritable, Text>{
 
     @Override
     public boolean nextKeyValue() throws IOException, InterruptedException {
-        if (key == null) {
-            key = new LongWritable();
-        }
         key.set(pos);
         if (value == null) {
             value = new Text();
@@ -96,7 +94,7 @@ public class NLinesRecordReader extends RecordReader<LongWritable, Text>{
         Text emptyLine = new Text("");
 
         //A input for the mapper is a page from "WARC/1.0" to the next "WARC/1.0" or to the end of file
-        while(!(v.equals(pageEndLine)) && pos != end){ /*pos != end <-- check it isn't the end of file*/
+        while(!(v.equals(pageEndLine)) && pos < end){ /*pos != end <-- check it isn't the end of file*/
             v = new Text();
             boolean readFullLineFlag = false;
             while (pos < end && readFullLineFlag == false) { /*se il buffer non è sufficente per leggere una riga troppo

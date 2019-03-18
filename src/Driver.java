@@ -1,4 +1,5 @@
 import map.Map;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.filecache.DistributedCache;
 import reduce.Reduce;
 import inputFormat.PageAndHeaderInputFormat;
@@ -30,13 +31,22 @@ public class Driver extends Configured implements Tool {
     public int run(String[] args) throws Exception {
         Job job = Job.getInstance(getConf(), JOB_NAME);
         job.setJarByClass(this.getClass());
-        FileInputFormat.addInputPath(job, new Path(INPUT_PATH));
-        FileOutputFormat.setOutputPath(job, new Path(OUTPUT_PATH));
-        job.setNumReduceTasks(NUM_REDUCE_TASK); //Default = 1
         job.setMapperClass(Map.class);
         job.setReducerClass(Reduce.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
+
+        FileInputFormat.setInputPaths(job, new Path(INPUT_PATH)); //N.B. "set" and not "add"
+        FileOutputFormat.setOutputPath(job, new Path(OUTPUT_PATH));
+        job.setNumReduceTasks(NUM_REDUCE_TASK); //Default = 1
+
+        //Se vengono dati in input gli argomenti, sovrascrivo i settaggi di default
+        if(args.length > 0)
+            FileInputFormat.setInputPaths(job, new Path(args[0]));
+        if(args.length > 1)
+            FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        if(args.length > 2)
+            job.setNumReduceTasks(Integer.parseInt(args[2]));
 
         // Use TextInputFormat, the default unless job.setInputFormatClass is used
         job.setInputFormatClass(PageAndHeaderInputFormat.class); //Set the new input format class
