@@ -1,5 +1,4 @@
 import map.Map;
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.filecache.DistributedCache;
 import reduce.Reduce;
 import inputFormat.PageAndHeaderInputFormat;
@@ -52,7 +51,7 @@ public class Driver extends Configured implements Tool {
         job.setInputFormatClass(PageAndHeaderInputFormat.class); //Set the new input format class
 
         //Set Distributed Cache (Dictionary Files)
-        DistributedCache.addCacheFile(new Path(Map.DICTIONARY_100).toUri(), job.getConfiguration());
+        DistributedCache.addCacheFile(new Path(Map.DICTIONARY).toUri(), job.getConfiguration());
 
         return job.waitForCompletion(true) ? 0 : 1;
     }

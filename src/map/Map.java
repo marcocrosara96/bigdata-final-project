@@ -2,26 +2,25 @@ package map;
 
 import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * Classe Mapper
+ */
 public class Map extends Mapper<LongWritable, Text, Text, Text> {
-    public static String DICTIONARY_100_FILENAME = "dictionary_100.json";
-    public static String DICTIONARY_100 = "/input/" + DICTIONARY_100_FILENAME;
+    public static String DICTIONARY_FILENAME = "dictionary.json";
+    public static String DICTIONARY = "/input/" + DICTIONARY_FILENAME;
     private static final Pattern WORD_BOUNDARY = Pattern.compile("\\s*\\b\\s*");//Indent. gli spazi vuoti da word a word
+    private static final Pattern WORD_BOUNDARY_V2 = Pattern.compile("[\\[0-9\\]\\s!-$%^&*()_+|~=`{}\\[\\]°:\";'<>?,@#.\\/•]+");
     private Dictionary dict;
     private LanguageElect langelect;
-    //private final static IntWritable one = new IntWritable(1);
-    //private Text word = new Text();
-    //private long numRecords = 0;
+    private HashSet<String> wordsExcluded;
 
     /**
      * Mi permette di fare i settaggi iniziali del mapper tra cui di recuperare ed elaborare tutte le informazioni dei
@@ -37,22 +36,27 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
             String localPathOfDictionary100 = null;
             Path[] localFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());
             for (Path eachPath : localFiles) {
-                if(eachPath.toString().endsWith(DICTIONARY_100_FILENAME))
+                if(eachPath.toString().endsWith(DICTIONARY_FILENAME))
                     localPathOfDictionary100 = eachPath.toString();
 
             }
             //Carico il dizionario dall'url locale dello stesso
-            dict = JsonParser.loadDictionary100(localPathOfDictionary100);
+            dict = JsonParser.loadDictionary(localPathOfDictionary100);
 
             //Avvio l'istanza di LanguageElect
             langelect = new LanguageElect(dict);
+
+            //Setto le parole da escludere
+            wordsExcluded = new HashSet<>();
+            wordsExcluded.add("http");
+            wordsExcluded.add("https");
         } catch(Exception e) {
             System.err.println("Exception in mapper setup: " + e.getMessage());
         }
     }
 
     /**
-     *
+     * !!! MAPPER !!!
      * @param offset [non lo usiamo]
      * @param lineText --> pagina con il relativo header che ci arriva da NLinesRecordReader
      * @param context --> collegamento al reducer
@@ -68,14 +72,13 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
         //context.write(new Text(url), wordsToText(getPageWords(lineText.toString()))); //one --> IntWritable (vedi sopra)
         context.write(new Text(url), new Text(
                                         langelect.getLanguagesWithStats(
-                                                getPageWords(
-                                                        lineText.toString()))));
+                                                getPageWords(lineText.toString()))));
 
         //NB <--- use Set per assegnare la stringa al testo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11!!!!
     }
 
     /**
-     * Return Url from Header of Page
+     * Ritorna l'url di una pagina, estraendolo dal suo header
      * EXAMPLE:
      * WARC-Type: conversion
      * WARC-Target-URI: http://url.com
@@ -100,8 +103,8 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
 
     /**
      * Ritorna il testo della pagina privo dell'header
-     * @param fullPage
-     * @return
+     * @param fullPage = header + testo pagina
+     * @return testo della pagina(senza header)
      */
     private String getPageText(String fullPage){
         int lastLineIndex = fullPage.indexOf("Content-Length:");
@@ -111,13 +114,13 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
 
     /**
      * Ritorna la lista delle parole nel testo, applica i filtri necessari
-     * @param fullPage
-     * @return
+     * @param fullPage = header + testo pagina
+     * @return le parole trovate nel testo della pagina
      */
     private HashSet<String> getPageWords(String fullPage){
         String textPage = getPageText(fullPage);
         HashSet<String> words = new HashSet<>();
-        for (String word : WORD_BOUNDARY.split(textPage)) {
+        for (String word : WORD_BOUNDARY_V2.split(textPage)) {
             if (word.isEmpty())
                 continue;
             words.add(word);
@@ -125,11 +128,26 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
         return filterAndCleanWords(words);
     }
 
+    /**
+     * Filtra le parole trovate nel testo rimuvendo quelle non rilevanti
+     * @param words parole da filtrare
+     * @return parole filtrate
+     */
     private HashSet<String> filterAndCleanWords(HashSet<String> words){
-        //HashSet<String> wordsCleaned = new HashSet<>();
+        /*HashSet<String> wordsFiltered = new HashSet<>();
+        for (String word: words) {
+            if(!wordsExcluded.contains(word))
+                wordsFiltered.add(word);
+        }
+        return wordsFiltered;*/
         return words;
     }
 
+    /**
+     * Genera una stringa [Text] che visualizza in sequenza un insieme di parole
+     * @param words insieme di parole
+     * @return Text : stringa con la seguenza di parole
+     */
     private Text wordsToText(HashSet<String> words){
         String output = "";
         for (String word: words) {

@@ -1,5 +1,8 @@
 package map;
 
+/**
+ * Rappresenta una lingua con un nome e uno/due tag
+ */
 public class Language {
     private String name;
     private String tag;

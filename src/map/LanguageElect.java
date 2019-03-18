@@ -3,6 +3,9 @@ package map;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Si occupa di "Promuovere" ovvero decidere la lingua di un testo, dato in ingresso il relativo insieme di parole
+ */
 public class LanguageElect {
     Dictionary dict;
 

@@ -2,6 +2,9 @@ package map;
 
 import java.util.HashMap;
 
+/**
+ * Rappresenta un dizionario, ovvero un elenco di parole a ognuna delle quali è associata una specifica lingua
+ */
 public class Dictionary {
     private String dictName;
     private String dictType;

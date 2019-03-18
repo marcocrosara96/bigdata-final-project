@@ -7,10 +7,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * Parser per i file json dei DIZIONARI
+ */
 public class JsonParser {
     public static String CHARSET = "UTF-8";
 
-    public static Dictionary loadDictionary100(String filePath){
+    /**
+     * Parserizza il testo del dizionario per ricavarne le info sulle lingue e sulle relative parole
+     * @param filePath path del dizionario sulla  distributed cache
+     * @return il dizionario popolato correttamente con lingue e relative parole
+     */
+    public static Dictionary loadDictionary(String filePath){
         Dictionary dict = null;
         try {
             String jsonDoc = readJSON(filePath);
@@ -41,6 +49,11 @@ public class JsonParser {
         return dict;
     }
 
+    /**
+     * Estrae il testo del file json:dizionario presente sulla distributed cache
+     * @param filePath path del dizionario sulla  distributed cache
+     * @return testo del dizionario
+     */
     public static String readJSON(String filePath){
         String s = null;
         try{
