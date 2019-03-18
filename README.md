@@ -1,5 +1,5 @@
-#Big Data - Final Project - 2018/2019<
-##Master's degree in Computer Science and Engineering - UniVr
+#Big Data - Final Project - 2018/2019#
+##Master's degree in Computer Science and Engineering - UniVr##
 
 Comandi utili
 - docker start cloudera
