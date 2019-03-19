@@ -1,10 +1,12 @@
 package map;
 
+import inputFormat.PageAndHeaderInputFormat;
 import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import reduce.Reduce;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -64,15 +66,22 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
      * @throws InterruptedException
      */
     public void map(LongWritable offset, Text lineText, Context context) throws IOException, InterruptedException {
-        String url = getPageUrlFromHeader(lineText.toString());
+        //Cerco di capire se lineText arriva da un file WET o da un file INFO, verrà processato in modo diverso
+        String lineString = lineText.toString();
+        if(!lineString.startsWith("http")) {//PROVENIENZA INPUT: FILE WET
+            String url = getPageUrlFromHeader(lineString);
+            if(url == null)
+                return;
 
-        if(url == null)
-            return;
-
-        //context.write(new Text(url), wordsToText(getPageWords(lineText.toString()))); //one --> IntWritable (vedi sopra)
-        context.write(new Text(url), new Text(
-                                        langelect.getLanguagesWithStats(
-                                                getPageWords(lineText.toString()))));
+            //context.write(new Text(url), wordsToText(getPageWords(lineText.toString()))); //one --> IntWritable (vedi sopra)
+            context.write(new Text(url), new Text(
+                    langelect.getLanguagesWithStats(
+                            getPageWords(lineString))));
+        }
+        else{//PROVENIENZA INPUT: FILE INPUT
+            String[] tuple = lineString.split("\t"); // formato: URL \t LANG \t CHARSET
+            context.write(new Text(tuple[0]), new Text(Reduce.REAL_LANGUAGE_FLAG  + tuple[1]));
+        }
 
         //NB <--- use Set per assegnare la stringa al testo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11!!!!
     }

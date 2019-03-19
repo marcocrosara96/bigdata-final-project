@@ -20,7 +20,7 @@ import java.util.Date;
 public class Driver extends Configured implements Tool {
     /*--- CONFIGURATION ----*/
     public static String JOB_NAME = "Analyzer";
-    public static String INPUT_PATH_WET = "/input/wet/00000_sample.wet"; //input file path or input directory path
+    public static String INPUT_PATH_WET = "/input/wet/00000.wet"; //input file path or input directory path
     public static String INPUT_PATH_INFO = "/input/info/info-00000.info"; //input file path or input directory path
     public static String OUTPUT_PATH = "/output/" + uniqueId(); //output path
     public static int NUM_REDUCE_TASK = 1;

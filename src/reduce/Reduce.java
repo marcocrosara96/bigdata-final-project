@@ -9,22 +9,32 @@ import java.io.IOException;
  *                                  <Coppia Input><Coppia Output>
  */
 public class Reduce extends Reducer<Text, Text, Text, Text> {
+    public static String REAL_LANGUAGE_FLAG = "@Real@";
+
     /**
      * !!! REDUCER !!!
      * @param url url della pagina
-     * @param description informazione strutturata sulla lingua della pagina a cui appartiene l'url
+     * @param descriptions informazione strutturata sulla lingua della pagina a cui appartiene l'url
      * @param context
      * @throws IOException
      * @throws InterruptedException
      */
     @Override
-    public void reduce(Text url, Iterable<Text> description, Context context) throws IOException, InterruptedException {
-        /*int sum = 0;
-        for (IntWritable count : counts) {
-            sum += count.get();
+    public void reduce(Text url, Iterable<Text> descriptions, Context context) throws IOException, InterruptedException {
+        String inputString;
+        String outputString = "";
+        boolean emit = false;
+        for (Text inputText : descriptions) {
+            inputString = inputText.toString();
+            if(inputString.startsWith(REAL_LANGUAGE_FLAG)) {
+                outputString = outputString + ("\tReal_Lang:" + inputString.replaceFirst(REAL_LANGUAGE_FLAG, ""));
+            }
+            else {
+                outputString = (inputString) + outputString;
+                emit = true;
+            }
         }
-        context.write(word, new IntWritable(sum));*/
-        //System.out.println("reduce-line: " + word.toString());
-        context.write(url, description.iterator().next());
+        if(emit)
+            context.write(url, new Text(outputString));
     }
 }
