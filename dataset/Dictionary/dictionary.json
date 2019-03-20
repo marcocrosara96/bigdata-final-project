@@ -1,578 +1,1193 @@
 {
   "name": "dictionary",
-  "type" : "300",
-  "version": "1.0.3",
+  "type": "300_isoV2",
+  "version": "1.1.6",
   "languages": [
-    { "name":"Abkhazian",
-      "tag": "ab",
-      "words":[ ] },
-    { "name":"Afar",
-      "tag": "aa",
-      "words":[ ] },
-    { "name":"Afrikaans",
-      "tag": "af",
-      "words":[ ] },
-    { "name":"Akan",
-      "tag": "ak",
-      "words":[ ] },
-    { "name":"Albanian",
-      "tag": "sq",
-      "words":["tė","e","nė","do","nuk","ėshtė","i","mė","po","qė","dhe","pėr","njė","me","se","ta","unė","ka","ti","jo","te","mirė","mund","ju","ēfarė","nga","si","duhet","ne","kjo","kam","kėtė","ai","por","shumė","jam","di","kėtu","je","ke","a","mos","atė","tani","ajo","ishte","u","ku","vetėm","nėse","dua","kur","janė","edhe","mua","ata","rregull","kemi","sa","na","ty","gjithė","pse","duke","eshte","t","oh","apo","ky","tij","gjė","pak","jemi","parė","diēka","bėj","kush","keq","nje","im","faleminderit","qe","per","jeni","keni","vjen","dy","mendoj","lutem","jetė","para","tjetėr","bėrė","kėshtu","atje","kanė","sė","hej","pra","sepse","them","ja","time","tek","bėn","pa","ime","duket","asgjė","ndonjė","vėrtetė","shkojmė","eja","bukur","ndoshta","shiko","gjitha","ēka","pas","disa","xeb","kohė","tim","zot","qenė","kėto","zotėri","ma","ashtu","njeri","ēdo","prit","mendon","une","tėnde","kurrė","ato","atėherė","kishte","tuaj","shkoj","hajde","dreqin","ose","aty","saj","deri","kaq","ia","tyre","jashtė","shtėpi","thotė","prej","marrė","vdekur","mire","sikur","punė","isha","tha","as","dreq","gati","bėjmė","aq","brenda","ditė","yt","gjithēka","fundit","herė","shoh","pastaj","vend","dikush","kisha","shko","vėrtet","le","thjesht","bėsh","jote","tėnd","dashur","zoti","besoj","marr","z","akoma","juaj","fal","kete","ndodh","sigurisht","sot","pėrse","jep","poshtė","mjaft","epo","njerėz","shpejt","asnjė","njerėzit","drejtė","pėlqen","s","nevojė","shkon","madh","cfare","o","thėnė","mi","gjithmonė","thuaj","fund","ende","ok","tonė","madhe","ketu","tre","gjėra","jesh","doja","vogėl","veten","merr","gjatė","ate","sigurt","thashė","shume","askush","thua","ardhur","the","babi","tu","dini","kujdes","falni","djema","ndodhi","www","zemėr","dėgjo","vonė","bėhet","mbi","pėrsėri","bėni","jetėn","sapo","problem","mundem","babai","jem","kuptoj","ketė","re","jepi","pasur","ishin","thuash","mia","dėshiron","shoku","ishe","cili","koha","doni","bėjė","fare","vetem","mėnyrė","flas","gjėrat","vajza","rreth","fėmijė","vjet","ri","kėsaj","kėta","ndonjėherė","minuta","sonte","gjej","net","djalė","vetė","puna","fat","paratė","kupton","flet","l"] },
-    { "name":"Arabic",
-      "tag": "ar",
-      "words":[] },
-    { "name":"Aragonese",
-      "tag": "an",
-      "words":[ ] },
-    { "name":"Armenian",
-      "tag": "hy",
-      "words":[ ] },
-    { "name":"Assamese",
-      "tag": "as",
-      "words":[ ] },
-    { "name":"Avaric",
-      "tag": "av",
-      "words":[ ] },
-    { "name":"Avestan",
-      "tag": "ae",
-      "words":[ ] },
-    { "name":"Aymara",
-      "tag": "ay",
-      "words":[ ] },
-    { "name":"Azerbaijani",
-      "tag": "az",
-      "words":[ ] },
-    { "name":"Bambara",
-      "tag": "bm",
-      "words":[ ] },
-    { "name":"Bashkir",
-      "tag": "ba",
-      "words":[ ] },
-    { "name":"Basque",
-      "tag": "eu",
-      "words":[ ] },
-    { "name":"Belarusian",
-      "tag": "be",
-      "words":[ ] },
-    { "name":"Bengali(Bangla)",
-      "tag": "bn",
-      "words":[ ] },
-    { "name":"Bihari",
-      "tag": "bh",
-      "words":[ ] },
-    { "name":"Bislama",
-      "tag": "bi",
-      "words":[ ] },
-    { "name":"Bosnian",
-      "tag": "bs",
-      "words":[ ] },
-    { "name":"Breton",
-      "tag": "br",
-      "words":[ ] },
-    { "name":"Bulgarian",
-      "tag": "bg",
-      "words":[ ] },
-    { "name":"Burmese",
-      "tag": "my",
-      "words":[ ] },
-    { "name":"Catalan",
-      "tag": "ca",
-      "words":[ ] },
-    { "name":"Chamorro",
-      "tag": "ch",
-      "words":[ ] },
-    { "name":"Chechen",
-      "tag": "ce",
-      "words":[ ] },
-    { "name":"Chichewa,Chewa,Nyanja",
-      "tag": "ny",
-      "words":[ ] },
-    { "name":"Chinese",
-      "tag": "zh",
-      "words":["我","你","的","是","了","他","么","们","在","有","这","那","不","什","个","来","要","就","一","人","里","会","没","她","吗","去","也","说","为","好","吧","知道","我的","和","你的","想","只","很","都","对","把","啊","怎","得","还","过","不是","到","样","能","事","看","我們","上","给","可以","现","斯","做","儿","时","点","开","让","就是","但","呢","着","它","這","如果","跟","邪","听","克","再","快","嗎","被","是的","大","先生","别","告","真的","谢","哦","话","械","见","当","芯","该","西","子","已","會","小","爱","特","不要","些","不知道","不能","因","觉","发","像","太","但是","多","打","机","來","好了","用","他的","诉","德","叫","什麼","真","干","心","走","比","死","嘿","出","车","一下","中","好吧","需要","经","妈","候","长","而","错","好的","间","又","国","起","动","杀","于","种","生","回","可","东","尔","欢","很好","他們","进","地","孩子","帮","离","找","尼","从","下","马","以","利","所以","关","哪","懈","行","家","拉","才","看到","說","手","法","噢","谁","头","无","嗯","工作","可能","薪","朋友","请","许","年","那些","一個","一起","然","吃","写","带","地方","沒有","有人","嗨","看看","自己","一定","事情","屑","希望","所","褉","感","气","不想","嘛","实","始","給","然后","個","相信","结","今天","几","题","放","讓","确","意思","成","所有","喜","對","之","一切","记","抱歉","一直","天","褌","钱","面","更","学","現在","边","你們","不起","等","变","准","查","阿","卡","這個","在哪","定","处","真是","保","想要","安","并","拿","情","爸爸","褋","您","美","非常","办","前","格","场","体","大家","呀","系","后","亲","明白","备","布","计","恩","找到","她的","老","艾","意","门","啦","米","本","问","上帝","必","沒","等等"]},
-    { "name":"Chinese(Simplified)",
-      "tag": "zh-Hans",
-      "words":[ ] },
-    { "name":"Chinese(Traditional)",
-      "tag": "zh-Hant",
-      "words":[ ] },
-    { "name":"Chuvash",
-      "tag": "cv",
-      "words":[ ] },
-    { "name":"Cornish",
-      "tag": "kw",
-      "words":[ ] },
-    { "name":"Corsican",
-      "tag": "co",
-      "words":[ ] },
-    { "name":"Cree",
-      "tag": "cr",
-      "words":[ ] },
-    { "name":"Croatian",
-      "tag": "hr",
-      "words":[ ] },
-    { "name":"Czech",
-      "tag": "cs",
-      "words":[ ] },
-    { "name":"Danish",
-      "tag": "da",
-      "words":["er","jeg","det","du","ikke","i","at","en","og","har","vi","til","på","hvad","med","mig","så","for","de","dig","der","den","han","kan","af","vil","var","her","et","skal","ved","nu","men","om","ja","som","nej","min","noget","ham","hun","bare","kom","være","din","hvor","dem","ud","os","hvis","må","se","godt","have","fra","ville","okay","gør","lige","op","alle","lad","hvorfor","tak","tror","sig","kommer","hvordan","meget","hende","få","gøre","kunne","eller","gå","hvem","man","bliver","nok","havde","da","går","ingen","tilbage","efter","sagde","når","alt","jo","to","mit","ind","hej","aldrig","lidt","nogen","over","også","måske","mand","siger","far","skulle","selv","mere","får","hans","ser","vores","jer","sådan","dit","kun","deres","sammen","hele","mor","igen","blev","hold","tager","ned","mine","komme","dag","undskyld","tage","åh","denne","sige","dette","blive","god","helt","væk","været","fordi","end","laver","tag","gang","år","før","gjorde","tid","nogle","sted","mener","mange","fik","lille","dine","ting","altid","virkelig","mr","hjem","gud","siden","vent","elsker","anden","folk","brug","tale","gerne","finde","kender","hør","stadig","lide","andre","liv","e","fint","set","fanden","uden","vel","vej","klar","tre","nå","giv","ret","l","tog","penge","mod","skat","hen","hr","bedre","sidste","troede","aften","sir","sker","gjort","død","hendes","ven","vide","vær","morgen","intet","første","gik","arbejde","jeres","blevet","andet","hjælpe","give","samme","synes","forstår","høre","sin","vidste","hjælp","hey","navn","bedste","giver","under","eneste","holde","endnu","burde","ok","venner","engang","sikker","stop","taler","tro","fortælle","hedder","står","sikkert","nødt","længe","stor","fyr","pige","ude","bruge","måde","par","hver","fået","store","selvfølgelig","bange","hallo","lort","the","næste","verden","hos","døde","først","behøver","holder","øjeblik","børn","ellers","faktisk","skete","snart","finder","ihjel","ked","rigtigt","gamle","farvel","rigtig","lave","betyder","ligesom","mænd","tiden","fandt","stille","gode","ses","flere","kone","vist","galt","gange","pas","orden","slå","prøver","nye","disse","søn","huske"] },
-    { "name":"Divehi,Dhivehi,Maldivian",
-      "tag": "dv",
-      "words":[ ] },
-    { "name":"Dutch",
-      "tag": "nl",
-      "words":[ ] },
-    { "name":"Dzongkha",
-      "tag": "dz",
-      "words":[ ] },
-    { "name":"English",
-      "tag": "en",
-      "words":["the","be","and","of","a","in","to","have","to","it","I","that","for","you","he","with","on","do","say","this","they","at","but","we","his","from","that","not","n’t","n’t","by","she","or","as","what","go","their","can","who","get","if","would","her","all","my","make","about","know","will","as","up","one","time","there","year","so","think","when","which","them","some","me","people","take","out","into","just","see","him","your","come","could","now","than","like","other","how","then","its","our","two","more","these","want","way","look","first","also","new","because","day","more","use","no","man","find","here","thing","give","many","well","only","those","tell","one","very","her","even","back","any","good","woman","through","us","life","child","there","work","down","may","after","should","call","world","over","school","still","try","in","as","last","ask","need","too","feel","three","when","state","never","become","between","high","really","something","most","another","much","family","own","out","leave","put","old","while","mean","on","keep","student","why","let","great","same","big","group","begin","seem","country","help","talk","where","turn","problem","every","start","hand","might","American","show","part","about","against","place","over","such","again","few","case","most","week","company","where","system","each","right","program","hear","so","question","during","work","play","government","run","small","number","off","always","move","like","night","live","Mr","point","believe","hold","today","bring","happen","next","without","before","large","all","million","must","home","under","water","room","write","mother","area","national","money","story","young","fact","month","different","lot","right","study","book","eye","job","word","though","business","issue","side","kind","four","head","far","black","long","both","little","house","yes","after","since","long","provide","service","around","friend","important","father","sit","away","until","power","hour","game","often","yet","line","political","end","among","ever","stand","bad","lose","however","member","pay","law","meet","car","city","almost","include","continue","set","later","community","much","name"] },
-    { "name":"Esperanto",
-      "tag": "eo",
-      "words":[ ] },
-    { "name":"Estonian",
-      "tag": "et",
-      "words":[ ] },
-    { "name":"Ewe",
-      "tag": "ee",
-      "words":[ ] },
-    { "name":"Faroese",
-      "tag": "fo",
-      "words":[ ] },
-    { "name":"Fijian",
-      "tag": "fj",
-      "words":[ ] },
-    { "name":"Finnish",
-      "tag": "fi",
-      "words":[ ] },
-    { "name":"French",
-      "tag": "fr",
-      "words":[ ] },
-    { "name":"Fula,Fulah,Pulaar,Pular",
-      "tag": "ff",
-      "words":[ ] },
-    { "name":"Galician",
-      "tag": "gl",
-      "words":[ ] },
-    { "name":"Gaelic(Scottish)",
-      "tag": "gd",
-      "words":[ ] },
-    { "name":"Gaelic(Manx)",
-      "tag": "gv",
-      "words":[ ] },
-    { "name":"Georgian",
-      "tag": "ka",
-      "words":[ ] },
-    { "name":"German",
-      "tag": "de",
-      "words":["ich","sie","das","ist","du","nicht","die","und","es","der","was","wir","er","zu","ein","in","mit","mir","den","wie","ja","auf","mich","so","eine","aber","hier","sind","für","von","haben","hat","dich","war","dass","wenn","an","da","nein","bin","noch","dir","nur","habe","ihr","sich","einen","uns","hast","dem","ihn","aus","kann","gut","auch","schon","jetzt","im","sein","mal","dann","meine","als","um","mein","doch","bist","wird","keine","nach","alles","man","lch","oder","nichts","wo","werden","weiß","will","geht","mehr","warum","hab","ihnen","bitte","etwas","bei","muss","los","immer","oh","vor","mann","zum","wieder","sehr","sehen","sagen","also","gehen","wer","alle","denn","machen","ihm","können","diese","komm","danke","euch","einem","tun","einer","gibt","nie","über","des","soll","kein","vielleicht","weg","deine","wissen","am","werde","leben","kommen","kommt","müssen","viel","wirklich","frau","hatte","heute","ok","willst","dein","würde","tut","ihre","ganz","zeit","bis","wollen","einfach","macht","gott","zurück","nun","weil","damit","dieser","kannst","wurde","gesagt","wäre","seine","wollte","na","zwei","hallo","meinen","sicher","weißt","sir","morgen","ab","leid","lassen","hey","waren","zur","lass","e","geld","liebe","tag","leute","vater","genau","sagte","hätte","mach","raus","durch","lhr","könnte","schön","wohl","gesehen","keinen","klar","glaube","her","okay","mutter","sag","dieses","nacht","besser","ohne","unsere","jemand","sei","reden","gerade","ob","gehört","geh","möchte","dort","sagt","anderen","gemacht","hör","sollte","selbst","diesen","gute","dachte","paar","weiter","vom","ins","herr","wirst","geben","ordnung","passiert","meiner","lange","gar","mädchen","meinem","hören","sieht","daß","guten","hin","gleich","ach","diesem","freund","seit","welt","musst","hause","natürlich","abend","angst","drei","recht","richtig","viele","deinen","finden","wieso","bleiben","tot","unter","junge","haus","rein","essen","davon","nehmen","sollen","helfen","schnell","machst","eines","andere","unser","warte","wegen","menschen","stimmt","dafür","darf","kinder","genug","sonst","ganze","scheiße","he","halt","sollten","zusammen","gegen","jahre","erst","denke","steht","habt","verdammt","moment","ihren","glauben","bringen","gib"] },
-    { "name":"Greek",
-      "tag": "el",
-      "words":[ ] },
-    { "name":"Greenlandic",
-      "tag": "kl",
-      "words":[ ] },
-    { "name":"Guarani",
-      "tag": "gn",
-      "words":[ ] },
-    { "name":"Gujarati",
-      "tag": "gu",
-      "words":[ ] },
-    { "name":"HaitianCreole",
-      "tag": "ht",
-      "words":[ ] },
-    { "name":"Hausa",
-      "tag": "ha",
-      "words":[ ] },
-    { "name":"Hebrew",
-      "tag": "he",
-      "words":[ ] },
-    { "name":"Herero",
-      "tag": "hz",
-      "words":[ ] },
-    { "name":"Hindi",
-      "tag": "hi",
-      "words":[ ] },
-    { "name":"HiriMotu",
-      "tag": "ho",
-      "words":[ ] },
-    { "name":"Hungarian",
-      "tag": "hu",
-      "words":[ ] },
-    { "name":"Icelandic",
-      "tag": "is",
-      "words":[ ] },
-    { "name":"Ido",
-      "tag": "io",
-      "words":[ ] },
-    { "name":"Igbo",
-      "tag": "ig",
-      "words":[ ] },
-    { "name":"Indonesian",
-      "tag": "id",
-      "tag2": "in",
-      "words":["yang","dan","di","ini","untuk","mereka","kita","dari","adalah","tidak","itu","akan","dalam","bahwa","dengan","anda","ada","saya","pada","kami","ke","lebih","telah","seperti","planet","apa","satu","tahun","hal","tapi","bumi","besar","sangat","bisa","semua","mungkin","hanya","orang","memiliki","jika","sebuah","beberapa","atau","banyak","dunia","karena","menjadi","dapat","lain","benar","oleh","sebagai","bintang","melihat","aku","luar","alam","dia","tahu","hidup","jadi","apakah","manusia","sama","sekarang","datang","harus","bagaimana","hari","ketika","sini","narator","tempat","salah","membuat","sendiri","tentang","semesta","sistem","tetapi","mana","waktu","bulan","terjadi","paling","menemukan","pergi","kehidupan","baru","air","setiap","kecil","juga","sesuatu","cara","baik","bahkan","sekitar","kemudian","ia","kembali","jauh","matahari","seluruh","saat","surya","kuno","lalu","mulai","pernah","pertama","angkasa","ruang","begitu","selama","saja","makhluk","keluar","atas","cukup","tata","melakukan","energi","bawah","biasa","bagi","hampir","teknologi","sana","gravitasi","uang","ingin","lagi","pikir","sampai","mengapa","laut","setelah","secara","disebut","mengambil","sedikit","seorang","mengatakan","panas","namun","dua","melalui","asing","cahaya","bagian","bekerja","menarik","jenis","permukaan","ufo","antara","berpikir","ditemukan","masih","sudah","percaya","gas","masyarakat","kali","mendapatkan","bukan","aneh","penting","bentuk","teori","para","sumber","masalah","perjalanan","mars","langit","ilmuwan","kau","dekat","sebenarnya","nya","menggunakan","awal","amerika","berbeda","menciptakan","tanpa","juta","sehingga","berarti","menunjukkan","berada","tak","suatu","pesawat","bukti","pemerintah","tentu","kekuatan","mencari","miliar","masa","lakukan","jupiter","terus","udara","rumah","diri","lainnya","galaksi","kepada","daya","raksasa","ribuan","ya","memberikan","es","akhirnya","gambar","mesin","meskipun","tanah","mencoba","pertanyaan","alien","perlu","malam","lihat","lama","perang","tersebut","merupakan","jelas","sementara","akhir","terlalu","kuat","maka","batu","peradaban","tinggi","selalu","daripada","tampaknya","membawa","dingin","terbesar","punya","belum","sejarah","tetap","sebelum","lubang","sebagian","dibuat","alasan","mil","titik","cepat","terlihat","menghasilkan","proses","terbang","sedang","dasar","digunakan","penemuan","ilmiah","anak","muncul","turun","depan","jam","pengetahuan","gunung","atmosfer","dikenal","sekali","terakhir","bola","segala","perusahaan","luas","emas","bahan","membangun","pun","tengkorak","negara","berubah","ekonomi","siapa","selatan","the","tumbuh","jalan","tepat","tertentu","indah"] },
-    { "name":"Interlingua",
-      "tag": "ia",
-      "words":[ ] },
-    { "name":"Interlingue",
-      "tag": "ie",
-      "words":[ ] },
-    { "name":"Inuktitut",
-      "tag": "iu",
-      "words":[ ] },
-    { "name":"Inupiak",
-      "tag": "ik",
-      "words":[ ] },
-    { "name":"Irish",
-      "tag": "ga",
-      "words":[ ] },
-    { "name":"Italian",
-      "tag": "it",
-      "words":["non","che","di","e","la","il","un","a","è","per","in","una","sono","mi","ho","si","lo","ma","ti","ha","le","cosa","con","i","no","da","se","come","io","ci","questo","qui","hai","bene","sei","tu","del","me","mio","al","solo","sì","tutto","te","più","della","era","c","lei","gli","mia","questa","ne","fare","quando","essere","fatto","perché","so","ora","o","va","mai","chi","detto","così","alla","quello","tutti","oh","anche","molto","dei","lui","voglio","niente","stato","grazie","dove","abbiamo","tuo","nel","allora","sta","posso","siamo","uno","vuoi","hanno","noi","prima","suo","stai","tua","due","ancora","casa","fa","sua","qualcosa","su","sia","sai","sempre","dire","loro","quella","andiamo","andare","delle","altro","vi","po","quel","li","ehi","devo","signore","nella","ad","tempo","forse","certo","vita","fuori","voi","uomo","sto","adesso","davvero","anni","cosi","perche","dio","poi","visto","ok","via","parte","proprio","puoi","credo","piu","sul","beh","volta","cose","quanto","ciao","nessuno","amico","dopo","può","padre","fai","vuole","qualcuno","posto","lavoro","meglio","devi","già","ed","vedere","giorno","cazzo","dai","cui","bisogno","dal","vai","ogni","senza","ce","vieni","ecco","male","stata","troppo","qualche","signor","dobbiamo","dalla","sarà","tanto","avete","mamma","ll","modo","grande","tra","prego","miei","favore","altra","alle","sa","sembra","quindi","guarda","soldi","sulla","dispiace","parlare","sarebbe","tre","ai","gente","deve","perchè","dice","aspetta","madre","momento","nuovo","questi","mondo","successo","possiamo","nostro","piace","siete","forza","aveva","avere","ero","figlio","dentro","oggi","ragazzi","penso","accordo","facendo","queste","é","fosse","faccio","degli","giusto","altri","avanti","nome","avevo","lì","farlo","donna","notte","basta","subito","tutte","ah","tutta","sapere","signora","testa","faccia","porta","bella","sicuro","eh","senti","vado","persone","uomini","sentito","nostra","preso","merda","tipo","appena","sotto","idea","stare","ragazzo","morto","paura","buona","ragazza","abbia","avuto","stesso","erano","moglie","potrebbe","presto","suoi","pronto","pensi","problema","capito","succede","ii","amore","tuoi","papà","volte","gia","insieme","tesoro","domani"] },
-    { "name":"Japanese",
-      "tag": "ja",
-      "words":["の","に","する","は","を","が","と","年","で","だ","月","も","から","日","成る","こと","有る","よる","や","など","言う","日本","為","この","人","その","まで","もの","へ","又","これ","行う","よう","出来る","駅","国","より","大学","現在","後","か","線","ぬ","放送","号","軍","無い","部","持つ","所","名","回","世界","時","戦","時代","東京","おく","でも","呼ぶ","その後","会","それ","機","会う","受ける","多い","選手","場合","対する","しかし","つく","昭和","作品","地","中","使用","共に","学校","語","彼","行く","アメリカ","当時","番組","車","社","川","映画","位","見る","テレビ","系","研究","町","東","存在","活動","発売","他","出身","年代","会社","権","開発","分","西","鉄道","法","局","更に","のみ","間","山","式","島","なお","可能","ドイツ","代表","使う","同じ","曲","地域","作","事","版","取る","登場","チーム","世","時間","於ける","中心","大会","多く","南","シリーズ","賞","北","開始","フランス","一部","始める","平成","知る","子","ゲーム","道","角","用いる","および","館","場","体","世紀","音楽","参加","発表","記録","掛ける","高い","利用","際","出場","国際","リーグ","所属","務める","関係","考える","イギリス","生まれる","入る","度","州","全て","明治","生","点","力","良い","だけ","王","試合","得る","優勝","都市","含む","アルバム","込む","問題","シーズン","開催","大阪","位置","監督","上","主","設置","郡","戦争","物","艦","地方","隊","期","城","にて","長","計画","番","必要","出す","一般","変更","本","中央","関する","出る","出演","作る","基","事業","委員","バス","市","以下","社会","教育","事件","特に","卒業","役","当初","結果","選挙","機関","大きい","高等","獲得","政府","戦う","中国","最初","設立","置く","種","金","建設","派","続く","影響","文化","科","外","デビュー","台","情報","そして","航空","村","政治","同様","販売","面","異なる","担当","最も","寺","攻撃","人口","ながら","及び","区","馬","プロ","経済","付ける","地区","与える","それぞれ","年間","水","構成","路線","射る","アメリカ合衆国","米","採用","伴う","主義","上げる","グループ","女性","手","システム","歴史","意味","一方"] },
-    { "name":"Javanese",
-      "tag": "jv",
-      "words":[ ] },
-    { "name":"Kalaallisut,Greenlandic",
-      "tag": "kl",
-      "words":[ ] },
-    { "name":"Kannada",
-      "tag": "kn",
-      "words":[ ] },
-    { "name":"Kanuri",
-      "tag": "kr",
-      "words":[ ] },
-    { "name":"Kashmiri",
-      "tag": "ks",
-      "words":[ ] },
-    { "name":"Kazakh",
-      "tag": "kk",
-      "words":[ ] },
-    { "name":"Khmer",
-      "tag": "km",
-      "words":[ ] },
-    { "name":"Kikuyu",
-      "tag": "ki",
-      "words":[ ] },
-    { "name":"Kinyarwanda(Rwanda)",
-      "tag": "rw",
-      "words":[ ] },
-    { "name":"Kirundi",
-      "tag": "rn",
-      "words":[ ] },
-    { "name":"Kyrgyz",
-      "tag": "ky",
-      "words":[ ] },
-    { "name":"Komi",
-      "tag": "kv",
-      "words":[ ] },
-    { "name":"Kongo",
-      "tag": "kg",
-      "words":[ ] },
-    { "name":"Korean",
-      "tag": "ko",
-      "words":[ ] },
-    { "name":"Kurdish",
-      "tag": "ku",
-      "words":[ ] },
-    { "name":"Kwanyama",
-      "tag": "kj",
-      "words":[ ] }, 
-    { "name":"Lao",
-      "tag": "lo",
-      "words":[ ] },
-    { "name":"Latin",
-      "tag": "la",
-      "words":[ ] },
-    { "name":"Latvian(Lettish)",
-      "tag": "lv",
-      "words":[ ] },
-    { "name":"Limburgish(Limburger)\t",
-      "tag": "li",
-      "words":[ ] },
-    { "name":"Lingala",
-      "tag": "ln",
-      "words":[ ] },
-    { "name":"Lithuanian",
-      "tag": "lt",
-      "words":[ ] },
-    { "name":"Luga-Katanga",
-      "tag": "lu",
-      "words":[ ] },
-    { "name":"Luganda,Ganda",
-      "tag": "lg",
-      "words":[ ] },
-    { "name":"Luxembourgish",
-      "tag": "lb",
-      "words":[ ] },
-    { "name":"Manx",
-      "tag": "gv",
-      "words":[ ] },
-    { "name":"Macedonian",
-      "tag": "mk",
-      "words":[ ] }, 
-    { "name":"Malagasy",
-      "tag": "mg",
-      "words":[ ] },
-    { "name":"Malay",
-      "tag": "ms",
-      "words":[ ] },
-    { "name":"Malayalam",
-      "tag": "ml",
-      "words":[ ] },
-    { "name":"Maltese",
-      "tag": "mt",
-      "words":[ ] },
-    { "name":"Maori",
-      "tag": "mi",
-      "words":[ ] },
-    { "name":"Marathi",
-      "tag": "mr",
-      "words":[ ] },
-    { "name":"Marshallese",
-      "tag": "mh",
-      "words":[ ] },
-    { "name":"Moldavian",
-      "tag": "mo",
-      "words":[ ] },
-    { "name":"Mongolian",
-      "tag": "mn",
-      "words":[ ] },
-    { "name":"Nauru",
-      "tag": "na",
-      "words":[ ] },
-    { "name":"Navajo",
-      "tag": "nv",
-      "words":[ ] },
-    { "name":"Ndonga",
-      "tag": "ng",
-      "words":[ ] },
-    { "name":"NorthernNdebele",
-      "tag": "nd",
-      "words":[ ] },
-    { "name":"Nepali",
-      "tag": "ne",
-      "words":[ ] },
-    { "name":"Norwegian",
-      "tag": "no",
-      "words":[ ] },
-    { "name":"Norwegian-bokmål",
-      "tag": "nb",
-      "words":[ ] },
-    { "name":"Norwegian-nynorsk",
-      "tag": "nn",
-      "words":[ ] },
-    { "name":"Nuosu",
-      "tag": "ii",
-      "words":[ ] },
-    { "name":"Occitan",
-      "tag": "oc",
-      "words":[ ] },
-    { "name":"Ojibwe",
-      "tag": "oj",
-      "words":[ ] },
-    { "name":"OldChurchSlavonic,OldBulgarian",
-      "tag": "cu",
-      "words":[ ] },
-    { "name":"Oriya",
-      "tag": "or",
-      "words":[ ] },
-    { "name":"Oromo(AfaanOromo)",
-      "tag": "om",
-      "words":[ ] },
-    { "name":"Ossetian",
-      "tag": "os",
-      "words":[ ] },
-    { "name":"Pāli",
-      "tag": "pi",
-      "words":[ ] },
-    { "name":"Pashto,Pushto",
-      "tag": "ps",
-      "words":[ ] },
-    { "name":"Persian(Farsi)",
-      "tag": "fa",
-      "words":[ ] },
-    { "name":"Polish",
-      "tag": "pl",
-      "words":[ ] },
-    { "name":"Portuguese",
-      "tag": "pt",
-      "words":["que","o","a","não","de","é","e","um","eu","para","se","me","uma","está","com","por","do","te","os","em","ele","bem","isso","mas","como","da","você","sim","no","as","mais","meu","aqui","na","muito","vamos","foi","estou","ela","vai","fazer","tem","isto","já","minha","tudo","só","nos","ser","ao","tenho","agora","tu","vou","à","sei","quando","lá","há","porque","onde","nada","seu","estás","quem","então","era","sua","ou","lhe","quero","sou","nós","coisa","são","ter","dizer","eles","pode","esta","bom","mesmo","todos","mim","dos","estava","posso","este","ver","nunca","assim","estão","casa","lo","até","disse","quer","temos","tempo","acho","ir","favor","obrigado","também","tens","deus","quê","ainda","vez","noite","pai","tão","teu","falar","tua","melhor","dia","sobre","certo","sempre","sabe","és","depois","vida","mãe","oh","nem","senhor","estamos","anos","olá","talvez","sr","homem","sem","sabes","alguém","das","boa","algo","ti","alguma","vocês","coisas","tinha","dois","dele","claro","vais","estar","ficar","aí","pelo","pessoas","queres","essa","esse","verdade","faz","parece","grande","antes","dinheiro","ninguém","apenas","pouco","preciso","la","comigo","outra","trabalho","merda","tipo","vão","fora","vá","espera","qualquer","hoje","qual","todo","olha","pela","podes","saber","toda","deve","daqui","podemos","filho","mulher","mundo","ok","disso","meus","seus","nome","dar","cá","seja","outro","nosso","pois","diz","num","nossa","quanto","ei","sair","queria","vem","volta","amigo","novo","embora","lugar","será","certeza","três","sério","mal","têm","desculpa","carro","às","problema","menos","passa","vezes","nas","ali","dela","dentro","aconteceu","querida","primeiro","amor","pensar","todas","cara","lado","fez","contigo","aos","parte","consigo","anda","algum","numa","aquele","hora","voltar","homens","dias","gente","tentar","gosto","porquê","vi","tarde","pensei","entre","suas","los","duas","obrigada","desculpe","sabia","fui","podem","atrás","uns","cabeça","fica","somos","pra","frente","cidade","amanhã","cima","momento","razão","nenhum","família","amigos","desde","vos","tal","horas","sinto","acha","achas","polícia","outros","foram","tenha","seria","medo","tanto","pronto"] },
-    { "name":"Punjabi(Eastern)",
-      "tag": "pa",
-      "words":[ ] },
-    { "name":"Quechua",
-      "tag": "qu",
-      "words":[ ] },
-    { "name":"Romansh",
-      "tag": "rm",
-      "words":[ ] },
-    { "name":"Romanian",
-      "tag": "ro",
-      "words":[ ] },
-    { "name":"Russian",
-      "tag": "ru",
-      "words":["я","не","что","в","и","ты","это","на","с","он","вы","как","мы","да","а","мне","меня","у","нет","так","но","то","все","тебя","его","за","о","она","тебе","если","они","бы","же","ну","здесь","к","из","есть","чтобы","для","хорошо","когда","вас","только","по","вот","просто","был","знаю","нас","всё","было","от","может","кто","вам","очень","их","там","будет","уже","почему","еще","быть","где","спасибо","ничего","сейчас","или","могу","хочу","нам","чем","мой","до","надо","этого","ее","теперь","давай","знаешь","нужно","больше","этом","нибудь","раз","со","была","этот","ему","ладно","эй","время","тоже","даже","хочешь","сказал","ли","себя","думаю","пока","должен","потому","никогда","ни","тут","ещё","её","пожалуйста","сюда","привет","тогда","конечно","моя","него","сегодня","один","тобой","правда","лучше","об","были","того","можно","мной","всегда","сказать","день","сэр","без","можешь","чего","эти","дело","значит","лет","много","во","делать","буду","порядке","должны","такой","ведь","ним","всего","сделать","хотел","твой","жизнь","ей","мистер","потом","через","себе","них","всех","такое","им","куда","том","мама","после","человек","люди","слишком","иди","зачем","этим","немного","сколько","этой","знаете","боже","ней","эту","который","отец","свою","деньги","два","под","твоя","мои","никто","моей","думаешь","друг","жизни","эта","назад","видел","кажется","точно","вместе","люблю","мог","случилось","сам","нравится","черт","какой","людей","папа","домой","тот","скажи","которые","должна","три","всем","сделал","возможно","прошу","будем","дома","парень","снова","говорит","место","отсюда","можем","будешь","пошли","делаешь","совсем","говорил","понимаю","завтра","хочет","простите","разве","давайте","хотите","отлично","сказала","туда","прямо","времени","вами","лишь","своей","хватит","думал","можете","дом","дела","знать","дай","понял","помочь","говорить","слушай","свои","поэтому","прости","знает","именно","знал","тем","кого","смотри","каждый","ваш","похоже","найти","моего","наш","мать","одна","имя","про","говорю","будут","оно","свой","нельзя","извините","стоит","действительно","зовут","поговорить","доктор","перед","несколько","нужен","происходит","ко","господи","возьми","мою","тех","нами","вижу","должно","наверное","откуда","понимаешь","верно","скорo"] },
-    { "name":"Sami",
-      "tag": "se",
-      "words":[ ] },
-    { "name":"Samoan",
-      "tag": "sm",
-      "words":[ ] },
-    { "name":"Sango",
-      "tag": "sg",
-      "words":[ ] },
-    { "name":"Sanskrit",
-      "tag": "sa",
-      "words":[ ] },
-    { "name":"Serbian",
-      "tag": "sr",
-      "words":[ ] },
-    { "name":"Serbo-Croatian",
-      "tag": "sh",
-      "words":[ ] },
-    { "name":"Sesotho",
-      "tag": "st",
-      "words":[ ] },
-    { "name":"Setswana",
-      "tag": "tn",
-      "words":[ ] },
-    { "name":"Shona",
-      "tag": "sn",
-      "words":[ ] },
-    { "name":"SichuanYi",
-      "tag": "ii",
-      "words":[ ] }, 
-    { "name":"Sindhi",
-      "tag": "sd",
-      "words":[ ] },
-    { "name":"Sinhalese",
-      "tag": "si",
-      "words":[ ] },
-    { "name":"Siswati",
-      "tag": "ss",
-      "words":[ ] },
-    { "name":"Slovak",
-      "tag": "sk",
-      "words":[ ] },
-    { "name":"Slovenian",
-      "tag": "sl",
-      "words":[ ] },
-    { "name":"Somali",
-      "tag": "so",
-      "words":[ ] },
-    { "name":"SouthernNdebele",
-      "tag": "nr",
-      "words":[ ] },
-    { "name":"Spanish",
-      "tag": "es",
-      "words":["de","que","no","a","la","el","y","es","en","lo","un","qué","por","me","una","te","se","los","con","para","mi","está","si","sí","pero","bien","las","yo","su","eso","aquí","del","al","como","le","tu","más","todo","ya","muy","esto","vamos","ahora","ha","esta","hay","algo","estoy","tú","tengo","así","nada","nos","cuando","cómo","sé","él","estás","sólo","o","quiero","gracias","tiene","este","soy","he","puedo","bueno","era","ser","vez","hacer","todos","fue","son","ella","eres","usted","tienes","puede","señor","quién","ese","voy","creo","casa","porque","hola","tan","favor","dónde","sus","dos","nunca","sabes","verdad","quieres","mucho","mí","tiempo","estabawas","entoncesthen","mejorbest","esathat","haceago","hombreman","diosgod","vawill","tambiénalso","vidalife","estánare","sinwithout","srsr","versee","hashave","siemprealways","ahíthere","tiyou","hastato","sientoam","puedescan","nior","decirsay","ohoh","sobreabout","añosyears old","tenemoshave","unoone","díaday","cosasstuff","nochenight","alguiensomeone","antesbefore","mismy","irgo","pocolittle","otraother","quierewants","solosingle","nadienobody","nosotrosus","gentepeople","pareceseems","padrefather","dineromoney","estarbe","hechodone","lesthem","seais","estamoswe","mismosame","dijosaid","mirasight","trabajowork","pasapass","claroclear","vasyou","ellosthey","mañanamorning","otroother","hanhave","hablartalk","despuésafter","desdefrom","talsuch","mundoworld","sabeknow","acuerdoagreement","habíahad","momentotime","fueraout","hijoson","amigofriend","dondewhere","seguroinsurance","podríacould","mujerwoman","díasdays","madremother","tusyour","cosathing","allíthere","lugarplace","dicesays","gustalike","grangreat","teníahad","seráwill","mierdashit","mamámom","papádad","hoytoday","esperawaiting","tresthree","vensee","buenagood","tenerhave","luegothen","dijeI","podemoscan","nuevonew","estadostate","menosless","tipotype","nuestroour","debeshould","sidobeen","buengood","conmigome","malwrong","todasAll","nombrename","míomine","creesthink","haciendodoing","todathroughout","amorlove","vistoviewed","queríawould","importamatter","tardeafternoon","partepart","estasthese","tienenhave","aúnyet","necesitoneed","nuestraour","tantoso","eheh","cadaeach","vesee","vecestimes","horatime","contigowith you","haberhave","oyehears","buenasgood","hombresmen","hacerlodo","demasiadotoo","hacesdo","dichosaying","quienwhoever","saberknow","ahah","entrebetween","adiósadieu","vayago","unosabout","ciertocertain","deboI","problemaproblem","razónreason","esosthose","algunaany","puesfor","quizáperhaps","hemoswe","ideaidea","veosee","chicagirl","policíapolice","amigospeople","hizomade","serioserious","realmentereally","ustedesyou","estosthese","cabezahead","digosay","hermanobrother","vango","cariñoaffection","salirleave","valevoucher","familiafamily","pasadolast","cuentaaccount","muchasmany","algúnsome","somosUs","señoraMrs.","puedencan","muertodead","viejoold","nochesnights","ladoside","deberíashould","todavíayet","sabíaknew","rápidofast","vessee","udyou","suerteluck","cuidadocare","seríawould","mientraswhile","dagives","primerafirst","nuevanew"] },
-    { "name":"Sundanese",
-      "tag": "su",
-      "words":[ ] },
-    { "name":"Swahili(Kiswahili)",
-      "tag": "sw",
-      "words":[ ] },
-    { "name":"Swati",
-      "tag": "ss",
-      "words":[ ] },
-    { "name":"Swedish",
-      "tag": "sv",
-      "words":[ ] },
-    { "name":"Tagalog",
-      "tag": "tl",
-      "words":[ ] },
-    { "name":"Tahitian",
-      "tag": "ty",
-      "words":[ ] },
-    { "name":"Tajik",
-      "tag": "tg",
-      "words":[ ] },
-    { "name":"Tamil",
-      "tag": "ta",
-      "words":[ ] },
-    { "name":"Tatar",
-      "tag": "tt",
-      "words":[ ] },
-    { "name":"Telugu",
-      "tag": "te",
-      "words":[ ] },
-    { "name":"Thai",
-      "tag": "th",
-      "words":[ ] },
-    { "name":"Tibetan",
-      "tag": "bo",
-      "words":[ ] },
-    { "name":"Tigrinya",
-      "tag": "ti",
-      "words":[ ] },
-    { "name":"Tonga",
-      "tag": "to",
-      "words":[ ] },
-    { "name":"Tsonga",
-      "tag": "ts",
-      "words":[ ] },
-    { "name":"Turkish",
-      "tag": "tr",
-      "words":[ ] },
-    { "name":"Turkmen",
-      "tag": "tk",
-      "words":[ ] },
-    { "name":"Twi",
-      "tag": "tw",
-      "words":[ ] },
-    { "name":"Uyghur",
-      "tag": "ug",
-      "words":[ ] },
-    { "name":"Ukrainian",
-      "tag": "uk",
-      "words":[ ] },
-    { "name":"Urdu",
-      "tag": "ur",
-      "words":[ ] },
-    { "name":"Uzbek",
-      "tag": "uz",
-      "words":[ ] },
-    { "name":"Venda",
-      "tag": "ve",
-      "words":[ ] },
-    { "name":"Vietnamese",
-      "tag": "vi",
-      "words":[ ] },
-    { "name":"Volapük",
-      "tag": "vo",
-      "words":[ ] },
-    { "name":"Wallon",
-      "tag": "wa",
-      "words":[ ] },
-    { "name":"Welsh",
-      "tag": "cy",
-      "words":[ ] },
-    { "name":"Wolof",
-      "tag": "wo",
-      "words":[ ] },
-    { "name":"WesternFrisian",
-      "tag": "fy",
-      "words":[ ] },
-    { "name":"Xhosa",
-      "tag": "xh",
-      "words":[ ] },
-    { "name":"YiddishYi",
-      "tag": "ji",
-      "words":[ ] },
-    { "name":"Yoruba",
-      "tag": "yo",
-      "words":[ ] },
-    { "name":"Zhuang,Chuang",
-      "tag": "za",
-      "words":[ ] },
-    { "name":"Zulu",
-      "tag": "zu",
-      "words":[ ] }
+      {
+          "name": "Abkhazian",
+          "ISO_639_V1": "ab",
+          "ISO_639_V2": "abk",
+          "words": []
+      },
+      {
+          "name": "Afar",
+          "ISO_639_V1": "aa",
+          "ISO_639_V2": "aar",
+          "words": []
+      },
+      {
+          "name": "Afrikaans",
+          "ISO_639_V1": "af",
+          "ISO_639_V2": "afr",
+          "words": []
+      },
+      {
+          "name": "Akan",
+          "ISO_639_V1": "ak",
+          "ISO_639_V2": "aka",
+          "words": []
+      },
+      {
+          "name": "Albanian",
+          "ISO_639_V1": "sq",
+          "ISO_639_V2": "sqi",
+          "ISO_639_V2_alt": "alb",
+          "words": ["tė","e","nė","do","nuk","ėshtė","i","mė","po","qė","dhe","pėr","njė","me","se","ta","unė","ka","ti","jo","te","mirė","mund","ju","ēfarė","nga","si","duhet","ne","kjo","kam","kėtė","ai","por","shumė","jam","di","kėtu","je","ke","a","mos","atė","tani","ajo","ishte","u","ku","vetėm","nėse","dua","kur","janė","edhe","mua","ata","rregull","kemi","sa","na","ty","gjithė","pse","duke","eshte","t","oh","apo","ky","tij","gjė","pak","jemi","parė","diēka","bėj","kush","keq","nje","im","faleminderit","qe","per","jeni","keni","vjen","dy","mendoj","lutem","jetė","para","tjetėr","bėrė","kėshtu","atje","kanė","sė","hej","pra","sepse","them","ja","time","tek","bėn","pa","ime","duket","asgjė","ndonjė","vėrtetė","shkojmė","eja","bukur","ndoshta","shiko","gjitha","ēka","pas","disa","xeb","kohė","tim","zot","qenė","kėto","zotėri","ma","ashtu","njeri","ēdo","prit","mendon","une","tėnde","kurrė","ato","atėherė","kishte","tuaj","shkoj","hajde","dreqin","ose","aty","saj","deri","kaq","ia","tyre","jashtė","shtėpi","thotė","prej","marrė","vdekur","mire","sikur","punė","isha","tha","as","dreq","gati","bėjmė","aq","brenda","ditė","yt","gjithēka","fundit","herė","shoh","pastaj","vend","dikush","kisha","shko","vėrtet","le","thjesht","bėsh","jote","tėnd","dashur","zoti","besoj","marr","z","akoma","juaj","fal","kete","ndodh","sigurisht","sot","pėrse","jep","poshtė","mjaft","epo","njerėz","shpejt","asnjė","njerėzit","drejtė","pėlqen","s","nevojė","shkon","madh","cfare","o","thėnė","mi","gjithmonė","thuaj","fund","ende","ok","tonė","madhe","ketu","tre","gjėra","jesh","doja","vogėl","veten","merr","gjatė","ate","sigurt","thashė","shume","askush","thua","ardhur","the","babi","tu","dini","kujdes","falni","djema","ndodhi","www","zemėr","dėgjo","vonė","bėhet","mbi","pėrsėri","bėni","jetėn","sapo","problem","mundem","babai","jem","kuptoj","ketė","re","jepi","pasur","ishin","thuash","mia","dėshiron","shoku","ishe","cili","koha","doni","bėjė","fare","vetem","mėnyrė","flas","gjėrat","vajza","rreth","fėmijė","vjet","ri","kėsaj","kėta","ndonjėherė","minuta","sonte","gjej","net","djalė","vetė","puna","fat","paratė","kupton","flet","l"
+          ]
+      },
+      {
+          "name": "Arabic",
+          "ISO_639_V1": "ar",
+          "ISO_639_V2": "ara",
+          "words": []
+      },
+      {
+          "name": "Aragonese",
+          "ISO_639_V1": "an",
+          "ISO_639_V2": "arg",
+          "words": []
+      },
+      {
+          "name": "Armenian",
+          "ISO_639_V1": "hy",
+          "ISO_639_V2": "hye",
+          "ISO_639_V2_alt": "arm",
+          "words": []
+      },
+      {
+          "name": "Assamese",
+          "ISO_639_V1": "as",
+          "ISO_639_V2": "asm",
+          "words": []
+      },
+      {
+          "name": "Avaric",
+          "ISO_639_V1": "av",
+          "ISO_639_V2": "ava",
+          "words": []
+      },
+      {
+          "name": "Avestan",
+          "ISO_639_V1": "ae",
+          "ISO_639_V2": "ave",
+          "words": []
+      },
+      {
+          "name": "Aymara",
+          "ISO_639_V1": "ay",
+          "ISO_639_V2": "aym",
+          "words": []
+      },
+      {
+          "name": "Azerbaijani",
+          "ISO_639_V1": "az",
+          "ISO_639_V2": "aze",
+          "words": []
+      },
+      {
+          "name": "Bambara",
+          "ISO_639_V1": "bm",
+          "ISO_639_V2": "bam",
+          "words": []
+      },
+      {
+          "name": "Bashkir",
+          "ISO_639_V1": "ba",
+          "ISO_639_V2": "bak",
+          "words": []
+      },
+      {
+          "name": "Basque",
+          "ISO_639_V1": "eu",
+          "ISO_639_V2": "eus",
+          "ISO_639_V2_alt": "baq",
+          "words": []
+      },
+      {
+          "name": "Belarusian",
+          "ISO_639_V1": "be",
+          "ISO_639_V2": "bel",
+          "words": []
+      },
+      {
+          "name": "Bengali",
+          "info": "(Bangla)",
+          "ISO_639_V1": "bn",
+          "ISO_639_V2": "ben",
+          "words": []
+      },
+      {
+          "name": "Bihari",
+          "ISO_639_V1": "bh",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Bislama",
+          "ISO_639_V1": "bi",
+          "ISO_639_V2": "bis",
+          "words": []
+      },
+      {
+          "name": "Bosnian",
+          "ISO_639_V1": "bs",
+          "ISO_639_V2": "bos",
+          "words": []
+      },
+      {
+          "name": "Breton",
+          "ISO_639_V1": "br",
+          "ISO_639_V2": "bre",
+          "words": []
+      },
+      {
+          "name": "Bulgarian",
+          "ISO_639_V1": "bg",
+          "ISO_639_V2": "bul",
+          "words": []
+      },
+      {
+          "name": "Burmese",
+          "ISO_639_V1": "my",
+          "ISO_639_V2": "mya",
+          "ISO_639_V2_alt": "bur",
+          "words": []
+      },
+      {
+          "name": "Catalan",
+          "ISO_639_V1": "ca",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Chamorro",
+          "ISO_639_V1": "ch",
+          "ISO_639_V2": "cha",
+          "words": []
+      },
+      {
+          "name": "Chechen",
+          "ISO_639_V1": "ce",
+          "ISO_639_V2": "che",
+          "words": []
+      },
+      {
+          "name": "Chichewa,Chewa,Nyanja",
+          "ISO_639_V1": "ny",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Chinese",
+          "ISO_639_V1": "zh",
+          "ISO_639_V2": "zho",
+          "ISO_639_V2_alt": "chi",
+          "words": ["我","你","的","是","了","他","么","们","在","有","这","那","不","什","个","来","要","就","一","人","里","会","没","她","吗","去","也","说","为","好","吧","知道","我的","和","你的","想","只","很","都","对","把","啊","怎","得","还","过","不是","到","样","能","事","看","我們","上","给","可以","现","斯","做","儿","时","点","开","让","就是","但","呢","着","它","這","如果","跟","邪","听","克","再","快","嗎","被","是的","大","先生","别","告","真的","谢","哦","话","械","见","当","芯","该","西","子","已","會","小","爱","特","不要","些","不知道","不能","因","觉","发","像","太","但是","多","打","机","來","好了","用","他的","诉","德","叫","什麼","真","干","心","走","比","死","嘿","出","车","一下","中","好吧","需要","经","妈","候","长","而","错","好的","间","又","国","起","动","杀","于","种","生","回","可","东","尔","欢","很好","他們","进","地","孩子","帮","离","找","尼","从","下","马","以","利","所以","关","哪","懈","行","家","拉","才","看到","說","手","法","噢","谁","头","无","嗯","工作","可能","薪","朋友","请","许","年","那些","一個","一起","然","吃","写","带","地方","沒有","有人","嗨","看看","自己","一定","事情","屑","希望","所","褉","感","气","不想","嘛","实","始","給","然后","個","相信","结","今天","几","题","放","讓","确","意思","成","所有","喜","對","之","一切","记","抱歉","一直","天","褌","钱","面","更","学","現在","边","你們","不起","等","变","准","查","阿","卡","這個","在哪","定","处","真是","保","想要","安","并","拿","情","爸爸","褋","您","美","非常","办","前","格","场","体","大家","呀","系","后","亲","明白","备","布","计","恩","找到","她的","老","艾","意","门","啦","米","本","问","上帝","必","沒","等等"
+          ]
+      },
+      {
+          "name": "Chinese(Simplified)",
+          "info": "(Simplified)",
+          "ISO_639_V1": "zh-Hans",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Chinese(Traditional)",
+          "info": "(Traditional)",
+          "ISO_639_V1": "zh-Hant",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Chuvash",
+          "ISO_639_V1": "cv",
+          "ISO_639_V2": "chv",
+          "words": []
+      },
+      {
+          "name": "Cornish",
+          "ISO_639_V1": "kw",
+          "ISO_639_V2": "cor",
+          "words": []
+      },
+      {
+          "name": "Corsican",
+          "ISO_639_V1": "co",
+          "ISO_639_V2": "cos",
+          "words": []
+      },
+      {
+          "name": "Cree",
+          "ISO_639_V1": "cr",
+          "ISO_639_V2": "cre",
+          "words": []
+      },
+      {
+          "name": "Croatian",
+          "ISO_639_V1": "hr",
+          "ISO_639_V2": "hrv",
+          "words": []
+      },
+      {
+          "name": "Czech",
+          "ISO_639_V1": "cs",
+          "ISO_639_V2": "ces",
+          "ISO_639_V2_alt": "cze",
+          "words": []
+      },
+      {
+          "name": "Danish",
+          "ISO_639_V1": "da",
+          "ISO_639_V2": "dan",
+          "words": ["er","jeg","det","du","ikke","i","at","en","og","har","vi","til","på","hvad","med","mig","så","for","de","dig","der","den","han","kan","af","vil","var","her","et","skal","ved","nu","men","om","ja","som","nej","min","noget","ham","hun","bare","kom","være","din","hvor","dem","ud","os","hvis","må","se","godt","have","fra","ville","okay","gør","lige","op","alle","lad","hvorfor","tak","tror","sig","kommer","hvordan","meget","hende","få","gøre","kunne","eller","gå","hvem","man","bliver","nok","havde","da","går","ingen","tilbage","efter","sagde","når","alt","jo","to","mit","ind","hej","aldrig","lidt","nogen","over","også","måske","mand","siger","far","skulle","selv","mere","får","hans","ser","vores","jer","sådan","dit","kun","deres","sammen","hele","mor","igen","blev","hold","ISO_639_V1er","ned","mine","komme","dag","undskyld","ISO_639_V1e","åh","denne","sige","dette","blive","god","helt","væk","været","fordi","end","laver","ISO_639_V1","gang","år","før","gjorde","tid","nogle","sted","mener","mange","fik","lille","dine","ting","altid","virkelig","mr","hjem","gud","siden","vent","elsker","anden","folk","brug","tale","gerne","finde","kender","hør","stadig","lide","andre","liv","e","fint","set","fanden","uden","vel","vej","klar","tre","nå","giv","ret","l","tog","penge","mod","skat","hen","hr","bedre","sidste","troede","aften","sir","sker","gjort","død","hendes","ven","vide","vær","morgen","intet","første","gik","arbejde","jeres","blevet","andet","hjælpe","give","samme","synes","forstår","høre","sin","vidste","hjælp","hey","navn","bedste","giver","under","eneste","holde","endnu","burde","ok","venner","engang","sikker","stop","taler","tro","fortælle","hedder","står","sikkert","nødt","længe","stor","fyr","pige","ude","bruge","måde","par","hver","fået","store","selvfølgelig","bange","hallo","lort","the","næste","verden","hos","døde","først","behøver","holder","øjeblik","børn","ellers","faktisk","skete","snart","finder","ihjel","ked","rigtigt","gamle","farvel","rigtig","lave","betyder","ligesom","mænd","tiden","fandt","stille","gode","ses","flere","kone","vist","galt","gange","pas","orden","slå","prøver","nye","disse","søn","huske"
+          ]
+      },
+      {
+          "name": "Divehi,Dhivehi,Maldivian",
+          "ISO_639_V1": "dv",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Dutch",
+          "info": "Flemish",
+          "ISO_639_V1": "nl",
+          "ISO_639_V2": "nld",
+          "ISO_639_V2_alt": "dut",
+          "words": []
+      },
+      {
+          "name": "Dzongkha",
+          "ISO_639_V1": "dz",
+          "ISO_639_V2": "dzo",
+          "words": []
+      },
+      {
+          "name": "English",
+          "ISO_639_V1": "en",
+          "ISO_639_V2": "eng",
+          "words": ["the","be","and","of","a","in","to","have","to","it","I","that","for","you","he","with","on","do","say","this","they","at","but","we","his","from","that","not","n’t","n’t","by","she","or","as","what","go","their","can","who","get","if","would","her","all","my","make","about","know","will","as","up","one","time","there","year","so","think","when","which","them","some","me","people","take","out","into","just","see","him","your","come","could","now","than","like","other","how","then","its","our","two","more","these","want","way","look","first","also","new","because","day","more","use","no","man","find","here","thing","give","many","well","only","those","tell","one","very","her","even","back","any","good","woman","through","us","life","child","there","work","down","may","after","should","call","world","over","school","still","try","in","as","last","ask","need","too","feel","three","when","state","never","become","between","high","really","something","most","another","much","family","own","out","leave","put","old","while","mean","on","keep","student","why","let","great","same","big","group","begin","seem","country","help","talk","where","turn","problem","every","start","hand","might","American","show","part","about","against","place","over","such","again","few","case","most","week","company","where","system","each","right","program","hear","so","question","during","work","play","government","run","small","number","off","always","move","like","night","live","Mr","point","believe","hold","today","bring","happen","next","without","before","large","all","million","must","home","under","water","room","write","mother","area","national","money","story","young","fact","month","different","lot","right","study","book","eye","job","word","though","business","issue","side","kind","four","head","far","black","long","both","little","house","yes","after","since","long","provide","service","around","friend","important","father","sit","away","until","power","hour","game","often","yet","line","political","end","among","ever","stand","bad","lose","however","member","pay","law","meet","car","city","almost","include","continue","set","later","community","much","name"
+          ]
+      },
+      {
+          "name": "Esperanto",
+          "ISO_639_V1": "eo",
+          "ISO_639_V2": "epo",
+          "words": []
+      },
+      {
+          "name": "Estonian",
+          "ISO_639_V1": "et",
+          "ISO_639_V2": "est",
+          "words": []
+      },
+      {
+          "name": "Ewe",
+          "ISO_639_V1": "ee",
+          "ISO_639_V2": "ewe",
+          "words": []
+      },
+      {
+          "name": "Faroese",
+          "ISO_639_V1": "fo",
+          "ISO_639_V2": "fao",
+          "words": []
+      },
+      {
+          "name": "Fijian",
+          "ISO_639_V1": "fj",
+          "ISO_639_V2": "fij",
+          "words": []
+      },
+      {
+          "name": "Finnish",
+          "ISO_639_V1": "fi",
+          "ISO_639_V2": "fin",
+          "words": []
+      },
+      {
+          "name": "French",
+          "ISO_639_V1": "fr",
+          "ISO_639_V2": "fra",
+          "ISO_639_V2_alt": "fre",
+          "words": []
+      },
+      {
+          "name": "Fula,Fulah,Pulaar,Pular",
+          "ISO_639_V1": "ff",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Galician",
+          "ISO_639_V1": "gl",
+          "ISO_639_V2": "glg",
+          "words": []
+      },
+      {
+          "name": "Gaelic",
+          "info": "(Scottish)",
+          "ISO_639_V1": "gd",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Gaelic",
+          "info": "(Manx)",
+          "ISO_639_V1": "gv",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Georgian",
+          "ISO_639_V1": "ka",
+          "ISO_639_V2": "kat",
+          "ISO_639_V2_alt": "geo",
+          "words": []
+      },
+      {
+          "name": "German",
+          "ISO_639_V1": "de",
+          "ISO_639_V2": "deu",
+          "ISO_639_V2_alt": "ger",
+          "words": ["ich","sie","das","ist","du","nicht","die","und","es","der","was","wir","er","zu","ein","in","mit","mir","den","wie","ja","auf","mich","so","eine","aber","hier","sind","für","von","haben","hat","dich","war","dass","wenn","an","da","nein","bin","noch","dir","nur","habe","ihr","sich","einen","uns","hast","dem","ihn","aus","kann","gut","auch","schon","jetzt","im","sein","mal","dann","meine","als","um","mein","doch","bist","wird","keine","nach","alles","man","lch","oder","nichts","wo","werden","weiß","will","geht","mehr","warum","hab","ihnen","bitte","etwas","bei","muss","los","immer","oh","vor","mann","zum","wieder","sehr","sehen","sagen","also","gehen","wer","alle","denn","machen","ihm","können","diese","komm","danke","euch","einem","tun","einer","gibt","nie","über","des","soll","kein","vielleicht","weg","deine","wissen","am","werde","leben","kommen","kommt","müssen","viel","wirklich","frau","hatte","heute","ok","willst","dein","würde","tut","ihre","ganz","zeit","bis","wollen","einfach","macht","gott","zurück","nun","weil","damit","dieser","kannst","wurde","gesagt","wäre","seine","wollte","na","zwei","hallo","meinen","sicher","weißt","sir","morgen","ab","leid","lassen","hey","waren","zur","lass","e","geld","liebe","ISO_639_V1","leute","vater","genau","sagte","hätte","mach","raus","durch","lhr","könnte","schön","wohl","gesehen","keinen","klar","glaube","her","okay","mutter","sag","dieses","nacht","besser","ohne","unsere","jemand","sei","reden","gerade","ob","gehört","geh","möchte","dort","sagt","anderen","gemacht","hör","sollte","selbst","diesen","gute","dachte","paar","weiter","vom","ins","herr","wirst","geben","ordnung","passiert","meiner","lange","gar","mädchen","meinem","hören","sieht","daß","guten","hin","gleich","ach","diesem","freund","seit","welt","musst","hause","natürlich","abend","angst","drei","recht","richtig","viele","deinen","finden","wieso","bleiben","tot","unter","junge","haus","rein","essen","davon","nehmen","sollen","helfen","schnell","machst","eines","andere","unser","warte","wegen","menschen","stimmt","dafür","darf","kinder","genug","sonst","ganze","scheiße","he","halt","sollten","zusammen","gegen","jahre","erst","denke","steht","habt","verdammt","moment","ihren","glauben","bringen","gib"
+          ]
+      },
+      {
+          "name": "Greek",
+          "info": "Modern (1453-)",
+          "ISO_639_V1": "el",
+          "ISO_639_V2": "ell",
+          "ISO_639_V2_alt": "gre",
+          "words": []
+      },
+      {
+          "name": "Greenlandic",
+          "ISO_639_V1": "kl",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Guarani",
+          "ISO_639_V1": "gn",
+          "ISO_639_V2": "grn",
+          "words": []
+      },
+      {
+          "name": "Gujarati",
+          "ISO_639_V1": "gu",
+          "ISO_639_V2": "guj",
+          "words": []
+      },
+      {
+          "name": "HaitianCreole",
+          "ISO_639_V1": "ht",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Hausa",
+          "ISO_639_V1": "ha",
+          "ISO_639_V2": "hau",
+          "words": []
+      },
+      {
+          "name": "Hebrew",
+          "ISO_639_V1": "he",
+          "ISO_639_V2": "heb",
+          "words": []
+      },
+      {
+          "name": "Herero",
+          "ISO_639_V1": "hz",
+          "ISO_639_V2": "her",
+          "words": []
+      },
+      {
+          "name": "Hindi",
+          "ISO_639_V1": "hi",
+          "ISO_639_V2": "hin",
+          "words": []
+      },
+      {
+          "name": "HiriMotu",
+          "ISO_639_V1": "ho",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Hungarian",
+          "ISO_639_V1": "hu",
+          "ISO_639_V2": "hun",
+          "words": []
+      },
+      {
+          "name": "Icelandic",
+          "ISO_639_V1": "is",
+          "ISO_639_V2": "isl",
+          "ISO_639_V2_alt": "ice",
+          "words": []
+      },
+      {
+          "name": "Ido",
+          "ISO_639_V1": "io",
+          "ISO_639_V2": "ido",
+          "words": []
+      },
+      {
+          "name": "Igbo",
+          "ISO_639_V1": "ig",
+          "ISO_639_V2": "ibo",
+          "words": []
+      },
+      {
+          "name": "Indonesian",
+          "ISO_639_V1": "id",
+          "ISO_639_V1_alt": "in",
+          "ISO_639_V2": "ind",
+          "words": ["yang","dan","di","ini","untuk","mereka","kita","dari","adalah","tidak","itu","akan","dalam","bahwa","dengan","anda","ada","saya","pada","kami","ke","lebih","telah","seperti","planet","apa","satu","tahun","hal","tapi","bumi","besar","sangat","bisa","semua","mungkin","hanya","orang","memiliki","jika","sebuah","beberapa","atau","banyak","dunia","karena","menjadi","dapat","lain","benar","oleh","sebagai","bintang","melihat","aku","luar","alam","dia","tahu","hidup","jadi","apakah","manusia","sama","sekarang","datang","harus","bagaimana","hari","ketika","sini","narator","tempat","salah","membuat","sendiri","tentang","semesta","sistem","tetapi","mana","waktu","bulan","terjadi","paling","menemukan","pergi","kehidupan","baru","air","setiap","kecil","juga","sesuatu","cara","baik","bahkan","sekitar","kemudian","ia","kembali","jauh","matahari","seluruh","saat","surya","kuno","lalu","mulai","pernah","pertama","angkasa","ruang","begitu","selama","saja","makhluk","keluar","atas","cukup","tata","melakukan","energi","bawah","biasa","bagi","hampir","teknologi","sana","gravitasi","uang","ingin","lagi","pikir","sampai","mengapa","laut","setelah","secara","disebut","mengambil","sedikit","seorang","mengatakan","panas","namun","dua","melalui","asing","cahaya","bagian","bekerja","menarik","jenis","permukaan","ufo","antara","berpikir","ditemukan","masih","sudah","percaya","gas","masyarakat","kali","mendapatkan","bukan","aneh","penting","bentuk","teori","para","sumber","masalah","perjalanan","mars","langit","ilmuwan","kau","dekat","sebenarnya","nya","menggunakan","awal","amerika","berbeda","menciptakan","tanpa","juta","sehingga","berarti","menunjukkan","berada","tak","suatu","pesawat","bukti","pemerintah","tentu","kekuatan","mencari","miliar","masa","lakukan","jupiter","terus","udara","rumah","diri","lainnya","galaksi","kepada","daya","raksasa","ribuan","ya","memberikan","es","akhirnya","gambar","mesin","meskipun","tanah","mencoba","pertanyaan","alien","perlu","malam","lihat","lama","perang","tersebut","merupakan","jelas","sementara","akhir","terlalu","kuat","maka","batu","peradaban","tinggi","selalu","daripada","tampaknya","membawa","dingin","terbesar","punya","belum","sejarah","tetap","sebelum","lubang","sebagian","dibuat","alasan","mil","titik","cepat","terlihat","menghasilkan","proses","terbang","sedang","dasar","digunakan","penemuan","ilmiah","anak","muncul","turun","depan","jam","pengetahuan","gunung","atmosfer","dikenal","sekali","terakhir","bola","segala","perusahaan","luas","emas","bahan","membangun","pun","tengkorak","negara","berubah","ekonomi","siapa","selatan","the","tumbuh","jalan","tepat","tertentu","indah"
+          ]
+      },
+      {
+          "name": "Interlingua",
+          "ISO_639_V1": "ia",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Interlingue",
+          "ISO_639_V1": "ie",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Inuktitut",
+          "ISO_639_V1": "iu",
+          "ISO_639_V2": "iku",
+          "words": []
+      },
+      {
+          "name": "Inupiak",
+          "ISO_639_V1": "ik",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Irish",
+          "ISO_639_V1": "ga",
+          "ISO_639_V2": "gle",
+          "words": []
+      },
+      {
+          "name": "Italian",
+          "ISO_639_V1": "it",
+          "ISO_639_V2": "ita",
+          "words": ["non","che","di","e","la","il","un","a","è","per","in","una","sono","mi","ho","si","lo","ma","ti","ha","le","cosa","con","i","no","da","se","come","io","ci","questo","qui","hai","bene","sei","tu","del","me","mio","al","solo","sì","tutto","te","più","della","era","c","lei","gli","mia","questa","ne","fare","quando","essere","fatto","perché","so","ora","o","va","mai","chi","detto","così","alla","quello","tutti","oh","anche","molto","dei","lui","voglio","niente","stato","grazie","dove","abbiamo","tuo","nel","allora","sta","posso","siamo","uno","vuoi","hanno","noi","prima","suo","stai","tua","due","ancora","casa","fa","sua","qualcosa","su","sia","sai","sempre","dire","loro","quella","andiamo","andare","delle","altro","vi","po","quel","li","ehi","devo","signore","nella","ad","tempo","forse","certo","vita","fuori","voi","uomo","sto","adesso","davvero","anni","cosi","perche","dio","poi","visto","ok","via","parte","proprio","puoi","credo","piu","sul","beh","volta","cose","quanto","ciao","nessuno","amico","dopo","può","padre","fai","vuole","qualcuno","posto","lavoro","meglio","devi","già","ed","vedere","giorno","cazzo","dai","cui","bisogno","dal","vai","ogni","senza","ce","vieni","ecco","male","stata","troppo","qualche","signor","dobbiamo","dalla","sarà","tanto","avete","mamma","ll","modo","grande","tra","prego","miei","favore","altra","alle","sa","sembra","quindi","guarda","soldi","sulla","dispiace","parlare","sarebbe","tre","ai","gente","deve","perchè","dice","aspetta","madre","momento","nuovo","questi","mondo","successo","possiamo","nostro","piace","siete","forza","aveva","avere","ero","figlio","dentro","oggi","ragazzi","penso","accordo","facendo","queste","é","fosse","faccio","degli","giusto","altri","avanti","nome","avevo","lì","farlo","donna","notte","basta","subito","tutte","ah","tutta","sapere","signora","testa","faccia","porta","bella","sicuro","eh","senti","vado","persone","uomini","sentito","nostra","preso","merda","tipo","appena","sotto","idea","stare","ragazzo","morto","paura","buona","ragazza","abbia","avuto","stesso","erano","moglie","potrebbe","presto","suoi","pronto","pensi","problema","capito","succede","ii","amore","tuoi","papà","volte","gia","insieme","tesoro","domani"
+          ]
+      },
+      {
+          "name": "Japanese",
+          "ISO_639_V1": "ja",
+          "ISO_639_V2": "jpn",
+          "words": ["の","に","する","は","を","が","と","年","で","だ","月","も","から","日","成る","こと","有る","よる","や","など","言う","日本","為","この","人","その","まで","もの","へ","又","これ","行う","よう","出来る","駅","国","より","大学","現在","後","か","線","ぬ","放送","号","軍","無い","部","持つ","所","名","回","世界","時","戦","時代","東京","おく","でも","呼ぶ","その後","会","それ","機","会う","受ける","多い","選手","場合","対する","しかし","つく","昭和","作品","地","中","使用","共に","学校","語","彼","行く","アメリカ","当時","番組","車","社","川","映画","位","見る","テレビ","系","研究","町","東","存在","活動","発売","他","出身","年代","会社","権","開発","分","西","鉄道","法","局","更に","のみ","間","山","式","島","なお","可能","ドイツ","代表","使う","同じ","曲","地域","作","事","版","取る","登場","チーム","世","時間","於ける","中心","大会","多く","南","シリーズ","賞","北","開始","フランス","一部","始める","平成","知る","子","ゲーム","道","角","用いる","および","館","場","体","世紀","音楽","参加","発表","記録","掛ける","高い","利用","際","出場","国際","リーグ","所属","務める","関係","考える","イギリス","生まれる","入る","度","州","全て","明治","生","点","力","良い","だけ","王","試合","得る","優勝","都市","含む","アルバム","込む","問題","シーズン","開催","大阪","位置","監督","上","主","設置","郡","戦争","物","艦","地方","隊","期","城","にて","長","計画","番","必要","出す","一般","変更","本","中央","関する","出る","出演","作る","基","事業","委員","バス","市","以下","社会","教育","事件","特に","卒業","役","当初","結果","選挙","機関","大きい","高等","獲得","政府","戦う","中国","最初","設立","置く","種","金","建設","派","続く","影響","文化","科","外","デビュー","台","情報","そして","航空","村","政治","同様","販売","面","異なる","担当","最も","寺","攻撃","人口","ながら","及び","区","馬","プロ","経済","付ける","地区","与える","それぞれ","年間","水","構成","路線","射る","アメリカ合衆国","米","採用","伴う","主義","上げる","グループ","女性","手","システム","歴史","意味","一方"
+          ]
+      },
+      {
+          "name": "Javanese",
+          "ISO_639_V1": "jv",
+          "ISO_639_V2": "jav",
+          "words": []
+      },
+      {
+          "name": "Kalaallisut,Greenlandic",
+          "ISO_639_V1": "kl",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Kannada",
+          "ISO_639_V1": "kn",
+          "ISO_639_V2": "kan",
+          "words": []
+      },
+      {
+          "name": "Kanuri",
+          "ISO_639_V1": "kr",
+          "ISO_639_V2": "kau",
+          "words": []
+      },
+      {
+          "name": "Kashmiri",
+          "ISO_639_V1": "ks",
+          "ISO_639_V2": "kas",
+          "words": []
+      },
+      {
+          "name": "Kazakh",
+          "ISO_639_V1": "kk",
+          "ISO_639_V2": "kaz",
+          "words": []
+      },
+      {
+          "name": "Khmer",
+          "ISO_639_V1": "km",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Kikuyu",
+          "ISO_639_V1": "ki",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Kinyarwanda",
+          "info": "(Rwanda)",
+          "ISO_639_V1": "rw",
+          "ISO_639_V2": "kin",
+          "words": []
+      },
+      {
+          "name": "Kirundi",
+          "ISO_639_V1": "rn",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Kyrgyz",
+          "ISO_639_V1": "ky",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Komi",
+          "ISO_639_V1": "kv",
+          "ISO_639_V2": "kom",
+          "words": []
+      },
+      {
+          "name": "Kongo",
+          "ISO_639_V1": "kg",
+          "ISO_639_V2": "kon",
+          "words": []
+      },
+      {
+          "name": "Korean",
+          "ISO_639_V1": "ko",
+          "ISO_639_V2": "kor",
+          "words": []
+      },
+      {
+          "name": "Kurdish",
+          "ISO_639_V1": "ku",
+          "ISO_639_V2": "kur",
+          "words": []
+      },
+      {
+          "name": "Kwanyama",
+          "ISO_639_V1": "kj",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Lao",
+          "ISO_639_V1": "lo",
+          "ISO_639_V2": "lao",
+          "words": []
+      },
+      {
+          "name": "Latin",
+          "ISO_639_V1": "la",
+          "ISO_639_V2": "lat",
+          "words": []
+      },
+      {
+          "name": "Latvian",
+          "info": "(Lettish)",
+          "ISO_639_V1": "lv",
+          "ISO_639_V2": "lav",
+          "words": []
+      },
+      {
+          "name": "Limburgish",
+          "info": "(Limburger)",
+          "ISO_639_V1": "li",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Lingala",
+          "ISO_639_V1": "ln",
+          "ISO_639_V2": "lin",
+          "words": []
+      },
+      {
+          "name": "Lithuanian",
+          "ISO_639_V1": "lt",
+          "ISO_639_V2": "lit",
+          "words": []
+      },
+      {
+          "name": "Luga-Katanga",
+          "ISO_639_V1": "lu",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Luganda,Ganda",
+          "ISO_639_V1": "lg",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Luxembourgish",
+          "ISO_639_V1": "lb",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Manx",
+          "ISO_639_V1": "gv",
+          "ISO_639_V2": "glv",
+          "words": []
+      },
+      {
+          "name": "Macedonian",
+          "ISO_639_V1": "mk",
+          "ISO_639_V2": "mkd",
+          "ISO_639_V2_alt": "mac",
+          "words": []
+      },
+      {
+          "name": "Malagasy",
+          "ISO_639_V1": "mg",
+          "ISO_639_V2": "mlg",
+          "words": []
+      },
+      {
+          "name": "Malay",
+          "ISO_639_V1": "ms",
+          "ISO_639_V2": "msa",
+          "ISO_639_V2_alt": "may",
+          "words": []
+      },
+      {
+          "name": "Malayalam",
+          "ISO_639_V1": "ml",
+          "ISO_639_V2": "mal",
+          "words": []
+      },
+      {
+          "name": "Maltese",
+          "ISO_639_V1": "mt",
+          "ISO_639_V2": "mlt",
+          "words": []
+      },
+      {
+          "name": "Maori",
+          "ISO_639_V1": "mi",
+          "ISO_639_V2": "mri",
+          "ISO_639_V2_alt": "mao",
+          "words": []
+      },
+      {
+          "name": "Marathi",
+          "ISO_639_V1": "mr",
+          "ISO_639_V2": "mar",
+          "words": []
+      },
+      {
+          "name": "Marshallese",
+          "ISO_639_V1": "mh",
+          "ISO_639_V2": "mah",
+          "words": []
+      },
+      {
+          "name": "Moldavian",
+          "ISO_639_V1": "mo",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Mongolian",
+          "ISO_639_V1": "mn",
+          "ISO_639_V2": "mon",
+          "words": []
+      },
+      {
+          "name": "Nauru",
+          "ISO_639_V1": "na",
+          "ISO_639_V2": "nau",
+          "words": []
+      },
+      {
+          "name": "Navajo",
+          "ISO_639_V1": "nv",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Ndonga",
+          "ISO_639_V1": "ng",
+          "ISO_639_V2": "ndo",
+          "words": []
+      },
+      {
+          "name": "NorthernNdebele",
+          "ISO_639_V1": "nd",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Nepali",
+          "ISO_639_V1": "ne",
+          "ISO_639_V2": "nep",
+          "words": []
+      },
+      {
+          "name": "Norwegian",
+          "ISO_639_V1": "no",
+          "ISO_639_V2": "nor",
+          "words": []
+      },
+      {
+          "name": "Norwegian-bokmål",
+          "ISO_639_V1": "nb",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Norwegian-nynorsk",
+          "ISO_639_V1": "nn",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Nuosu",
+          "ISO_639_V1": "ii",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Occitan",
+          "ISO_639_V1": "oc",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Ojibwe",
+          "ISO_639_V1": "oj",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "OldChurchSlavonic,OldBulgarian",
+          "ISO_639_V1": "cu",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Oriya",
+          "ISO_639_V1": "or",
+          "ISO_639_V2": "ori",
+          "words": []
+      },
+      {
+          "name": "Oromo",
+          "info": "(AfaanOromo)",
+          "ISO_639_V1": "om",
+          "ISO_639_V2": "orm",
+          "words": []
+      },
+      {
+          "name": "Ossetian",
+          "ISO_639_V1": "os",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Pāli",
+          "ISO_639_V1": "pi",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Pashto,Pushto",
+          "ISO_639_V1": "ps",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Persian",
+          "info": "(Farsi)",
+          "ISO_639_V1": "fa",
+          "ISO_639_V2": "fas",
+          "ISO_639_V2_alt": "per",
+          "words": []
+      },
+      {
+          "name": "Polish",
+          "ISO_639_V1": "pl",
+          "ISO_639_V2": "pol",
+          "words": []
+      },
+      {
+          "name": "Portuguese",
+          "ISO_639_V1": "pt",
+          "ISO_639_V2": "por",
+          "words": ["que","o","a","não","de","é","e","um","eu","para","se","me","uma","está","com","por","do","te","os","em","ele","bem","isso","mas","como","da","você","sim","no","as","mais","meu","aqui","na","muito","vamos","foi","estou","ela","vai","fazer","tem","isto","já","minha","tudo","só","nos","ser","ao","tenho","agora","tu","vou","à","sei","quando","lá","há","porque","onde","nada","seu","estás","quem","então","era","sua","ou","lhe","quero","sou","nós","coisa","são","ter","dizer","eles","pode","esta","bom","mesmo","todos","mim","dos","estava","posso","este","ver","nunca","assim","estão","casa","lo","até","disse","quer","temos","tempo","acho","ir","favor","obrigado","também","tens","deus","quê","ainda","vez","noite","pai","tão","teu","falar","tua","melhor","dia","sobre","certo","sempre","sabe","és","depois","vida","mãe","oh","nem","senhor","estamos","anos","olá","talvez","sr","homem","sem","sabes","alguém","das","boa","algo","ti","alguma","vocês","coisas","tinha","dois","dele","claro","vais","estar","ficar","aí","pelo","pessoas","queres","essa","esse","verdade","faz","parece","grande","antes","dinheiro","ninguém","apenas","pouco","preciso","la","comigo","outra","trabalho","merda","tipo","vão","fora","vá","espera","qualquer","hoje","qual","todo","olha","pela","podes","saber","toda","deve","daqui","podemos","filho","mulher","mundo","ok","disso","meus","seus","nome","dar","cá","seja","outro","nosso","pois","diz","num","nossa","quanto","ei","sair","queria","vem","volta","amigo","novo","embora","lugar","será","certeza","três","sério","mal","têm","desculpa","carro","às","problema","menos","passa","vezes","nas","ali","dela","dentro","aconteceu","querida","primeiro","amor","pensar","todas","cara","lado","fez","contigo","aos","parte","consigo","anda","algum","numa","aquele","hora","voltar","homens","dias","gente","tentar","gosto","porquê","vi","tarde","pensei","entre","suas","los","duas","obrigada","desculpe","sabia","fui","podem","atrás","uns","cabeça","fica","somos","pra","frente","cidade","amanhã","cima","momento","razão","nenhum","família","amigos","desde","vos","tal","horas","sinto","acha","achas","polícia","outros","foram","tenha","seria","medo","tanto","pronto"
+          ]
+      },
+      {
+          "name": "Punjabi",
+          "info": "(Eastern)",
+          "ISO_639_V1": "pa",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Quechua",
+          "ISO_639_V1": "qu",
+          "ISO_639_V2": "que",
+          "words": []
+      },
+      {
+          "name": "Romansh",
+          "ISO_639_V1": "rm",
+          "ISO_639_V2": "roh",
+          "words": []
+      },
+      {
+          "name": "Romanian",
+          "ISO_639_V1": "ro",
+          "ISO_639_V2": "ron",
+          "ISO_639_V2_alt": "rum",
+          "words": []
+      },
+      {
+          "name": "Russian",
+          "ISO_639_V1": "ru",
+          "ISO_639_V2": "rus",
+          "words": ["я","не","что","в","и","ты","это","на","с","он","вы","как","мы","да","а","мне","меня","у","нет","так","но","то","все","тебя","его","за","о","она","тебе","если","они","бы","же","ну","здесь","к","из","есть","чтобы","для","хорошо","когда","вас","только","по","вот","просто","был","знаю","нас","всё","было","от","может","кто","вам","очень","их","там","будет","уже","почему","еще","быть","где","спасибо","ничего","сейчас","или","могу","хочу","нам","чем","мой","до","надо","этого","ее","теперь","давай","знаешь","нужно","больше","этом","нибудь","раз","со","была","этот","ему","ладно","эй","время","тоже","даже","хочешь","сказал","ли","себя","думаю","пока","должен","потому","никогда","ни","тут","ещё","её","пожалуйста","сюда","привет","тогда","конечно","моя","него","сегодня","один","тобой","правда","лучше","об","были","того","можно","мной","всегда","сказать","день","сэр","без","можешь","чего","эти","дело","значит","лет","много","во","делать","буду","порядке","должны","такой","ведь","ним","всего","сделать","хотел","твой","жизнь","ей","мистер","потом","через","себе","них","всех","такое","им","куда","том","мама","после","человек","люди","слишком","иди","зачем","этим","немного","сколько","этой","знаете","боже","ней","эту","который","отец","свою","деньги","два","под","твоя","мои","никто","моей","думаешь","друг","жизни","эта","назад","видел","кажется","точно","вместе","люблю","мог","случилось","сам","нравится","черт","какой","людей","папа","домой","тот","скажи","которые","должна","три","всем","сделал","возможно","прошу","будем","дома","парень","снова","говорит","место","отсюда","можем","будешь","пошли","делаешь","совсем","говорил","понимаю","завтра","хочет","простите","разве","давайте","хотите","отлично","сказала","туда","прямо","времени","вами","лишь","своей","хватит","думал","можете","дом","дела","знать","дай","понял","помочь","говорить","слушай","свои","поэтому","прости","знает","именно","знал","тем","кого","смотри","каждый","ваш","похоже","найти","моего","наш","мать","одна","имя","про","говорю","будут","оно","свой","нельзя","извините","стоит","действительно","зовут","поговорить","доктор","перед","несколько","нужен","происходит","ко","господи","возьми","мою","тех","нами","вижу","должно","наверное","откуда","понимаешь","верно","скорo"
+          ]
+      },
+      {
+          "name": "Sami",
+          "ISO_639_V1": "se",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Samoan",
+          "ISO_639_V1": "sm",
+          "ISO_639_V2": "smo",
+          "words": []
+      },
+      {
+          "name": "Sango",
+          "ISO_639_V1": "sg",
+          "ISO_639_V2": "sag",
+          "words": []
+      },
+      {
+          "name": "Sanskrit",
+          "ISO_639_V1": "sa",
+          "ISO_639_V2": "san",
+          "words": []
+      },
+      {
+          "name": "Serbian",
+          "ISO_639_V1": "sr",
+          "ISO_639_V2": "srp",
+          "words": []
+      },
+      {
+          "name": "Serbo-Croatian",
+          "ISO_639_V1": "sh",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Sesotho",
+          "ISO_639_V1": "st",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Setswana",
+          "ISO_639_V1": "tn",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Shona",
+          "ISO_639_V1": "sn",
+          "ISO_639_V2": "sna",
+          "words": []
+      },
+      {
+          "name": "SichuanYi",
+          "ISO_639_V1": "ii",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Sindhi",
+          "ISO_639_V1": "sd",
+          "ISO_639_V2": "snd",
+          "words": []
+      },
+      {
+          "name": "Sinhalese",
+          "ISO_639_V1": "si",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Siswati",
+          "ISO_639_V1": "ss",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Slovak",
+          "ISO_639_V1": "sk",
+          "ISO_639_V2": "slk",
+          "ISO_639_V2_alt": "slo",
+          "words": []
+      },
+      {
+          "name": "Slovenian",
+          "ISO_639_V1": "sl",
+          "ISO_639_V2": "slv",
+          "words": []
+      },
+      {
+          "name": "Somali",
+          "ISO_639_V1": "so",
+          "ISO_639_V2": "som",
+          "words": []
+      },
+      {
+          "name": "SouthernNdebele",
+          "ISO_639_V1": "nr",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Spanish",
+          "ISO_639_V1": "es",
+          "ISO_639_V2": "null",
+          "words": ["de","que","no","a","la","el","y","es","en","lo","un","qué","por","me","una","te","se","los","con","para","mi","está","si","sí","pero","bien","las","yo","su","eso","aquí","del","al","como","le","tu","más","todo","ya","muy","esto","vamos","ahora","ha","esta","hay","algo","estoy","tú","tengo","así","nada","nos","cuando","cómo","sé","él","estás","sólo","o","quiero","gracias","tiene","este","soy","he","puedo","bueno","era","ser","vez","hacer","todos","fue","son","ella","eres","usted","tienes","puede","señor","quién","ese","voy","creo","casa","porque","hola","tan","favor","dónde","sus","dos","nunca","sabes","verdad","quieres","mucho","mí","tiempo","estabawas","entoncesthen","mejorbest","esathat","haceago","hombreman","diosgod","vawill","tambiénalso","vidalife","estánare","sinwithout","srsr","versee","hashave","siemprealways","ahíthere","tiyou","hastato","sientoam","puedescan","nior","decirsay","ohoh","sobreabout","añosyears old","tenemoshave","unoone","díaday","cosasstuff","nochenight","alguiensomeone","antesbefore","mismy","irgo","pocolittle","otraother","quierewants","solosingle","nadienobody","nosotrosus","gentepeople","pareceseems","padrefather","dineromoney","estarbe","hechodone","lesthem","seais","estamoswe","mismosame","dijosaid","mirasight","trabajowork","pasapass","claroclear","vasyou","ellosthey","mañanamorning","otroother","hanhave","hablartalk","despuésafter","desdefrom","talsuch","mundoworld","sabeknow","acuerdoagreement","habíahad","momentotime","fueraout","hijoson","amigofriend","dondewhere","seguroinsurance","podríacould","mujerwoman","díasdays","madremother","tusyour","cosathing","allíthere","lugarplace","dicesays","gustalike","grangreat","teníahad","seráwill","mierdashit","mamámom","papádad","hoytoday","esperawaiting","tresthree","vensee","buenagood","tenerhave","luegothen","dijeI","podemoscan","nuevonew","estadostate","menosless","tipotype","nuestroour","debeshould","sidobeen","buengood","conmigome","malwrong","todasAll","nombrename","míomine","creesthink","haciendodoing","todathroughout","amorlove","vistoviewed","queríawould","importamatter","tardeafternoon","partepart","estasthese","tienenhave","aúnyet","necesitoneed","nuestraour","tantoso","eheh","cadaeach","vesee","vecestimes","horatime","contigowith you","haberhave","oyehears","buenasgood","hombresmen","hacerlodo","demasiadotoo","hacesdo","dichosaying","quienwhoever","saberknow","ahah","entrebetween","adiósadieu","vayago","unosabout","ciertocertain","deboI","problemaproblem","razónreason","esosthose","algunaany","puesfor","quizáperhaps","hemoswe","ideaidea","veosee","chicagirl","policíapolice","amigospeople","hizomade","serioserious","realmentereally","ustedesyou","estosthese","cabezahead","digosay","hermanobrother","vango","cariñoaffection","salirleave","valevoucher","familiafamily","pasadolast","cuentaaccount","muchasmany","algúnsome","somosUs","señoraMrs.","puedencan","muertodead","viejoold","nochesnights","ladoside","deberíashould","todavíayet","sabíaknew","rápidofast","vessee","udyou","suerteluck","cuidadocare","seríawould","mientraswhile","dagives","primerafirst","nuevanew"
+          ]
+      },
+      {
+          "name": "Sundanese",
+          "ISO_639_V1": "su",
+          "ISO_639_V2": "sun",
+          "words": []
+      },
+      {
+          "name": "Swahili",
+          "info": "(Kiswahili)",
+          "ISO_639_V1": "sw",
+          "ISO_639_V2": "swa",
+          "words": []
+      },
+      {
+          "name": "Swati",
+          "ISO_639_V1": "ss",
+          "ISO_639_V2": "ssw",
+          "words": []
+      },
+      {
+          "name": "Swedish",
+          "ISO_639_V1": "sv",
+          "ISO_639_V2": "swe",
+          "words": []
+      },
+      {
+          "name": "ISO_639_V1alog",
+          "ISO_639_V1": "tl",
+          "ISO_639_V2": "tgl",
+          "words": []
+      },
+      {
+          "name": "Tahitian",
+          "ISO_639_V1": "ty",
+          "ISO_639_V2": "tah",
+          "words": []
+      },
+      {
+          "name": "Tajik",
+          "ISO_639_V1": "tg",
+          "ISO_639_V2": "tgk",
+          "words": []
+      },
+      {
+          "name": "Tamil",
+          "ISO_639_V1": "ta",
+          "ISO_639_V2": "tam",
+          "words": []
+      },
+      {
+          "name": "Tatar",
+          "ISO_639_V1": "tt",
+          "ISO_639_V2": "tat",
+          "words": []
+      },
+      {
+          "name": "Telugu",
+          "ISO_639_V1": "te",
+          "ISO_639_V2": "tel",
+          "words": []
+      },
+      {
+          "name": "Thai",
+          "ISO_639_V1": "th",
+          "ISO_639_V2": "tha",
+          "words": []
+      },
+      {
+          "name": "Tibetan",
+          "ISO_639_V1": "bo",
+          "ISO_639_V2": "bod",
+          "ISO_639_V2_alt": "tib",
+          "words": []
+      },
+      {
+          "name": "Tigrinya",
+          "ISO_639_V1": "ti",
+          "ISO_639_V2": "tir",
+          "words": []
+      },
+      {
+          "name": "Tonga",
+          "ISO_639_V1": "to",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Tsonga",
+          "ISO_639_V1": "ts",
+          "ISO_639_V2": "tso",
+          "words": []
+      },
+      {
+          "name": "Turkish",
+          "ISO_639_V1": "tr",
+          "ISO_639_V2": "tur",
+          "words": []
+      },
+      {
+          "name": "Turkmen",
+          "ISO_639_V1": "tk",
+          "ISO_639_V2": "tuk",
+          "words": []
+      },
+      {
+          "name": "Twi",
+          "ISO_639_V1": "tw",
+          "ISO_639_V2": "twi",
+          "words": []
+      },
+      {
+          "name": "Uyghur",
+          "ISO_639_V1": "ug",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Ukrainian",
+          "ISO_639_V1": "uk",
+          "ISO_639_V2": "ukr",
+          "words": []
+      },
+      {
+          "name": "Urdu",
+          "ISO_639_V1": "ur",
+          "ISO_639_V2": "urd",
+          "words": []
+      },
+      {
+          "name": "Uzbek",
+          "ISO_639_V1": "uz",
+          "ISO_639_V2": "uzb",
+          "words": []
+      },
+      {
+          "name": "Venda",
+          "ISO_639_V1": "ve",
+          "ISO_639_V2": "ven",
+          "words": []
+      },
+      {
+          "name": "Vietnamese",
+          "ISO_639_V1": "vi",
+          "ISO_639_V2": "vie",
+          "words": []
+      },
+      {
+          "name": "Volapük",
+          "ISO_639_V1": "vo",
+          "ISO_639_V2": "vol",
+          "words": []
+      },
+      {
+          "name": "Wallon",
+          "ISO_639_V1": "wa",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Welsh",
+          "ISO_639_V1": "cy",
+          "ISO_639_V2": "cym",
+          "ISO_639_V2_alt": "wel",
+          "words": []
+      },
+      {
+          "name": "Wolof",
+          "ISO_639_V1": "wo",
+          "ISO_639_V2": "wol",
+          "words": []
+      },
+      {
+          "name": "WesternFrisian",
+          "ISO_639_V1": "fy",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Xhosa",
+          "ISO_639_V1": "xh",
+          "ISO_639_V2": "xho",
+          "words": []
+      },
+      {
+          "name": "YiddishYi",
+          "ISO_639_V1": "ji",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Yoruba",
+          "ISO_639_V1": "yo",
+          "ISO_639_V2": "yor",
+          "words": []
+      },
+      {
+          "name": "Zhuang,Chuang",
+          "ISO_639_V1": "za",
+          "ISO_639_V2": "null",
+          "words": []
+      },
+      {
+          "name": "Zulu",
+          "ISO_639_V1": "zu",
+          "ISO_639_V2": "zul",
+          "words": []
+      }
   ]
-}
+  }
