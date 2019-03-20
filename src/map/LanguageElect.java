@@ -55,7 +55,7 @@ public class LanguageElect {
             String lang_tag;
 
             if(lang != null)
-                lang_tag = lang.getTag();
+                lang_tag = lang.getTag_ISO_639_V2();
             else
                 lang_tag = NOTFOUND_LANG_WORDS_TAG;
 

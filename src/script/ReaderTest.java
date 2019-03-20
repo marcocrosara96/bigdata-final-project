@@ -6,18 +6,20 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ReaderTest {
-    public static final String filePath = "./dataset/data/cdx-00000";
+    //public static final String filePath = "./dataset/TagDataset/info-00000.info";
+    public static final String filePath = "./dataset/CommonCrawl/00000.wet";
 
     public static void main(String[] args) {
         //showLines();
         //System.out.println(Analyzer.Map.class);
+        searchLine();
     }
 
     public static void searchLine(){
         String searchline;
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("from_line:");
-        searchline = scanner.nextLine();
+        //Scanner scanner = new Scanner(System.in);
+        //System.out.print("from_line:");
+        searchline = "http://./product-310975.php";
 
         BufferedReader reader;
         try {
@@ -26,6 +28,8 @@ public class ReaderTest {
             while (line != null) {
                 if(line.contains(searchline)) {
                     System.out.println(line);
+                    for(int i=0; i< 50; i++)
+                        System.out.println(reader.readLine());
                     break;
                 }
                 line = reader.readLine();

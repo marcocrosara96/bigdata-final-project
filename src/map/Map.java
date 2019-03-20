@@ -35,15 +35,15 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
     protected void setup(Context context) throws IOException, InterruptedException {
         try{
             //Recupero il file relativo al dizionario dalla cache
-            String localPathOfDictionary100 = null;
+            String localPathOfDictionary = null;
             Path[] localFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());
             for (Path eachPath : localFiles) {
                 if(eachPath.toString().endsWith(DICTIONARY_FILENAME))
-                    localPathOfDictionary100 = eachPath.toString();
+                    localPathOfDictionary = eachPath.toString();
 
             }
             //Carico il dizionario dall'url locale dello stesso
-            dict = JsonParser.loadDictionary(localPathOfDictionary100);
+            dict = JsonParser.loadDictionary(localPathOfDictionary);
 
             //Avvio l'istanza di LanguageElect
             langelect = new LanguageElect(dict);

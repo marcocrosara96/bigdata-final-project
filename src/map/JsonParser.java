@@ -32,10 +32,10 @@ public class JsonParser {
             for (int i = 0; i < languagesArr.length(); i++){
                 JSONObject language = languagesArr.getJSONObject(i);
                 Language l = new Language(language.getString("name"),
-                                        language.getString("tag"));
-                //tag2 -> opzionale
-                if(language.has("tag2"))
-                    l.setTag2(language.getString("tag2"));
+                                        language.getString("ISO_639_V2"));
+                //ISO_639_V2_alt -> opzionale
+                if(language.has("ISO_639_V2_alt"))
+                    l.setTag_ISO_639_V2_alt(language.getString("ISO_639_V2_alt"));
 
                 //Itero sulle PAROLE del linguaggio
                 JSONArray wordsArr = language.getJSONArray("words");

@@ -1,21 +1,23 @@
 package map;
 
 /**
- * Rappresenta una lingua con un nome e uno/due tag
+ * Rappresenta una lingua con un nome e il relativo/i tag nei due formati standard ISO-639-1 e ISO-639-2
  */
 public class Language {
     private String name;
-    private String tag;
-    private String tag2;
+    //private String tag_ISO_639_V1; //2 char
+    //private String tag_ISO_639_V1_alt; //2 char
+    private String tag_ISO_639_V2; //(T) 3 char
+    private String tag_ISO_639_V2_alt; //(B) 3 char
 
-    public Language(String name, String tag){
+    public Language(String name, String tag_ISO_639_V2){
         this.name = name;
-        this.tag = tag;
+        this.tag_ISO_639_V2 = tag_ISO_639_V2;
     }
 
-    public Language(String name, String tag, String tag2){
-        this(name, tag);
-        this.tag2 = tag2;
+    public Language(String name, String tag_ISO_639_V2, String tag_ISO_639_V2_alt){
+        this(name, tag_ISO_639_V2);
+        this.tag_ISO_639_V2_alt = tag_ISO_639_V2_alt;
     }
 
 
@@ -27,28 +29,28 @@ public class Language {
         this.name = name;
     }
 
-    public String getTag() {
-        return tag;
+    public String getTag_ISO_639_V2() {
+        return tag_ISO_639_V2;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setTag_ISO_639_V2(String tag_ISO_639_V2) {
+        this.tag_ISO_639_V2 = tag_ISO_639_V2;
     }
 
-    public String getTag2() {
-        return tag2;
+    public String getTag_ISO_639_V2_alt() {
+        return tag_ISO_639_V2_alt;
     }
 
-    public void setTag2(String tag2) {
-        this.tag2 = tag2;
+    public void setTag_ISO_639_V2_alt(String tag_ISO_639_V2_alt) {
+        this.tag_ISO_639_V2_alt = tag_ISO_639_V2_alt;
     }
 
     @Override
     public String toString() {
         String s = "{";
         s += "name:" + name;
-        s += ",tag:" + tag;
-        if(tag2 != null) s += ",tag2:" + tag2;
+        s += ",ISO_639_V2:" + tag_ISO_639_V2;
+        if(tag_ISO_639_V2_alt != null) s += ",ISO_639_V2_alt:" + tag_ISO_639_V2_alt;
         return s + "}";
     }
 }

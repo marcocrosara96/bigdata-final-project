@@ -119,7 +119,7 @@
       {
           "name": "Bihari",
           "ISO_639_V1": "bh",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "bih",
           "words": []
       },
       {
@@ -156,7 +156,7 @@
       {
           "name": "Catalan",
           "ISO_639_V1": "ca",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "cat",
           "words": []
       },
       {
@@ -174,7 +174,7 @@
       {
           "name": "Chichewa,Chewa,Nyanja",
           "ISO_639_V1": "ny",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "nya",
           "words": []
       },
       {
@@ -189,14 +189,14 @@
           "name": "Chinese(Simplified)",
           "info": "(Simplified)",
           "ISO_639_V1": "zh-Hans",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "zho",
           "words": []
       },
       {
           "name": "Chinese(Traditional)",
           "info": "(Traditional)",
           "ISO_639_V1": "zh-Hant",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "zho",
           "words": []
       },
       {
@@ -246,7 +246,7 @@
       {
           "name": "Divehi,Dhivehi,Maldivian",
           "ISO_639_V1": "dv",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "div",
           "words": []
       },
       {
@@ -316,7 +316,7 @@
       {
           "name": "Fula,Fulah,Pulaar,Pular",
           "ISO_639_V1": "ff",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "ful",
           "words": []
       },
       {
@@ -329,14 +329,14 @@
           "name": "Gaelic",
           "info": "(Scottish)",
           "ISO_639_V1": "gd",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "gla",
           "words": []
       },
       {
           "name": "Gaelic",
           "info": "(Manx)",
           "ISO_639_V1": "gv",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "gla",
           "words": []
       },
       {
@@ -365,7 +365,7 @@
       {
           "name": "Greenlandic",
           "ISO_639_V1": "kl",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "kal",
           "words": []
       },
       {
@@ -383,7 +383,7 @@
       {
           "name": "HaitianCreole",
           "ISO_639_V1": "ht",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "hat",
           "words": []
       },
       {
@@ -413,7 +413,7 @@
       {
           "name": "HiriMotu",
           "ISO_639_V1": "ho",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "hmo",
           "words": []
       },
       {
@@ -452,13 +452,13 @@
       {
           "name": "Interlingua",
           "ISO_639_V1": "ia",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "ina",
           "words": []
       },
       {
           "name": "Interlingue",
           "ISO_639_V1": "ie",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "ile",
           "words": []
       },
       {
@@ -468,9 +468,9 @@
           "words": []
       },
       {
-          "name": "Inupiak",
+          "name": "Inupik",
           "ISO_639_V1": "ik",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "ipk",
           "words": []
       },
       {
@@ -502,7 +502,7 @@
       {
           "name": "Kalaallisut,Greenlandic",
           "ISO_639_V1": "kl",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "kal",
           "words": []
       },
       {
@@ -532,13 +532,13 @@
       {
           "name": "Khmer",
           "ISO_639_V1": "km",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "khm",
           "words": []
       },
       {
           "name": "Kikuyu",
           "ISO_639_V1": "ki",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "kik",
           "words": []
       },
       {
@@ -549,15 +549,9 @@
           "words": []
       },
       {
-          "name": "Kirundi",
-          "ISO_639_V1": "rn",
-          "ISO_639_V2": "null",
-          "words": []
-      },
-      {
           "name": "Kyrgyz",
           "ISO_639_V1": "ky",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "kir",
           "words": []
       },
       {
@@ -587,7 +581,7 @@
       {
           "name": "Kwanyama",
           "ISO_639_V1": "kj",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "kua",
           "words": []
       },
       {
@@ -613,7 +607,7 @@
           "name": "Limburgish",
           "info": "(Limburger)",
           "ISO_639_V1": "li",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "lim",
           "words": []
       },
       {
@@ -629,21 +623,21 @@
           "words": []
       },
       {
-          "name": "Luga-Katanga",
+          "name": "Luba-Katanga",
           "ISO_639_V1": "lu",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "lub",
           "words": []
       },
       {
           "name": "Luganda,Ganda",
           "ISO_639_V1": "lg",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "lug",
           "words": []
       },
       {
           "name": "Luxembourgish",
           "ISO_639_V1": "lb",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "ltz",
           "words": []
       },
       {
@@ -706,7 +700,8 @@
       {
           "name": "Moldavian",
           "ISO_639_V1": "mo",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "ron",
+          "ISO_639_V2_alt": "rum",
           "words": []
       },
       {
@@ -724,7 +719,7 @@
       {
           "name": "Navajo",
           "ISO_639_V1": "nv",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "nav",
           "words": []
       },
       {
@@ -736,7 +731,7 @@
       {
           "name": "NorthernNdebele",
           "ISO_639_V1": "nd",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "nso",
           "words": []
       },
       {
@@ -754,37 +749,37 @@
       {
           "name": "Norwegian-bokmål",
           "ISO_639_V1": "nb",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "nob",
           "words": []
       },
       {
           "name": "Norwegian-nynorsk",
           "ISO_639_V1": "nn",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "nno",
           "words": []
       },
       {
           "name": "Nuosu",
           "ISO_639_V1": "ii",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "iii",
           "words": []
       },
       {
           "name": "Occitan",
           "ISO_639_V1": "oc",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "oci",
           "words": []
       },
       {
-          "name": "Ojibwe",
+          "name": "Ojibwa",
           "ISO_639_V1": "oj",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "oji",
           "words": []
       },
       {
           "name": "OldChurchSlavonic,OldBulgarian",
           "ISO_639_V1": "cu",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "chu",
           "words": []
       },
       {
@@ -803,19 +798,19 @@
       {
           "name": "Ossetian",
           "ISO_639_V1": "os",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "oss",
           "words": []
       },
       {
           "name": "Pāli",
           "ISO_639_V1": "pi",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "pli",
           "words": []
       },
       {
           "name": "Pashto,Pushto",
           "ISO_639_V1": "ps",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "pus",
           "words": []
       },
       {
@@ -843,7 +838,7 @@
           "name": "Punjabi",
           "info": "(Eastern)",
           "ISO_639_V1": "pa",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "pan",
           "words": []
       },
       {
@@ -875,7 +870,7 @@
       {
           "name": "Sami",
           "ISO_639_V1": "se",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "sme",
           "words": []
       },
       {
@@ -903,21 +898,15 @@
           "words": []
       },
       {
-          "name": "Serbo-Croatian",
-          "ISO_639_V1": "sh",
-          "ISO_639_V2": "null",
-          "words": []
-      },
-      {
-          "name": "Sesotho",
+          "name": "Sotho,Southern",
           "ISO_639_V1": "st",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "sot",
           "words": []
       },
       {
-          "name": "Setswana",
+          "name": "Tswana",
           "ISO_639_V1": "tn",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "tsn",
           "words": []
       },
       {
@@ -929,7 +918,7 @@
       {
           "name": "SichuanYi",
           "ISO_639_V1": "ii",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "iii",
           "words": []
       },
       {
@@ -941,13 +930,13 @@
       {
           "name": "Sinhalese",
           "ISO_639_V1": "si",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "sin",
           "words": []
       },
       {
-          "name": "Siswati",
+          "name": "Swati",
           "ISO_639_V1": "ss",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "ssw",
           "words": []
       },
       {
@@ -970,15 +959,15 @@
           "words": []
       },
       {
-          "name": "SouthernNdebele",
+          "name": "Ndebele,South",
           "ISO_639_V1": "nr",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "nbl",
           "words": []
       },
       {
           "name": "Spanish",
           "ISO_639_V1": "es",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "spa",
           "words": ["de","que","no","a","la","el","y","es","en","lo","un","qué","por","me","una","te","se","los","con","para","mi","está","si","sí","pero","bien","las","yo","su","eso","aquí","del","al","como","le","tu","más","todo","ya","muy","esto","vamos","ahora","ha","esta","hay","algo","estoy","tú","tengo","así","nada","nos","cuando","cómo","sé","él","estás","sólo","o","quiero","gracias","tiene","este","soy","he","puedo","bueno","era","ser","vez","hacer","todos","fue","son","ella","eres","usted","tienes","puede","señor","quién","ese","voy","creo","casa","porque","hola","tan","favor","dónde","sus","dos","nunca","sabes","verdad","quieres","mucho","mí","tiempo","estabawas","entoncesthen","mejorbest","esathat","haceago","hombreman","diosgod","vawill","tambiénalso","vidalife","estánare","sinwithout","srsr","versee","hashave","siemprealways","ahíthere","tiyou","hastato","sientoam","puedescan","nior","decirsay","ohoh","sobreabout","añosyears old","tenemoshave","unoone","díaday","cosasstuff","nochenight","alguiensomeone","antesbefore","mismy","irgo","pocolittle","otraother","quierewants","solosingle","nadienobody","nosotrosus","gentepeople","pareceseems","padrefather","dineromoney","estarbe","hechodone","lesthem","seais","estamoswe","mismosame","dijosaid","mirasight","trabajowork","pasapass","claroclear","vasyou","ellosthey","mañanamorning","otroother","hanhave","hablartalk","despuésafter","desdefrom","talsuch","mundoworld","sabeknow","acuerdoagreement","habíahad","momentotime","fueraout","hijoson","amigofriend","dondewhere","seguroinsurance","podríacould","mujerwoman","díasdays","madremother","tusyour","cosathing","allíthere","lugarplace","dicesays","gustalike","grangreat","teníahad","seráwill","mierdashit","mamámom","papádad","hoytoday","esperawaiting","tresthree","vensee","buenagood","tenerhave","luegothen","dijeI","podemoscan","nuevonew","estadostate","menosless","tipotype","nuestroour","debeshould","sidobeen","buengood","conmigome","malwrong","todasAll","nombrename","míomine","creesthink","haciendodoing","todathroughout","amorlove","vistoviewed","queríawould","importamatter","tardeafternoon","partepart","estasthese","tienenhave","aúnyet","necesitoneed","nuestraour","tantoso","eheh","cadaeach","vesee","vecestimes","horatime","contigowith you","haberhave","oyehears","buenasgood","hombresmen","hacerlodo","demasiadotoo","hacesdo","dichosaying","quienwhoever","saberknow","ahah","entrebetween","adiósadieu","vayago","unosabout","ciertocertain","deboI","problemaproblem","razónreason","esosthose","algunaany","puesfor","quizáperhaps","hemoswe","ideaidea","veosee","chicagirl","policíapolice","amigospeople","hizomade","serioserious","realmentereally","ustedesyou","estosthese","cabezahead","digosay","hermanobrother","vango","cariñoaffection","salirleave","valevoucher","familiafamily","pasadolast","cuentaaccount","muchasmany","algúnsome","somosUs","señoraMrs.","puedencan","muertodead","viejoold","nochesnights","ladoside","deberíashould","todavíayet","sabíaknew","rápidofast","vessee","udyou","suerteluck","cuidadocare","seríawould","mientraswhile","dagives","primerafirst","nuevanew"
           ]
       },
@@ -1065,7 +1054,7 @@
       {
           "name": "Tonga",
           "ISO_639_V1": "to",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "ton",
           "words": []
       },
       {
@@ -1093,9 +1082,9 @@
           "words": []
       },
       {
-          "name": "Uyghur",
+          "name": "Uighur,Uyghur",
           "ISO_639_V1": "ug",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "uig",
           "words": []
       },
       {
@@ -1135,9 +1124,9 @@
           "words": []
       },
       {
-          "name": "Wallon",
+          "name": "Walloon",
           "ISO_639_V1": "wa",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "wln",
           "words": []
       },
       {
@@ -1154,9 +1143,9 @@
           "words": []
       },
       {
-          "name": "WesternFrisian",
+          "name": "Western_Frisian",
           "ISO_639_V1": "fy",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "fry",
           "words": []
       },
       {
@@ -1166,9 +1155,9 @@
           "words": []
       },
       {
-          "name": "YiddishYi",
+          "name": "Yiddish_Yi",
           "ISO_639_V1": "ji",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "yid",
           "words": []
       },
       {
@@ -1180,7 +1169,7 @@
       {
           "name": "Zhuang,Chuang",
           "ISO_639_V1": "za",
-          "ISO_639_V2": "null",
+          "ISO_639_V2": "zha",
           "words": []
       },
       {
