@@ -1,0 +1,27 @@
+\newcommand{\commonCrawlFilesTable}[0]{
+    \renewcommand\arraystretch{1.2}
+    % Please add the following required packages to your document preamble:
+    % \usepackage{graphicx}
+    % \usepackage[table,xcdraw]{xcolor}
+    % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+    \begin{table}[h]
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lllr}
+    \rowcolor[HTML]{C0C0C0} 
+    Tipo File                                                          & Descrizione                                                                                                                                              & \#Files & \begin{tabular}[c]{@{}r@{}}Dim.dei file\\ compressi\end{tabular} \\ \hline
+    \rowcolor[HTML]{EFEFEF} 
+    Segments                                                           &                                                                                                                                                          & 100     &                                                                   \\
+    WARC files                                                         & Dati grezzi generati dal Crawler                                                                                                                         & 64000   & 59.86 TiB                                                         \\
+    \rowcolor[HTML]{EFEFEF} 
+    WAT files                                                          & \begin{tabular}[c]{@{}l@{}}Contengono meta-dati relativi ai record nei \\ file WARC\end{tabular}                                                          & 64000   & 18.23 TiB                                                         \\
+    WET files                                                          & \begin{tabular}[c]{@{}l@{}}Contengono solo testo semplice estratto \\ dai WARC\end{tabular}                                                              & 64000   & 7.62 TiB                                                          \\
+    \rowcolor[HTML]{EFEFEF} 
+    Robots.txt files                                                   & \begin{tabular}[c]{@{}l@{}}Files Robot.txt richiesti ai vari siti analizzati \\ (consentono al Crawler di scansionare \\ meglio i siti web)\end{tabular} & 64000   & 170 GiB                                                          \\
+    \begin{tabular}[c]{@{}l@{}}Non-200 \\ responses files\end{tabular} & \begin{tabular}[c]{@{}l@{}}Risposte del server con HTTP status code \\ diverso da 200 (404, redirects, ecc.)\end{tabular}                                & 64000   & 1.79 TiB                                                          \\
+    \rowcolor[HTML]{EFEFEF} 
+    URL index files                                                    & \begin{tabular}[c]{@{}l@{}}Indice degli url analizzati, completo di utili \\ informazioni aggiuntive\end{tabular}                                        & 302     & 210 GiB                                                         
+    \end{tabular}%
+    }
+    \end{table}
+    \renewcommand\arraystretch{1.0}
+}
