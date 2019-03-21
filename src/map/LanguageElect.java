@@ -12,10 +12,13 @@ import java.util.HashSet;
 public class LanguageElect {
     Dictionary dict;
 
-    public static String NOTFOUND_LANG_WORDS_TAG = "##";
-    public static String OTHER_LANG_WORDS_TAG = "++";
-    public static String SEPARATOR = " | ";
-    private static int N_LANG_TO_SHOW = 5; //Settaggio che dice quante lingue mostrare nelle statistiche(le più probabili)
+    public static Language NOTFOUND_WORDS_LANG = new Language("Not_Found","XX");
+    public static Language OTHER_WORDS_LANG = new Language("Other_Lang","++");
+    public static String LANGUAGE_NOT_FOUND = "-";
+    public static String SEPARATOR = ";";
+    //Settaggi sulla lingua rilevata
+    private static int MAX_NUMBER_LANG_TO_SHOW = 6; //Settaggio che dice quante lingue mostrare nelle statistiche(le più probabili)
+    private static double VALID_LANGUAGE_THRESHOLD = 1.0; //percentuale sopra il quale una linqua e valida
 
     public LanguageElect(Dictionary dict) {
         this.dict = dict;
@@ -28,18 +31,19 @@ public class LanguageElect {
      * @return stringa con le statistiche
      */
     public String getLanguagesWithStats(HashSet<String> words){
-        String s = "| ";
-        HashMap<String,Integer> langPoints = findLanguagesWithPoints(words);
-        HashMap<String,Double> langStats = fromPointsToStats(langPoints, words.size());
+        String s = "";
+        HashMap<Language,Double> langStats = fromPointsToStats(findLanguagesWithPoints(words), words.size());
 
-        for (String lang: langStats.keySet()) {
-            if(!lang.equals(OTHER_LANG_WORDS_TAG ) && !lang.equals(NOTFOUND_LANG_WORDS_TAG))
-            s += lang + ":" + langStats.get(lang) + SEPARATOR;
+        for (Language lang: langStats.keySet()) {
+            if(!lang.equals(NOTFOUND_WORDS_LANG) && !lang.equals(OTHER_WORDS_LANG))
+                s += lang.getTag_ISO_639_V2() + ":" + langStats.get(lang) + SEPARATOR;
         }
-        s += "Other_Langs:" + langStats.get(OTHER_LANG_WORDS_TAG) + SEPARATOR;
-        if(langStats.containsKey(NOTFOUND_LANG_WORDS_TAG))
-            s += "Not_Found:" + langStats.get(NOTFOUND_LANG_WORDS_TAG) + SEPARATOR;
-        return s;
+
+        //Aggiungo anche Other_Langs (se esiste) e Not_Found
+        if(langStats.containsKey(OTHER_WORDS_LANG))
+            s += "Other_Langs:" + langStats.get(OTHER_WORDS_LANG) + SEPARATOR;
+        s += "Not_Found:" + langStats.get(NOTFOUND_WORDS_LANG);
+        return calculateObtainedResult(langStats) + "\t" + s;
     }
 
     /**
@@ -47,23 +51,20 @@ public class LanguageElect {
      * @param words parole di cui cercare la lingua
      * @return associazioni tra lingua e numero parole trovate
      */
-    private HashMap<String,Integer> findLanguagesWithPoints(HashSet<String> words){
-        HashMap<String,Integer> langPoints = new HashMap<>();
+    private HashMap<Language,Integer> findLanguagesWithPoints(HashSet<String> words){
+        HashMap<Language,Integer> langPoints = new HashMap<>();
         Language lang;
         for (String word: words) {
             lang = dict.getLanguage(word);
-            String lang_tag;
 
-            if(lang != null)
-                lang_tag = lang.getTag_ISO_639_V2();
-            else
-                lang_tag = NOTFOUND_LANG_WORDS_TAG;
+            if(lang == null)
+                lang = NOTFOUND_WORDS_LANG;
 
-            Integer points = langPoints.get(lang_tag);
+            Integer points = langPoints.get(lang);
             if(points != null)
-                langPoints.put(lang_tag, points + 1);
+                langPoints.put(lang, points + 1);
             else
-                langPoints.put(lang_tag, 1);
+                langPoints.put(lang, 1);
         }
 
         return langPoints;
@@ -75,10 +76,10 @@ public class LanguageElect {
      * @param totWords totale delle parole del testo
      * @return associazioni tra lingua e statistica percentuale di appartenenza del testo alla lingua
      */
-    private HashMap<String, Double> fromPointsToStats(HashMap<String,Integer> langPoints, int totWords){
+    private HashMap<Language, Double> fromPointsToStats(HashMap<Language,Integer> langPoints, int totWords){
         //calcolo delle percentuali
-        HashMap<String,Double> langStats = new HashMap<>();
-        for(String new_lang: langPoints.keySet()){
+        HashMap<Language,Double> langStats = new HashMap<>();
+        for(Language new_lang: langPoints.keySet()){
             //--------------------------------------------------
             //scelgo se inserire o meno la nuova lingua nelle statistiche (inserisco al massimo N_LANG_TO_SHOW lingue,
             //quelle con la percentuale più elevata), le parole non trovate ## sono inserite a parte
@@ -86,10 +87,10 @@ public class LanguageElect {
             //    LINGUA_1 : 21% | LINGUA_2 : 12% | ALTRE_LINGUE = 67% | NON_TROVATE = 4%
             double percentage = roundsUp(100 / (totWords * 1.0) * langPoints.get(new_lang), 2);
                                                                 //1.0 <-- altrimenti il risultato è un integer
-            if(langStats.size() < N_LANG_TO_SHOW)//se c'è posto lo inserisco subito
+            if(langStats.size() < MAX_NUMBER_LANG_TO_SHOW)//se c'è posto lo inserisco subito
                 langStats.put(new_lang, percentage);
             else{//se non c'è posto cerco la presenza di un candidato con meno percentuale
-                Pair<String, Double> candidate = minValueKey(langStats);
+                Pair<Language, Double> candidate = minValueKey(langStats);
                 if(percentage > candidate.getValue()){
                     langStats.remove(candidate.getKey());
                     langStats.put(new_lang, percentage);
@@ -97,14 +98,14 @@ public class LanguageElect {
             }
             //--------------------------------------------------
         }
-        langStats.put(OTHER_LANG_WORDS_TAG, calculateRemaining(langStats));
+        langStats.put(OTHER_WORDS_LANG, calculateRemaining(langStats));
         return langStats;
     }
 
-    private Pair<String, Double> minValueKey(HashMap<String,Double> langStats){
+    private Pair<Language, Double> minValueKey(HashMap<Language,Double> langStats){
         double min = 101;
-        String langMin = null;
-        for(String lang_in : langStats.keySet()) {
+        Language langMin = null;
+        for(Language lang_in : langStats.keySet()) {
             if(langStats.get(lang_in) < min){
                 min = langStats.get(lang_in);
                 langMin = lang_in;
@@ -113,9 +114,9 @@ public class LanguageElect {
         return new Pair<>(langMin, min);
     }
 
-    private double calculateRemaining(HashMap<String,Double> langStats){
+    private double calculateRemaining(HashMap<Language,Double> langStats){
         double sum = 0;
-        for (String lang_in : langStats.keySet()) {
+        for (Language lang_in : langStats.keySet()) {
             sum += langStats.get(lang_in);
         }
         return ((100-sum > 0) ? roundsUp(100-sum, 2) : 0); //se il rimanente è minore di zero allora ritorna 0
@@ -130,5 +131,34 @@ public class LanguageElect {
     public static double roundsUp(double value, int numDecPlaces) {
         BigDecimal bd = new BigDecimal(value).setScale(numDecPlaces, BigDecimal.ROUND_HALF_EVEN/*, BigDecimal.ROUND_UP*/);
         return bd.doubleValue();
+    }
+
+    /**
+     * Calcolo le lingue in cui secondo l'algoritmo è scritta la pagina, basandomi sul VALID_LANGUAGE_THRESHOLD e
+     * MAX_NUMBER_LANG_TO_SHOW
+     * @param langStats lingue con le relative percentuali di presenza
+     * @return lista delle lingue della pagina
+     */
+    public static String calculateObtainedResult(HashMap<Language, Double> langStats){
+        String s = "";
+        Language alternative = null;
+        int i = 0;
+        for (Language lang: langStats.keySet()) { //seleziono le prime MAX_NUMBER_LANG_TO_SHOW lingue che verificano il limite minimo
+            if(!lang.equals(NOTFOUND_WORDS_LANG) && !lang.equals(OTHER_WORDS_LANG) && i < MAX_NUMBER_LANG_TO_SHOW){
+                if(langStats.get(lang) >= VALID_LANGUAGE_THRESHOLD){
+                    s += lang.getTag_ISO_639_V2() + ",";
+                    i++;
+                }
+                else{ // salvo la lingua con la percentuale massima
+                    if(alternative == null || langStats.get(lang) > langStats.get(alternative))
+                        alternative = lang;
+                }
+            }
+        }
+        if(s.length() != 0)
+            return s.substring(0, s.length()-1); //tolgo la virgola in eccesso
+        if(alternative != null) //se non ho selezionato nessuna lingua sopra il threshold, scelgo quella che ha comunque la percentuale massima
+            return alternative.getTag_ISO_639_V2();
+        return LANGUAGE_NOT_FOUND;
     }
 }
