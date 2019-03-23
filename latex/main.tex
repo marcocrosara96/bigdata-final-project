@@ -10,6 +10,7 @@
 \usepackage{amsthm}
 \usepackage{enumitem}
 \usepackage{color}
+\usepackage{svg}
 \usepackage[hidelinks]{hyperref}
 
 \input{functions.tex}
@@ -17,7 +18,9 @@
 \setlist[itemize,1]{label=$\--$}
 
 % ------------------- COMMANDS
-\newcommand{\py}{Python }
+\newcommand{\MR}{MapReduce }
+%\newcommand{\MRA}{MR Lang Analyzer}
+\newcommand{\CC}{Common Crawl }
 \newcommand{\pycode}[1]{\textit{#1}}
 \newcommand{\filename}[1]{\textit{#1}}
 \newcommand{\function}[1]{\textit{#1}}
@@ -27,7 +30,7 @@
 % ------------------- ENVIROMENTS AND THEOREMS
 \newtheorem*{definition}{Definizione}
 
-\title{Relazione Progetto Big Data\\Analisi della lingua di pagine html}
+\title{Relazione Progetto Big Data\\Analisi della lingua di pagine web\\tramite un algoritmo \MR}
 \author{Crosara Marco VR434403}
 \date{Marzo 2019 / Aprile 2019}
 
@@ -62,29 +65,138 @@ Anno Accademico 2018/2019
 
 \section{Introduzione}
 
-Il progetto è partito dalla curiosità di analizzare un grosso quantitativo di pagine web con lo scopo di farne in qualche modo categorizzazione. Come punto di partenza si è scelto di cercare un dataset opportuno a questo tipo di analisi, dopo una ricerca approfondita è stato scelto Common Crawl\cite{commoncrawl}: una enorme collezione di pagine dati in formato `raw', da cui sono stati estratti metadati e testo semplice. Tutti i dati in formato non elaborato sono raccolti mediante l'uso di un Crawler che esegue la scansione del web.
+Il progetto è partito dalla curiosità di analizzare un grosso quantitativo di pagine web con lo scopo di farne in qualche modo categorizzazione. Come punto di partenza si è scelto di cercare un dataset opportuno a questo tipo di analisi, dopo una ricerca approfondita è stato scelto \CC\cite{commoncrawl}: una enorme collezione di pagine dati in formato `raw', da cui sono stati estratti metadati e testo semplice. Tutti i dati in formato non elaborato sono raccolti mediante l'uso di un Crawler che esegue la scansione del web.
 
 \begin{definition}
 Il Crawler, comunemente chiamato anche Spider o Bot, è un software/script che ha lo scopo di scansionare dei dati. Tale termine viene tipicamente associato alla scansione di pagine web oppure di database con il fine di estrapolarne i contenuti. In particolare nella SEO il Crawler viene associato allo spider di Google. In realtà il crawling è una delle fasi per l’indicizzazione dei siti nella SERP(Search Engine Results Page), la pagina dei risultati di un motore di ricerca.
 \end{definition}
 
-Di seguito una tabella presente anche sulla pagina web di Common Crawl, utile per capire i diversi formati a disposizione degli utenti per la consultazione del dataset.
+\subsection{Idea e obbiettivi del progetto}
+Il progetto che si è pensato di realizzare con il dataset \CC è un riconoscitore della lingua di una pagina web. Nello specifico, a partire dall'enorme mole di pagine a disposizione, progettare un programma \MR che sia in grado di ritornare per ogni pagina identificata da un url univoco la o le lingue in cui tale testo è stato scritto. L'idea per la realizzazione è che a partire dal testo della pagina vengano estratte le singole parole tramite una semplice ma specifica operazione di split, dettagliata meglio in seguito. Successivamente tramite un confronto di queste ultime con un campione di circa 300 parole per ogni lingua, rendere possibile stabilire in modo approssimato ma statistico le lingue di appartenenza della pagina.
+
+Data la consapevolezza dell'assai complicata operazione di riconoscimento di una lingua di un testo e della poca precisione di un sistema unicamente basato su split e confronti limitati, il nostro goal è la realizzazione di un programma \MR ben strutturato e modulare che sia in grado di analizzare e riconoscere la lingua dato un qualsiasi opportuno algoritmo.
+L'obbiettivo del progetto non è dunque quello di realizzare un sistema che riesca a riconoscere in maniera precisa il maggior quantitativo possibile di coppie pagina/lingua ma quello di progettare un \MR con una architettura adatta a svolgere questo tipo di analisi in maniera semplice.
+
+Oltre all'obbiettivo di ritornare le lingue delle pagine web ce ne poniamo un altro: quello di verificare se queste lingue da noi riconosciute sono corrette. Nello specifico supponiamo di voler dare la possibilità di testare lo script che individua le lingue. Il controllo verrà effettuato a partire da coppie url/lingua\_corretta che \CC fornisce tramite dei file che contengono i risultati di un analizzatore esterno non \MR che verrà introdotto a seguito. Dato un url relativo a una pagina il nostro programma \MR dovrà dunque essere in grado di confrontare se la lingua o le lingue da noi riconosciute sono le stesse che vengono proposte dall'analizzatore esistente, o in un caso più generico se sono le stesse riportate nei file.
+
+% fare facilmente riferimento all'analizzatore di lingua \MR 
+
+\subsection{Il dataset e i suoi file}
+
+Di seguito una tabella presente anche sulla pagina web di \CC, utile per capire i diversi formati a disposizione degli utenti per la consultazione del dataset.
 
 \commonCrawlFilesTable
 
-\section{Obbiettivi del progetto}
+Tra i vari formati proposti quelli che ci interessano poiché utilizzati nel progetto sono \textit{`WET'} e \textit{`Url Index'}. I primi contengono il testo estratto dalle pagine web, nella pratica a partire dalla sorgente html presente sul \textit{WARC} sono stati rimossi tutti i tag ed è stato mantenuto solo il testo semplice. Si ottiene quindi una pagina dal contenuto testuale non strutturato che ci ritorna utile per l'estrazione delle parole. Ogni pagina viene preceduta da alcune righe di header che riportano alcune informazioni come la data di acquisizione, la lunghezza del testo in caratteri e ovviamente l'url a cui noi attribuiremo una lingua e che utilizzeremo come identificatore della pagina web stessa. Qui sotto un piccolissimo estratto di un file \textit{WET} relativo a una pagina in inglese, risulta semplice distinguere l'header e il relativo plain text.
 
+%--------------------------------------------------------------->
+\begin{minted}{text}
+WARC/1.0
+WARC-Type: conversion
+WARC-Target-URI: http://37...bly.com/.../the-time-we-have
+WARC-Date: 2019-02-15T18:51:42Z
+WARC-Record-ID: <urn:uuid:b9c6bb42-ae7a-4375-838c-e4df94644273>
+WARC-Refers-To: <urn:uuid:686735d9-f7de-443d-aaac-99c1af01248d>
+WARC-Block-Digest: sha1:LFNRVL6AG7X2X25BRRYTPJ5FA3OIS56T
+Content-Type: text/plain
+Content-Length: 1552
+
+The time we have - My Learning journey 7
+Home ... All About Me ... How I learn ...
+The time we have 11/27/2014 ... 0 Comments
+This video is about how much time in our life we REALLY have. It 
+shows that we need to use time wisely. I think we watched this 
+video so we learn to find our passion and to do our passion. ...
+I am at 4380 / 28,835 days out of my life. When I watched this 
+video my first emotions were: shock, understanding, and sadness. 
+I love this video. ...
+Hi i'm Jordan and I like playing Clarinet and playing Minecraft. 
+My favourite sport is hockey. And I love karate!
+RSS Feed ... Powered by Create your own unique website.
+\end{minted}
+
+Nei nostri test utilizzeremo solo pochi file \textit{WET} che da soli contengono migliaia di pagine web in formato plain text. Come detto prima l'altro tipo di file del dataset che andremo a utilizzare sono gli \textit{Url Index}. Questi ultimi contengono infatti tra le altre innumerevoli informazioni, la lingua che  \textit{CLD2 (Compact Language Detector 2)} ha individuato per la pagina relativa all'url in questione. \textit{CLD2} è un analizzatore esterno esterno che identifica probabilisticamente più di 80 lingue diverse in \textit{Unicode UTF-8}.
+
+Esempio line appartenente a un file \textit{Url Index} qualsiasi:
+%--------------------------------------------------------------->
+\begin{minted}{text}
+1,102,30,163)/modules/mylinks/... 20190218011538 {"url":"http://1
+63.30.102.1/modules/mylinks/...", "mime": "text/html", "mime-dete
+cted": "text/html", "status": "200", "digest": "3LTEADYEETRMLYCNY
+W652S3ED7OOFLHE", "length": "7990", "offset": "605284", "filename
+": ".../segments/...-00001.warc.gz", "charset": "UTF-8", "languag
+es": "zho,eng"}
+\end{minted}
+La stessa linea di prima elaborata e spostata nel file \filename{info-00001.info}. Il carattere separatore è un \textit{tab}.
+\begin{minted}{text}
+http://163.30.102.1/modules/mylinks/...   zho,eng    UTF-8 
+\end{minted}
+
+Prima di partire con la descrizione dell'analizzatore è utile dire che la versione utilizzata del dataset \CC è quella relativa a \textit{Febbraio 2019}, l'ultima versione disponibile durante la fase di realizzazione dell'analizzatore. 
+
+%   _____ _______ _____  _    _ _______ _______ _    _ _____            
+%  / ____|__   __|  __ \| |  | |__   __|__   __| |  | |  __ \     /\    
+% | (___    | |  | |__) | |  | |  | |     | |  | |  | | |__) |   /  \   
+%  \___ \   | |  |  _  /| |  | |  | |     | |  | |  | |  _  /   / /\ \  
+%  ____) |  | |  | | \ \| |__| |  | |     | |  | |__| | | \ \  / ____ \ 
+% |_____/   |_|  |_|  \_\\____/   |_|     |_|   \____/|_|  \_\/_/    \_\
 \section{Struttura generale dell'analizzatore}
+\begin{figure}[H]
+  \centering
+  \includesvg[width=11.8cm]{images/map_reduce_scheme_render.svg}
+  \caption{Schema astratto Map Reduce realizzato}
+\end{figure}
 
+%          __  __  ____  _____  _    _ _      _____ 
+%    _    |  \/  |/ __ \|  __ \| |  | | |    |_   _|
+%  _| |_  | \  / | |  | | |  | | |  | | |      | |  
+% |_   _| | |\/| | |  | | |  | | |  | | |      | |  
+%   |_|   | |  | | |__| | |__| | |__| | |____ _| |_ 
+%         |_|  |_|\____/|_____/ \____/|______|_____|
 \section{Funzionamento e implementazione moduli}
+
+\subsection{Avvio del programma}
+\begin{minted}{bash}
+[cloudera@quickstart /]$ hadoop jar DATA/analyzer.jar
+\end{minted}
+
+\subsection{dictionary.json e lo standard ISO 639-2}
+Qui sotto un piccolo estratto del dizionario relativo alle lingue Africano e Tedesco.
+%--------------------------------------------------------------->
+\begin{minted}{json}
+{
+  "name": "dictionary",
+  "type": "300_isoV2",
+  "version": "1.1.6",
+  "languages": [
+        {  "name": "Afrikaans",
+          "ISO_639_V1": "af",
+          "ISO_639_V2": "afr",
+          "words": ["as","Ek","sy","wat" ...]}, 
+          ...
+        {  "name": "German",
+          "ISO_639_V1": "de",
+          "ISO_639_V2": "deu",
+          "ISO_639_V2_alt": "ger",
+          "words": ["ich","sie","das","ist" ...]}, 
+          ...
+    ]
+}
+\end{minted}
+
 \subsection{Parte 1}
 \subsection{Parte 2}
 \subsection{Parte 3}
 
+%  _______ ______  _____ _______            _____  _____  _____ _    _ _        
+% |__   __|  ____|/ ____|__   __|          |  __ \|_   _|/ ____| |  | | |       
+%    | |  | |__  | (___    | |     ______  | |__) | | | | (___ | |  | | |       
+%    | |  |  __|  \___ \   | |    |______| |  _  /  | |  \___ \| |  | | |       
+%    | |  | |____ ____) |  | |             | | \ \ _| |_ ____) | |__| | |____ _ 
+%    |_|  |______|_____/   |_|             |_|  \_\_____|_____/ \____/|______(_)
 \section{Test e Risultati Finali}
 \subsection{Test su Docker-Cloudera}
 \subsection{Test su cluster reale}
-
 
 %  ________   __ _____   __ 
 % |  ____\ \ / // ____| /_ |
@@ -102,44 +214,20 @@ Di seguito una tabella presente anche sulla pagina web di Common Crawl, utile pe
     \item \filename{.coverage} : risultati coverage
 \end{itemize}
 
-%\subsection{Considerazioni}
-Il codice di \filename{codicefiscale.py} è quello visto a lezione, tuttavia è leggermente modificato poiché ne è stato fatto il porting del codice da \py 2 a \py 3. Il codice presenta degli errori che sono già stati riscontrati durante la lezione: ad esempio vi sono problemi se il cognome è troppo corto, il nome è troppo lungo o contiene uno spazio, oppure se la persona è nata il giorno 31 di qualsiasi mese.
+%USI -----------------------------------
+\filename{codicefiscale.py}
+\function{genera\_mese}
+\command{ltrace}
 
-%\subsection{Unit Testing}
-\'E stato realizzato il file di unit testing \filename{codicefiscale-test.py} che fa il testing del \function{main} e di tutte le procedure ausiliarie: \function{estrai\_nome\_cognome}, \function{genera\_mese}, \function{codice\_comune}, \function{genera\_giorno}, \function{genera\_codice\_controllo}.
-
-Gli unit test da implementare sono pochi poiché fin da subito si notano dei risultati discrepanti sull'output delle procedure che permettono di dichiarare il software come non corretto.
-Gli unit test test implementati che vengono `falliti' sono 5.
-
-I test presenti sul file consentono comunque di ottenere il 100\% della copertura. \'E stato aggiunto il flag \pycode{\#pragma: no cover} sul costrutto if relativo alla distinzione del file eseguito come script a se stante o richiamato come modulo, infatti tale ramo di esecuzione non risulta utile ai fini della verifica di copertura.
-
-A seguito i risultati sulla verifica di copertura 100\% del codice.
-\begin{minted}{bash}
-mark@mark-XPS:~/.../progetto-finale/1$ python3-coverage report -m
-Name                    Stmts   Miss  Cover   Missing
------------------------------------------------------
-codicefiscale-test.py      59      0   100%
-codicefiscale.py           72      0   100%
------------------------------------------------------
-TOTAL                     131      0   100%
-\end{minted}
-
-L'esercizio si può considerare svolto con successo poiché si è riusciti tramite i test a dimostrare che il programma \filename{codicefiscale.py} è errato. Prima di svolgere ulteriori test per rilevare eventuali altri errori bisognerebbe correggere le procedure errate (non richiesto dalla consegna) e successivamente effettuare nuovi test su queste ultime. Siamo infine stati in grado di raggiungere la coverage 100\%.
-
-
-
+%   _____ ____  _   _  _____ _     _    _  _____ _____ ____  _   _ _____ 
+%  / ____/ __ \| \ | |/ ____| |   | |  | |/ ____|_   _/ __ \| \ | |_   _|
+% | |   | |  | |  \| | |    | |   | |  | | (___   | || |  | |  \| | | |  
+% | |   | |  | | . ` | |    | |   | |  | |\___ \  | || |  | | . ` | | |  
+% | |___| |__| | |\  | |____| |___| |__| |____) |_| || |__| | |\  |_| |_ 
+%  \_____\____/|_| \_|\_____|______\____/|_____/|_____\____/|_| \_|_____|
 \section{Considerazioni conclusive}
 
-In alcuni esercizi si sarebbe potuto discutere l'utilizzo di \command{ltrace} anziché \command{strace} tuttavia abbiamo preferito il primo per comodità e continuità di utilizzo.
 
-A riguardo degli esercizi 5a e 5b: \filename{AnalyzerPathAccess.java} e \filename{AnalyzerMemoryAccess.java} sono programmi pressoché uguali, infatti entrambi svolgono la funzione di ricerca di particolari log offerti da strace. Si sarebbe quindi potuto realizzare un unico programma di analisi per gli esercizi 5a e 5b oppure realizzare una libreria con le funzioni comuni, questo non è stato fatto per una logica di separazione degli esercizi.
-
-%\begin{figure}[h!]
-%\centering
-%\includegraphics[scale=1.7]{universe}
-%\caption{The Universe}
-%\label{fig:universe}
-%\end{figure}
 
 \newpage
 
@@ -148,7 +236,6 @@ A riguardo degli esercizi 5a e 5b: \filename{AnalyzerPathAccess.java} e \filenam
 \bibliography{references}
 
 %bibliografia senza citazioni
-\nocite{strace}
 \nocite{crawler}
 
 \end{document}
