@@ -12,9 +12,8 @@ import java.util.HashSet;
  */
 public class Reduce extends Reducer<Text, Text, Text, Text> {
     public static String REAL_LANGUAGE_FLAG = "@Real@";
-    public static char SYMBOL_TICK = '\u2705';
-    public static char SYMBOL_CROSS = '\u274C';
-    public static char SYMBOL_WAVY = '\u3030';
+
+    ResultChecker resultchecker = new ResultChecker();
 
     /**
      * !!! REDUCER !!!
@@ -42,32 +41,10 @@ public class Reduce extends Reducer<Text, Text, Text, Text> {
         }
         if(emit) {
             String[] analyzedInfoSlitted = anlyzedInfo.split("\t");
-            String outputString = analyzeResults(analyzedInfoSlitted[0], solutionInfo) + "\t" + analyzedInfoSlitted[1];
+            String outputString = resultchecker.getResultsWithAccuracy(analyzedInfoSlitted[0], solutionInfo) + "\t" + analyzedInfoSlitted[1];
             context.write(url, new Text(outputString));
         }
     }
 
-    public String analyzeResults(String analyzedInfo, String solutionInfo){
-        HashSet<String> analyzedResultLangs = arrayToHashSet(analyzedInfo.split(","));
-        HashSet<String> solutionResultLangs = arrayToHashSet(solutionInfo.split(","));
-        double percentage = 0;
-        for (String solution : solutionResultLangs){
-            if(analyzedResultLangs.contains(solution))
-                percentage++;
-        }
-        percentage = 100 / solutionResultLangs.size() * percentage;
 
-        //Compongo la stringa finale
-        String s = "Response:" + analyzedInfo + " - Expected:" + solutionInfo + "\t";
-        s += (percentage > 50) ? SYMBOL_TICK : ((percentage > 30) ? SYMBOL_WAVY : SYMBOL_CROSS);
-        return s;
-    }
-
-    public HashSet<String> arrayToHashSet(String[] array){
-        HashSet<String> set = new HashSet<>();
-        for (String s : array) {
-            set.add(s);
-        }
-        return set;
-    }
 }
