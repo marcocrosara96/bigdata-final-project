@@ -18,10 +18,13 @@
 \setlist[itemize,1]{label=$\--$}
 
 % ------------------- COMMANDS
-\newcommand{\MR}{MapReduce }
+\newcommand{\MR}{MapReduce}
 %\newcommand{\MRA}{MR Lang Analyzer}
-\newcommand{\CC}{Common Crawl }
-\newcommand{\pycode}[1]{\textit{#1}}
+\newcommand{\cld}{\textit{CLD2}}
+\newcommand{\CC}{Common Crawl}
+\newcommand{\isoOne}{ISO 639-1}
+\newcommand{\isoTwo}{ISO 639-1}
+\newcommand{\pt}{\textit{plain text}}
 \newcommand{\filename}[1]{\textit{#1}}
 \newcommand{\function}[1]{\textit{#1}}
 \newcommand{\command}[1]{\texttt{#1}}
@@ -65,29 +68,29 @@ Anno Accademico 2018/2019
 
 \section{Introduzione}
 
-Il progetto è partito dalla curiosità di analizzare un grosso quantitativo di pagine web con lo scopo di farne in qualche modo categorizzazione. Come punto di partenza si è scelto di cercare un dataset opportuno a questo tipo di analisi, dopo una ricerca approfondita è stato scelto \CC\cite{commoncrawl}: una enorme collezione di pagine dati in formato `raw', da cui sono stati estratti metadati e testo semplice. Tutti i dati in formato non elaborato sono raccolti mediante l'uso di un Crawler che esegue la scansione del web.
+Il progetto è partito dalla curiosità di analizzare un grosso quantitativo di pagine web con lo scopo di farne in qualche modo categorizzazione. Come punto di partenza si è scelto di cercare un dataset opportuno a questo tipo di analisi, dopo una ricerca approfondita è stato scelto \CC{}\cite{commoncrawl}: una enorme collezione di pagine dati in formato `raw', da cui sono stati estratti metadati e testo semplice. Tutti i dati in formato non elaborato sono raccolti mediante l'uso di un Crawler che esegue la scansione del web.
 
 \begin{definition}
 Il Crawler, comunemente chiamato anche Spider o Bot, è un software/script che ha lo scopo di scansionare dei dati. Tale termine viene tipicamente associato alla scansione di pagine web oppure di database con il fine di estrapolarne i contenuti. In particolare nella SEO il Crawler viene associato allo spider di Google. In realtà il crawling è una delle fasi per l’indicizzazione dei siti nella SERP(Search Engine Results Page), la pagina dei risultati di un motore di ricerca.
 \end{definition}
 
 \subsection{Idea e obbiettivi del progetto}
-Il progetto che si è pensato di realizzare con il dataset \CC è un riconoscitore della lingua di una pagina web. Nello specifico, a partire dall'enorme mole di pagine a disposizione, progettare un programma \MR che sia in grado di ritornare per ogni pagina identificata da un url univoco la o le lingue in cui tale testo è stato scritto. L'idea per la realizzazione è che a partire dal testo della pagina vengano estratte le singole parole tramite una semplice ma specifica operazione di split, dettagliata meglio in seguito. Successivamente tramite un confronto di queste ultime con un campione di circa 300 parole per ogni lingua, rendere possibile stabilire in modo approssimato ma statistico le lingue di appartenenza della pagina.
+Il progetto che si è pensato di realizzare con il dataset \CC{} è un riconoscitore della lingua di una pagina web. Nello specifico, a partire dall'enorme mole di pagine a disposizione, progettare un programma \MR{} che sia in grado di ritornare per ogni pagina identificata da un url univoco la o le lingue in cui tale testo è stato scritto. L'idea per la realizzazione è che a partire dal testo della pagina vengano estratte le singole parole tramite una semplice ma specifica operazione di split, dettagliata meglio in seguito. Successivamente tramite un confronto di queste ultime con un campione di circa 300 parole per ogni lingua, rendere possibile stabilire in modo approssimato ma statistico le lingue di appartenenza della pagina.
 
-Data la consapevolezza dell'assai complicata operazione di riconoscimento di una lingua di un testo e della poca precisione di un sistema unicamente basato su split e confronti limitati, il nostro goal è la realizzazione di un programma \MR ben strutturato e modulare che sia in grado di analizzare e riconoscere la lingua dato un qualsiasi opportuno algoritmo.
-L'obbiettivo del progetto non è dunque quello di realizzare un sistema che riesca a riconoscere in maniera precisa il maggior quantitativo possibile di coppie pagina/lingua ma quello di progettare un \MR con una architettura adatta a svolgere questo tipo di analisi in maniera semplice.
+Data la consapevolezza dell'assai complicata operazione di riconoscimento di una lingua di un testo e della poca precisione di un sistema unicamente basato su split e confronti limitati, il nostro goal è la realizzazione di un programma \MR{} ben strutturato e modulare che sia in grado di analizzare e riconoscere la lingua dato un qualsiasi opportuno algoritmo.
+L'obbiettivo del progetto non è dunque quello di realizzare un sistema che riesca a riconoscere in maniera precisa il maggior quantitativo possibile di coppie pagina/lingua ma quello di progettare un \MR{} con una architettura adatta a svolgere questo tipo di analisi in maniera semplice.
 
-Oltre all'obbiettivo di ritornare le lingue delle pagine web ce ne poniamo un altro: quello di verificare se queste lingue da noi riconosciute sono corrette. Nello specifico supponiamo di voler dare la possibilità di testare lo script che individua le lingue. Il controllo verrà effettuato a partire da coppie url/lingua\_corretta che \CC fornisce tramite dei file che contengono i risultati di un analizzatore esterno non \MR che verrà introdotto a seguito. Dato un url relativo a una pagina il nostro programma \MR dovrà dunque essere in grado di confrontare se la lingua o le lingue da noi riconosciute sono le stesse che vengono proposte dall'analizzatore esistente, o in un caso più generico se sono le stesse riportate nei file.
+Oltre all'obbiettivo di ritornare le lingue delle pagine web ce ne poniamo un altro: quello di verificare se queste lingue da noi riconosciute sono corrette. Nello specifico supponiamo di voler dare la possibilità di testare lo script che individua le lingue. Il controllo verrà effettuato a partire da coppie url/lingua\_corretta che \CC{} fornisce tramite dei file che contengono i risultati di un analizzatore esterno non \MR{}  che verrà introdotto a seguito. Dato un url relativo a una pagina il nostro programma \MR{} dovrà dunque essere in grado di confrontare se la lingua o le lingue da noi riconosciute sono le stesse che vengono proposte dall'analizzatore esistente, o in un caso più generico se sono le stesse riportate nei file.
 
 % fare facilmente riferimento all'analizzatore di lingua \MR 
 
 \subsection{Il dataset e i suoi file}
 
-Di seguito una tabella presente anche sulla pagina web di \CC, utile per capire i diversi formati a disposizione degli utenti per la consultazione del dataset.
+Di seguito una tabella presente anche sulla pagina web di \CC{}, utile per capire i diversi formati a disposizione degli utenti per la consultazione del dataset.
 
 \commonCrawlFilesTable
 
-Tra i vari formati proposti quelli che ci interessano poiché utilizzati nel progetto sono \textit{`WET'} e \textit{`Url Index'}. I primi contengono il testo estratto dalle pagine web, nella pratica a partire dalla sorgente html presente sul \textit{WARC} sono stati rimossi tutti i tag ed è stato mantenuto solo il testo semplice. Si ottiene quindi una pagina dal contenuto testuale non strutturato che ci ritorna utile per l'estrazione delle parole. Ogni pagina viene preceduta da alcune righe di header che riportano alcune informazioni come la data di acquisizione, la lunghezza del testo in caratteri e ovviamente l'url a cui noi attribuiremo una lingua e che utilizzeremo come identificatore della pagina web stessa. Qui sotto un piccolissimo estratto di un file \textit{WET} relativo a una pagina in inglese, risulta semplice distinguere l'header e il relativo plain text.
+Tra i vari formati proposti quelli che ci interessano poiché utilizzati nel progetto sono \textit{`WET'} e \textit{`Url Index'}. I primi contengono il testo estratto dalle pagine web, nella pratica a partire dalla sorgente html presente sul \textit{WARC} sono stati rimossi tutti i tag ed è stato mantenuto solo il testo semplice. Si ottiene quindi una pagina dal contenuto testuale non strutturato che ci ritorna utile per l'estrazione delle parole. Ogni pagina viene preceduta da alcune righe di header che riportano alcune informazioni come la data di acquisizione, la lunghezza del testo in caratteri e ovviamente l'url a cui noi attribuiremo una lingua e che utilizzeremo come identificatore della pagina web stessa. Qui sotto un piccolissimo estratto di un file \textit{WET} relativo a una pagina in inglese, risulta semplice distinguere l'header e il relativo \pt{}.
 
 %--------------------------------------------------------------->
 \begin{minted}{text}
@@ -115,7 +118,7 @@ My favourite sport is hockey. And I love karate!
 RSS Feed ... Powered by Create your own unique website.
 \end{minted}
 
-Nei nostri test utilizzeremo solo pochi file \textit{WET} che da soli contengono migliaia di pagine web in formato plain text. Come detto prima l'altro tipo di file del dataset che andremo a utilizzare sono gli \textit{Url Index}. Questi ultimi contengono infatti tra le altre innumerevoli informazioni, la lingua che  \textit{CLD2 (Compact Language Detector 2)} ha individuato per la pagina relativa all'url in questione. \textit{CLD2} è un analizzatore esterno esterno che identifica probabilisticamente più di 80 lingue diverse in \textit{Unicode UTF-8}.
+Nei nostri test utilizzeremo solo pochi file \textit{WET} che da soli contengono migliaia di pagine web in formato \pt{}. Come detto prima l'altro tipo di file del dataset che andremo a utilizzare sono gli \textit{Url Index}. Questi ultimi contengono infatti tra le altre innumerevoli informazioni, la lingua che  \textit{CLD2 (Compact Language Detector 2)} ha individuato per la pagina relativa all'url in questione. \textit{CLD2} è un analizzatore esterno esterno che identifica probabilisticamente più di 80 lingue diverse in \textit{Unicode UTF-8}.
 
 Esempio line appartenente a un file \textit{Url Index} qualsiasi:
 %--------------------------------------------------------------->
@@ -132,7 +135,7 @@ La stessa linea di prima elaborata e spostata nel file \filename{info-00001.info
 http://163.30.102.1/modules/mylinks/...   zho,eng    UTF-8 
 \end{minted}
 
-Prima di partire con la descrizione dell'analizzatore è utile dire che la versione utilizzata del dataset \CC è quella relativa a \textit{Febbraio 2019}, l'ultima versione disponibile durante la fase di realizzazione dell'analizzatore. 
+Prima di partire con la descrizione dell'analizzatore è utile dire che la versione utilizzata del dataset \CC{} è quella relativa a \textit{Febbraio 2019}, l'ultima versione disponibile durante la fase di realizzazione dell'analizzatore. 
 
 %   _____ _______ _____  _    _ _______ _______ _    _ _____            
 %  / ____|__   __|  __ \| |  | |__   __|__   __| |  | |  __ \     /\    
@@ -141,11 +144,29 @@ Prima di partire con la descrizione dell'analizzatore è utile dire che la versi
 %  ____) |  | |  | | \ \| |__| |  | |     | |  | |__| | | \ \  / ____ \ 
 % |_____/   |_|  |_|  \_\\____/   |_|     |_|   \____/|_|  \_\/_/    \_\
 \section{Struttura generale dell'analizzatore}
+
 \begin{figure}[H]
   \centering
   \includesvg[width=11.8cm]{images/map_reduce_scheme_render.svg}
   \caption{Schema astratto Map Reduce realizzato}
 \end{figure}
+
+\subsection{Input Format e Distributed Cache}
+Qui sopra uno schema astratto che mostra il funzionamento generale dell'analizzatore \MR{} realizzato. I mapper per poter cominciare l'analisi hanno bisogno di 3 tipologie di file: 
+\begin{itemize}
+    \item Uno o più file \textit{WET} che contengono come già visto in precedenza le pagine in formato \pt{} con il relativo header(e dunque l'url univoco).
+    \item Uno o più file \textit{info} che mappano gli url con la `soluzione' sulla lingua proposta da \cld{} e il charset della pagina (che nel nostro analizzatore non useremo).
+    \item \filename{dictionary.json} : è il dizionario in formato json che contiene una lista delle 300 parole più frequenti per ogni lingua.
+\end{itemize}
+Tutte le tipologie di file devono essere rese disponibili nell'\textit{HDFS} prima dell'avvio del \MR{} e i vari file saranno specificati in input al programma \textit{jar}, come specificato meglio in seguito. Ogni tipologia di file viene tuttavia trattata in modo diverso, infatti le prime due tipologie passano attraverso il normale processo di split degli input sui vari mapper, mentre il dizionario essendo necessario ovunque nella sua interezza, viene caricato sulla \textit{Distributed Cache}. In particolare:
+\begin{itemize}
+    \item I file \textit{WET} sono associati a un \textit{Input Format} realizzato ad hoc per questo programma:\filename{PageAndHeaderInputFormat.java} che invece di inviare al mapper una singola linea del file invia l'intera pagina in \pt{} completa del suo header. Il mapper infatti ha bisogno dell'intera pagina con l'indicazione dell'url per poter fare l'analisi della lingua.
+    \item I file \textit{info} sono invece associati a \filename{TextInputFormat.java}. Tale classe è predefinita per la fase di split e invia ai mapper una singola rigola che come già detto più volte corrisponde alla tupla \textit{\textlangle. url,lingue\cld{},charset\textrangle}
+    \item Il file \filename{dictionary.json} essendo necessario nella sua interezza a tutti i mapper non è associato a un \textit{Input Format} ma viene caricato dal \filename{Driver} sulla \textit{Distributed Cache} nelle fasi iniziali del programma \MR{} realizzato.
+\end{itemize}
+\subsection{Map e Reduce}
+
+\subsection{Output del programma}
 
 %          __  __  ____  _____  _    _ _      _____ 
 %    _    |  \/  |/ __ \|  __ \| |  | | |    |_   _|
@@ -153,7 +174,7 @@ Prima di partire con la descrizione dell'analizzatore è utile dire che la versi
 % |_   _| | |\/| | |  | | |  | | |  | | |      | |  
 %   |_|   | |  | | |__| | |__| | |__| | |____ _| |_ 
 %         |_|  |_|\____/|_____/ \____/|______|_____|
-\section{Funzionamento e implementazione moduli}
+\section{Funzionamento specifico moduli}
 
 \subsection{Avvio del programma}
 \begin{minted}{bash}
@@ -196,6 +217,15 @@ Qui sotto un piccolo estratto del dizionario relativo alle lingue Africano e Ted
 %    |_|  |______|_____/   |_|             |_|  \_\_____|_____/ \____/|______(_)
 \section{Test e Risultati Finali}
 \subsection{Test su Docker-Cloudera}
+\'E interessante notare che durante l'esecuzione dello script \MR{}, quando Hadoop ci mostra le percentuali di completamento delle due fasi, la fase di reduce sembra iniziare prima che quella di map sia stata completata:
+\begin{minted}{bash}
+...
+19/03/24 11:50:25 INFO mapreduce.Job:  map 84% reduce 19%
+19/03/24 11:50:27 INFO mapreduce.Job:  map 87% reduce 24%
+...
+\end{minted}
+Tale particolarità si nota poco quando si fa funzionare lo script su piccoli input di test ma nel nostro caso è invece molto evidente. Per ovvi motivi i reducer non possono iniziare a elaborare i risultati dei mapper prima di essere sicuri che questi ultimi abbiano finito di emettere tutte le coppie \textit{\textlangle key,value\textrangle}, ma possono comunque fare lo \textit{`shuffle'}.
+La fase di \textit{shuffle} consiste concettualmente in un mix di sorting e un group-by, ovvero vengono raggruppano tutte le coppie \textit{\textlangle key,value\textrangle} per chiave e si ordinano in modo da poter eseguire al meglio le operazioni nel reducer. Questa fase può quindi iniziare prima che i mapper abbiano completato tutti gli `\textit{emit}'.
 \subsection{Test su cluster reale}
 
 %  ________   __ _____   __ 
@@ -208,11 +238,7 @@ Qui sotto un piccolo estratto del dizionario relativo alle lingue Africano e Ted
 %\section{Esercizio 1}
 
 %\subsection{File dell'esercizio}
-\begin{itemize}
-    \item \filename{codicefiscale.py} : programma visto a lezione per il calcolo del codice fiscale 
-    \item \filename{codicefiscale-test.py} : file con gli unit test
-    \item \filename{.coverage} : risultati coverage
-\end{itemize}
+
 
 %USI -----------------------------------
 \filename{codicefiscale.py}
