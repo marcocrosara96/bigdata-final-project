@@ -27,6 +27,17 @@ public class Dictionary {
         return dict.get(word);
     }
 
+    /*public Language getLanguageAdvanced(String word){
+        Language l = dict.get(word);
+        if(l != null)
+            return dict.get(word);
+        for(String dictWorld : dict.keySet()){
+            if(dictWorld.contains(word))
+                return dict.get(dictWorld);
+        }
+        return null;
+    }*/
+
     @Override
     public String toString(){
         String s = "";

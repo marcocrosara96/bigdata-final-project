@@ -1,6 +1,5 @@
 package map;
 
-import inputFormat.PageAndHeaderInputFormat;
 import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
@@ -16,6 +15,7 @@ import java.util.regex.Pattern;
  * Classe Mapper
  */
 public class Map extends Mapper<LongWritable, Text, Text, Text> {
+    public static String testUsed = "";
     public static String DICTIONARY_FILENAME = "dictionary.json";
     public static String DICTIONARY_PATH = "/input/dictionary/" + DICTIONARY_FILENAME;
     private static final Pattern WORD_BOUNDARY = Pattern.compile("\\s*\\b\\s*");//Indent. gli spazi vuoti da word a word
@@ -76,7 +76,7 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
             //context.write(new Text(url), wordsToText(getPageWords(lineText.toString()))); //one --> IntWritable (vedi sopra)
             context.write(new Text(url), new Text(
                     langelect.getLanguagesWithStats(
-                            getPageWords(lineString))));
+                            getPageWords(lineString))+ testUsed));
         }
         else{//PROVENIENZA INPUT: FILE INPUT
             String[] tuple = lineString.split("\t"); // formato: URL \t LANG \t CHARSET
@@ -149,6 +149,36 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
                 wordsFiltered.add(word);
         }
         return wordsFiltered;*/
+        boolean split = false;
+        for (String word: words) {
+            for(int i = 0; i < word.length(); i++){
+                if((word.charAt(i) >= '\u3041' && word.charAt(i)<= '\u309F') ||      //Unicode - Hiragana
+                        (word.charAt(i) >= '\u30A0' && word.charAt(i)<= '\u30FF') || //Unicode - Katakana
+                        (word.charAt(i) >= '\u31F0' && word.charAt(i)<= '\u31FF') || //Unicode - Kat. Phonetic Extensions
+                        (word.charAt(i) >= '\u3190' && word.charAt(i)<= '\u319F') || //Unicode - Kanbun
+                        (word.charAt(i) >= '\u4E00' && word.charAt(i)<= '\uA000') || //Han Ideographs - Chinese A
+                        (word.charAt(i) >= '\u3400' && word.charAt(i)<= '\u4DC0') || //Han Ideographs - Chinese B
+                        (word.charAt(i) >= '\uF900' && word.charAt(i)<= '\uFB00') || //Han Ideographs - Chinese C
+                        (word.charAt(i) >= '\u9FA6' && word.charAt(i)<= '\u9FCC')    //Han Ideographs - Chinese D
+                ) {
+                    split = true;
+                    break;
+                }
+            }
+        }
+        testUsed = "";
+        if(split == true){
+            testUsed = "@+@";
+            System.out.println("sfdsdfsdfsdfsdfsdf");
+            HashSet<String> wordsExtended = new HashSet<>();
+            for (String word: words) {
+                for(int i = 1; i < word.length(); i++){
+                    wordsExtended.add(word.substring(0,i));
+                }
+            }
+            return  wordsExtended;
+        }
+
         return words;
     }
 

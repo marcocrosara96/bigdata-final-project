@@ -36,13 +36,13 @@ public class LanguageElect {
 
         for (Language lang: langStats.keySet()) {
             if(!lang.equals(NOTFOUND_WORDS_LANG) && !lang.equals(OTHER_WORDS_LANG))
-                s += lang.getTag_ISO_639_V2() + ":" + langStats.get(lang) + SEPARATOR;
+                s += lang.getTag_ISO_639_V2() + ":" + langStats.get(lang) + "%" + SEPARATOR;
         }
 
         //Aggiungo anche Other_Langs (se esiste) e Not_Found
         if(langStats.containsKey(OTHER_WORDS_LANG))
-            s += "Other_Langs:" + langStats.get(OTHER_WORDS_LANG) + SEPARATOR;
-        s += "Not_Found:" + langStats.get(NOTFOUND_WORDS_LANG);
+            s += "Other_Langs:" + langStats.get(OTHER_WORDS_LANG) + "%" + SEPARATOR;
+        s += "Not_Found:" + langStats.get(NOTFOUND_WORDS_LANG) + "%";
         return calculateObtainedResult(langStats) + "\t" + s;
     }
 
@@ -114,6 +114,18 @@ public class LanguageElect {
         return new Pair<>(langMin, min);
     }
 
+    private Pair<Language, Double> maxValueKey(HashMap<Language,Double> langStats){
+        double max = -1;
+        Language langMax = null;
+        for(Language lang_in : langStats.keySet()) {
+            if(langStats.get(lang_in) > max){
+                max = langStats.get(lang_in);
+                langMax = lang_in;
+            }
+        }
+        return new Pair<>(langMax, max);
+    }
+
     private double calculateRemaining(HashMap<Language,Double> langStats){
         double sum = 0;
         for (Language lang_in : langStats.keySet()) {
@@ -139,14 +151,14 @@ public class LanguageElect {
      * @param langStats lingue con le relative percentuali di presenza
      * @return lista delle lingue della pagina
      */
-    public static String calculateObtainedResult(HashMap<Language, Double> langStats){
-        String s = "";
+    public String calculateObtainedResult(HashMap<Language, Double> langStats){
+        HashMap<Language, Double> langsToReturn_inList = new HashMap<>();
         Language alternative = null;
         int i = 0;
         for (Language lang: langStats.keySet()) { //seleziono le prime MAX_NUMBER_LANG_TO_SHOW lingue che verificano il limite minimo
             if(!lang.equals(NOTFOUND_WORDS_LANG) && !lang.equals(OTHER_WORDS_LANG) && i < MAX_NUMBER_LANG_TO_SHOW){
                 if(langStats.get(lang) >= VALID_LANGUAGE_THRESHOLD){
-                    s += lang.getTag_ISO_639_V2() + ",";
+                    langsToReturn_inList.put(lang, langStats.get(lang));
                     i++;
                 }
                 else{ // salvo la lingua con la percentuale massima
@@ -155,10 +167,44 @@ public class LanguageElect {
                 }
             }
         }
-        if(s.length() != 0)
-            return s.substring(0, s.length()-1); //tolgo la virgola in eccesso
+        if(langsToReturn_inList.size() != 0)
+            return fromLangsToString(clearIfBigStep(langsToReturn_inList));
         if(alternative != null) //se non ho selezionato nessuna lingua sopra il threshold, scelgo quella che ha comunque la percentuale massima
             return alternative.getTag_ISO_639_V2();
         return LANGUAGE_NOT_FOUND;
+    }
+
+    public HashMap<Language, Double> clearIfBigStep(HashMap<Language, Double> langStats){
+        Pair<Language, Double> langMax = maxValueKey(langStats);
+        if(langMax.getValue() == null)
+            return langStats;
+        if(langMax.getValue() < VALID_LANGUAGE_THRESHOLD)
+            return langStats;
+        if(langMax.getValue() > 10)
+            langMax = new Pair<>(langMax.getKey(), 10.01); //Attenzione non sto modificando il vlore reale
+        double step = langMax.getValue() - 3;
+
+        HashMap<Language, Double> newLangStats = new HashMap<>();
+        for (Language lang: langStats.keySet()) {
+            if(langStats.get(lang) > step){
+                newLangStats.put(lang, langStats.get(lang));
+            }
+        }
+        return newLangStats;
+    }
+
+    public String fromLangsToString(HashSet<Language> langs){
+        String s = "";
+        for (Language lang: langs) {
+            s += lang.getTag_ISO_639_V2() + ",";
+        }
+        if(!s.equals(""))
+            return s.substring(0, s.length()-1); //tolgo la virgola in eccesso
+        return s;
+    }
+
+    public String fromLangsToString(HashMap<Language, Double> langsAndStats){
+        HashSet<Language> langs = new HashSet<>(langsAndStats.keySet());
+        return fromLangsToString(langs);
     }
 }
