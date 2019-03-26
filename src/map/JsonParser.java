@@ -11,11 +11,11 @@ import java.io.IOException;
  * Parser per i file json dei DIZIONARI
  */
 public class JsonParser {
-    public static String CHARSET = "UTF-8";
+    public static final String CHARSET = "UTF-8";
 
     /**
      * Parserizza il testo del dizionario per ricavarne le info sulle lingue e sulle relative parole
-     * @param filePath path del dizionario sulla  distributed cache
+     * @param filePath path del dizionario sulla distributed cache
      * @return il dizionario popolato correttamente con lingue e relative parole
      */
     public static Dictionary loadDictionary(String filePath){

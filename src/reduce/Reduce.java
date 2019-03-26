@@ -4,22 +4,20 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
-import java.util.HashSet;
 
 /**
- * Classe Reducer
+ * Classe Reduce estende il Reducer e lo implementa
  *                                  <Coppia Input><Coppia Output>
  */
 public class Reduce extends Reducer<Text, Text, Text, Text> {
-    public static String REAL_LANGUAGE_FLAG = "@Real@";
-
-    ResultChecker resultchecker = new ResultChecker();
+    public static final String REAL_LANGUAGE_FLAG = "@Real@";
+    private ResultChecker resultchecker = new ResultChecker();
 
     /**
      * !!! REDUCER !!!
      * @param url url della pagina
      * @param descriptions informazione strutturata sulla lingua della pagina a cui appartiene l'url
-     * @param context
+     * @param context contesto
      * @throws IOException
      * @throws InterruptedException
      */
@@ -45,6 +43,4 @@ public class Reduce extends Reducer<Text, Text, Text, Text> {
             context.write(url, new Text(outputString));
         }
     }
-
-
 }

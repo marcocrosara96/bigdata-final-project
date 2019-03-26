@@ -23,6 +23,11 @@ public class Dictionary {
         dict.put(word, language);
     }
 
+    /**
+     * Data una parola ritorna la lingua a cui è associata
+     * @param word parola di cui cercare la lingua
+     * @return lingua della parola
+     */
     public Language getLanguage(String word){
         return dict.get(word);
     }
@@ -40,7 +45,7 @@ public class Dictionary {
 
     @Override
     public String toString(){
-        String s = "";
+        String s = "info:" + dictName + "-" + dictVersion + "-" + dictType + ":";
         for (String key : dict.keySet()) {
             s += "{word:" + key + ",language:" + dict.get(key) + "}\n";
         }

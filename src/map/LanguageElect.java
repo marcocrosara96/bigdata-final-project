@@ -10,15 +10,19 @@ import java.util.HashSet;
  * Si occupa di "Promuovere" ovvero decidere la lingua di un testo, dato in ingresso il relativo insieme di parole
  */
 public class LanguageElect {
-    Dictionary dict;
+    Dictionary dict; //LanguageElect dispone di un dizionario di parola/lingua
 
-    public static Language NOTFOUND_WORDS_LANG = new Language("Not_Found","XX");
-    public static Language OTHER_WORDS_LANG = new Language("Other_Lang","++");
-    public static String LANGUAGE_NOT_FOUND = "-";
-    public static String SEPARATOR = ";";
+    public static final Language NOTFOUND_WORDS_LANG = new Language("Not_Found","XX");
+    public static final Language OTHER_WORDS_LANG = new Language("Other_Lang","++");
+    public static final String LANGUAGE_NOT_FOUND = "-";
+    public static final String SEPARATOR = ";";
     //Settaggi sulla lingua rilevata
-    private static int MAX_NUMBER_LANG_TO_SHOW = 6; //Settaggio che dice quante lingue mostrare nelle statistiche(le più probabili)
-    private static double VALID_LANGUAGE_THRESHOLD = 1.0; //percentuale sopra il quale una linqua e valida
+    private static final int MAX_NUMBER_LANG_TO_SHOW = 6; //Settaggio che dice quante lingue mostrare nelle statistiche(le più probabili)
+    private static final double VALID_LANGUAGE_THRESHOLD = 1.0; //percentuale sopra il quale una linqua e valida
+    //Settaggi sull'eliminazione di lingue con una differenza di percentuale troppo elevata
+    private static final double VALID_LANGUAGE_MAX_STEP = 3;
+    private static final double LIMIT_OF_CLEAR_PERCENTAGE = 10; //oltre questa percentule non effettuo più l'eliminazione delle lingue
+                                                            // (poichè hanno una presenza trotto elevata nella pagina)
 
     public LanguageElect(Dictionary dict) {
         this.dict = dict;
@@ -102,6 +106,11 @@ public class LanguageElect {
         return langStats;
     }
 
+    /**
+     * Data una Mappa di Lingue/Percentuali ritorna la relativa coppia Lingua/Percentuale con la percentuale Minore
+     * @param langStats mappa di lingue con le relative percentuali
+     * @return coppia Lingua/Percentuale con la percentuale Minore
+     */
     private Pair<Language, Double> minValueKey(HashMap<Language,Double> langStats){
         double min = 101;
         Language langMin = null;
@@ -114,6 +123,11 @@ public class LanguageElect {
         return new Pair<>(langMin, min);
     }
 
+    /**
+     * Data una Mappa di Lingue/Percentuali ritorna la relativa coppia Lingua/Percentuale con la percentuale Maggiore
+     * @param langStats mappa di lingue con le relative percentuali
+     * @return coppia Lingua/Percentuale con la percentuale Maggiore
+     */
     private Pair<Language, Double> maxValueKey(HashMap<Language,Double> langStats){
         double max = -1;
         Language langMax = null;
@@ -126,6 +140,12 @@ public class LanguageElect {
         return new Pair<>(langMax, max);
     }
 
+    /**
+     * Data una Mappa di Lingue/Percentuali somma le percentuali di tutte le lingue e ritorna la percentuale che manca
+     * al raggiungimento del 100%
+     * @param langStats mappa di lingue con le relative percentuali
+     * @return percentuale mancante
+     */
     private double calculateRemaining(HashMap<Language,Double> langStats){
         double sum = 0;
         for (Language lang_in : langStats.keySet()) {
@@ -147,7 +167,7 @@ public class LanguageElect {
 
     /**
      * Calcolo le lingue in cui secondo l'algoritmo è scritta la pagina, basandomi sul VALID_LANGUAGE_THRESHOLD e
-     * MAX_NUMBER_LANG_TO_SHOW
+     * MAX_NUMBER_LANG_TO_SHOW, in tal modo potrò restituire dalle percentuali una lista di lingue probabili es. eng,zho
      * @param langStats lingue con le relative percentuali di presenza
      * @return lista delle lingue della pagina
      */
@@ -174,15 +194,23 @@ public class LanguageElect {
         return LANGUAGE_NOT_FOUND;
     }
 
+    /**
+     * Esegue una pulizia della mappa di Lingue/Percentuali rimuovendo le lingue che pur avendo una percentuale elevata
+     * hanno un distacco troppo elevato rispetto alla percentuale della lingua con percentuale più elevata.
+     * es. ita:3%,zho:9%,rus:22% ------> rus:22% (nell'esempio tengo solo la lingua russa)
+     * @param langStats Mappa di Lingue/Percentuali originale
+     * @return Mappa di Lingue/Percentuali pulita dalle lingue con differenza di percentuale troppo elevata rispetto
+     * alla lingua con percentuale più alta
+     */
     public HashMap<Language, Double> clearIfBigStep(HashMap<Language, Double> langStats){
         Pair<Language, Double> langMax = maxValueKey(langStats);
         if(langMax.getValue() == null)
             return langStats;
         if(langMax.getValue() < VALID_LANGUAGE_THRESHOLD)
             return langStats;
-        if(langMax.getValue() > 10)
-            langMax = new Pair<>(langMax.getKey(), 10.01); //Attenzione non sto modificando il vlore reale
-        double step = langMax.getValue() - 3;
+        if(langMax.getValue() > LIMIT_OF_CLEAR_PERCENTAGE)
+            langMax = new Pair<>(langMax.getKey(), (LIMIT_OF_CLEAR_PERCENTAGE + 0.01)); //Attenzione non sto modificando il vlore reale
+        double step = langMax.getValue() - VALID_LANGUAGE_MAX_STEP;
 
         HashMap<Language, Double> newLangStats = new HashMap<>();
         for (Language lang: langStats.keySet()) {
@@ -193,6 +221,11 @@ public class LanguageElect {
         return newLangStats;
     }
 
+    /**
+     * Converte un insieme di lingue in una stringa di tag
+     * @param langs Insieme di lingue
+     * @return Stringa di tag separati da virgola
+     */
     public String fromLangsToString(HashSet<Language> langs){
         String s = "";
         for (Language lang: langs) {
@@ -203,6 +236,11 @@ public class LanguageElect {
         return s;
     }
 
+    /**
+     * Converte una mappa di Lingue/Percentuali in una stringa con l'elenco delle lingue (come tag)
+     * @param langsAndStats Mappa di Lingue/Percentuali
+     * @return Stringa di tag separati da virgola
+     */
     public String fromLangsToString(HashMap<Language, Double> langsAndStats){
         HashSet<Language> langs = new HashSet<>(langsAndStats.keySet());
         return fromLangsToString(langs);

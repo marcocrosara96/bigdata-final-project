@@ -14,6 +14,11 @@ import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 
+/**
+ * Esegue lo split vero e proprio per inviare ai mapper il giusto numero di linee di testo (corrispondenti alla plain
+ * text page + header with url). Sfrutta il tag "WARC/1.0" presente come prima linea di ogni header presente sul file:
+ * grazie a questo viene effettutato lo split del file stesso in modo corretto.
+ */
 public class NLinesRecordReader extends RecordReader<LongWritable, Text>{
     private LineReader in;
 

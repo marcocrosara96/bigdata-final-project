@@ -1,10 +1,10 @@
 package map;
 
 /**
- * Rappresenta una lingua con un nome e il relativo/i tag nei due formati standard ISO-639-1 e ISO-639-2
+ * Rappresenta una lingua con un nome e il relativo/i tag nello standard ISO-639-2
  */
 public class Language{
-    private String name;
+    private String name; //nome della lingua in formato testo
     //private String tag_ISO_639_V1; //2 char
     //private String tag_ISO_639_V1_alt; //2 char
     private String tag_ISO_639_V2; //(T) 3 char

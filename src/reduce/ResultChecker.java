@@ -7,16 +7,23 @@ import java.util.HashSet;
  * rispetto agli altri, ritornando una stringa con i risultati e un simbolo raffigurante la correttezza
  */
 public class ResultChecker {
-    public static char SYMBOL_TICK = '\u2705';
-    public static char SYMBOL_CROSS = '\u274C';
+    public static final char SYMBOL_TICK = '\u2705';
+    public static final char SYMBOL_CROSS = '\u274C';
     //public static char SYMBOL_WAVY = '\u3030';
     //public static char SYMBOL_UP = '\u2B06';
     //public static char SYMBOL_DOWN = '\u2B07';
     //public static char SYMBOL_UP_DOWN = '\u2195';
-    public static char SYMBOL_PLUS = '\u2795';
-    public static char SYMBOL_MINUS = '\u2796';
-    public static char SYMBOL_DIVISION = '\u2797';
+    public static final char SYMBOL_PLUS = '\u2795';
+    public static final char SYMBOL_MINUS = '\u2796';
+    public static final char SYMBOL_DIVISION = '\u2797';
 
+    /**
+     * Ritorna le statistiche sulle lingue trovate e quelle della soluzione
+     * Formato: "Response:" + analyzedInfo + " | Expected:" + solutionInfo + "\t" + simbolo_accuratezza
+     * @param analyzedInfo lingue trovate tramite l'analisi
+     * @param solutionInfo lingue corrispondenti alla soluzione
+     * @return stringa nel formato scritto sopra.
+     */
     public String getResultsWithAccuracy(String analyzedInfo, String solutionInfo){
         HashSet<String> analyzedResultLangs = arrayToHashSet(analyzedInfo.split(","));
         HashSet<String> solutionResultLangs = arrayToHashSet(solutionInfo.split(","));
@@ -28,6 +35,12 @@ public class ResultChecker {
         return "Response:" + analyzedInfo + " | Expected:" + solutionInfo + "\t" + symbol;
     }
 
+    /**
+     * Stima l'accuratezza dei risultati tramite un simbolo di riferimento
+     * @param analyzedResultLangs lingue trovate tramite l'analisi
+     * @param solutionResultLangs lingue corrispondenti alla soluzione
+     * @return simbolo relativo all'accuratezza dei risultati
+     */
     private char estimatedAccuracyWithSymbol(HashSet<String> analyzedResultLangs, HashSet<String> solutionResultLangs){
         double percentageOfLess = 0;
         double percentageOfMore = 0;
@@ -57,6 +70,11 @@ public class ResultChecker {
         return SYMBOL_DIVISION;
     }
 
+    /**
+     * Converte un array in HashSet
+     * @param array array
+     * @return hashset relativo all'array
+     */
     private HashSet<String> arrayToHashSet(String[] array){
         HashSet<String> set = new HashSet<>();
         for (String s : array) {

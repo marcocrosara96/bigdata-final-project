@@ -12,27 +12,25 @@ import java.util.HashSet;
 import java.util.regex.Pattern;
 
 /**
- * Classe Mapper
+ * Classe Map estende il Mapper e lo implementa
  */
 public class Map extends Mapper<LongWritable, Text, Text, Text> {
-    public static String testUsed = "";
-    public static String DICTIONARY_FILENAME = "dictionary.json";
-    public static String DICTIONARY_PATH = "/input/dictionary/" + DICTIONARY_FILENAME;
+    public static final String DICTIONARY_FILENAME = "dictionary.json";
+    public static final String DICTIONARY_PATH = "/input/dictionary/" + DICTIONARY_FILENAME;
     private static final Pattern WORD_BOUNDARY = Pattern.compile("\\s*\\b\\s*");//Indent. gli spazi vuoti da word a word
     private static final Pattern WORD_BOUNDARY_V2 = Pattern.compile("[\\[0-9\\]\\s!-$%^&*()_+|~=`{}\\[\\]°:\";'<>?,@#.\\/•]+");
+    public static final String WORDS_SPLITTED_TAG = "[WS]";
     private Dictionary dict;
     private LanguageElect langelect;
-    private HashSet<String> wordsExcluded;
+    private boolean wordsHaveBeenSplitted = false;
 
     /**
      * Mi permette di fare i settaggi iniziali del mapper tra cui di recuperare ed elaborare tutte le informazioni dei
      * file in Distributed Cache
-     * @param context
-     * @throws IOException
-     * @throws InterruptedException
+     * @param context contesto
      */
     @Override
-    protected void setup(Context context) throws IOException, InterruptedException {
+    protected void setup(Context context){
         try{
             //Recupero il file relativo al dizionario dalla cache
             String localPathOfDictionary = null;
@@ -47,11 +45,6 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
 
             //Avvio l'istanza di LanguageElect
             langelect = new LanguageElect(dict);
-
-            //Setto le parole da escludere
-            wordsExcluded = new HashSet<>();
-            wordsExcluded.add("http");
-            wordsExcluded.add("https");
         } catch(Exception e) {
             System.err.println("Exception in mapper setup: " + e.getMessage());
         }
@@ -73,10 +66,10 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
             if(url == null)
                 return;
 
-            //context.write(new Text(url), wordsToText(getPageWords(lineText.toString()))); //one --> IntWritable (vedi sopra)
-            context.write(new Text(url), new Text(
-                    langelect.getLanguagesWithStats(
-                            getPageWords(lineString))+ testUsed));
+            String valueStringToEmit = langelect.getLanguagesWithStats(getPageWords(lineString));
+            if(wordsHaveBeenSplitted == true)
+                valueStringToEmit += WORDS_SPLITTED_TAG;
+            context.write(new Text(url), new Text(valueStringToEmit));
         }
         else{//PROVENIENZA INPUT: FILE INPUT
             String[] tuple = lineString.split("\t"); // formato: URL \t LANG \t CHARSET
@@ -97,8 +90,8 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
      * WARC-Block-Digest: sha1:CUQQM3WGK2FKF4QQM5YXWJ5PTXS4NZOU
      * Content-Type: text/plain
      * Content-Length: 4691
-     * @param fullPage
-     * @return
+     * @param fullPage pagina completa (inclusa di header)
+     * @return url della pagina, estratto dall'header
      */
     private String getPageUrlFromHeader(String fullPage){
         int urlStartIndex = fullPage.indexOf("WARC-Target-URI: ");
@@ -134,51 +127,20 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
                 continue;
             words.add(word);
         }
-        return filterAndCleanWords(words);
+        return filterCleanAddWords(words);
     }
 
     /**
-     * Filtra le parole trovate nel testo rimuvendo quelle non rilevanti
-     * @param words parole da filtrare
-     * @return parole filtrate
+     * Filtra le parole trovate nel testo rimuvendo quelle non rilevanti e aggiungendone di nuove utili alla rilevazione
+     * della lingua alla successiva elaborazione
+     * @param words parole da filtrare e integare
+     * @return parole filtrate e integrate
      */
-    private HashSet<String> filterAndCleanWords(HashSet<String> words){
-        /*HashSet<String> wordsFiltered = new HashSet<>();
-        for (String word: words) {
-            if(!wordsExcluded.contains(word))
-                wordsFiltered.add(word);
+    private HashSet<String> filterCleanAddWords(HashSet<String> words){
+        wordsHaveBeenSplitted = doWordsStartWithAsianCharacters(words);
+        if(wordsHaveBeenSplitted){
+            return extendsWordsWithSingleCharcters(words);
         }
-        return wordsFiltered;*/
-        boolean split = false;
-        for (String word: words) {
-            for(int i = 0; i < word.length(); i++){
-                if((word.charAt(i) >= '\u3041' && word.charAt(i)<= '\u309F') ||      //Unicode - Hiragana
-                        (word.charAt(i) >= '\u30A0' && word.charAt(i)<= '\u30FF') || //Unicode - Katakana
-                        (word.charAt(i) >= '\u31F0' && word.charAt(i)<= '\u31FF') || //Unicode - Kat. Phonetic Extensions
-                        (word.charAt(i) >= '\u3190' && word.charAt(i)<= '\u319F') || //Unicode - Kanbun
-                        (word.charAt(i) >= '\u4E00' && word.charAt(i)<= '\uA000') || //Han Ideographs - Chinese A
-                        (word.charAt(i) >= '\u3400' && word.charAt(i)<= '\u4DC0') || //Han Ideographs - Chinese B
-                        (word.charAt(i) >= '\uF900' && word.charAt(i)<= '\uFB00') || //Han Ideographs - Chinese C
-                        (word.charAt(i) >= '\u9FA6' && word.charAt(i)<= '\u9FCC')    //Han Ideographs - Chinese D
-                ) {
-                    split = true;
-                    break;
-                }
-            }
-        }
-        testUsed = "";
-        if(split == true){
-            testUsed = "@+@";
-            System.out.println("sfdsdfsdfsdfsdfsdf");
-            HashSet<String> wordsExtended = new HashSet<>();
-            for (String word: words) {
-                for(int i = 1; i < word.length(); i++){
-                    wordsExtended.add(word.substring(0,i));
-                }
-            }
-            return  wordsExtended;
-        }
-
         return words;
     }
 
@@ -193,5 +155,52 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
             output += word + ";";
         }
         return new Text(output);
+    }
+
+    /**
+     * Analizza un insieme di parole e ritorna true se e solo se almeno una di esse inizia con un carattere orientale
+     * @param words insieme di parole
+     * @return true se e seolo se una parola inizia con un carattere orientale, false atrimenti
+     */
+    public boolean doWordsStartWithAsianCharacters(HashSet<String> words){
+        boolean asian = false;
+        int i = 0;
+        for (String word: words) {
+            if(word.charAt(i) >= '\u3041') { //Controllo iniziale per evitare di fare inutilmente troppi altri controlli
+                if((word.charAt(i) >= '\u3041' && word.charAt(i)<= '\u309F') ||      //Unicode - Hiragana
+                        (word.charAt(i) >= '\u30A0' && word.charAt(i)<= '\u30FF') || //Unicode - Katakana
+                        (word.charAt(i) >= '\u31F0' && word.charAt(i)<= '\u31FF') || //Unicode - Kat. Phonetic Extensions
+                        (word.charAt(i) >= '\u3190' && word.charAt(i)<= '\u319F') || //Unicode - Kanbun
+                        (word.charAt(i) >= '\u4E00' && word.charAt(i)<= '\uA000') || //Han Ideographs - Chinese A
+                        (word.charAt(i) >= '\u3400' && word.charAt(i)<= '\u4DC0') || //Han Ideographs - Chinese B
+                        (word.charAt(i) >= '\uF900' && word.charAt(i)<= '\uFB00') || //Han Ideographs - Chinese C
+                        (word.charAt(i) >= '\u9FA6' && word.charAt(i)<= '\u9FCC')    //Han Ideographs - Chinese D
+                ) {
+                    asian = true;
+                    break;
+                }
+            }
+        }
+        return asian;
+    }
+
+    /**
+     * Arricchisce l'insieme di parole con "nuove parole" che sono i singoli caratteri delle parole stesse
+     * N.B.[Nell'idea attuale inserisco non solo il carattere singolo ma i caratteri due a due -> per ottimizzare
+     * il rilevamento della lingua orientale]
+     * @param words insieme di parole da arricchire
+     * @return insieme di parole arricchito
+     */
+    public HashSet<String> extendsWordsWithSingleCharcters(HashSet<String> words){
+        HashSet<String> wordsExtended = new HashSet<>();
+        for (String word: words) {
+            wordsExtended.add(word);
+            for(int i = 1; i < word.length(); i++){
+                wordsExtended.add(word.substring(i-1,i));
+                wordsExtended.add(word.substring(i-1,i+1));
+            }
+            wordsExtended.add(word.substring(word.length()-1));
+        }
+        return  wordsExtended;
     }
 }
