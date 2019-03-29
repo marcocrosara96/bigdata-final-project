@@ -8,3 +8,7 @@ Comandi utili
 - su cloudera
 - hadoop jar DATA/analyzer.jar
 - yarn resourcemanager
+
+Comandi utili - cluster
+-  scp ./dataset/InfoFiles/info-00000.info st-####@#####:
+-  

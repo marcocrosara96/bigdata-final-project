@@ -32,7 +32,7 @@ public class Driver extends Configured implements Tool {
 
     /**
      * Main
-     * @param args --> formato: hadoop jar DATA/analyzer.jar [input file/dir WET] [ input file/dir INFO] [output dir] [# reducers]
+     * @param args --> formato: hadoop jar DATA/analyzer.jar [#reducers] [input file/dir WET] [ input file/dir INFO] [dictionary file] [output dir]
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
@@ -54,26 +54,29 @@ public class Driver extends Configured implements Tool {
         // FileInputFormat.setInputPaths(job, new Path(INPUT_PATH));
         // job.setInputFormatClass(PageAndHeaderInputFormat.class); //Set the new input format class
         // ----------------------------------------------------------
-        if(args.length > 0)
-            MultipleInputs.addInputPath(job, new Path(args[0]), PageAndHeaderInputFormat.class);
-        else
-            MultipleInputs.addInputPath(job, new Path(INPUT_PATH_WET), PageAndHeaderInputFormat.class);
-        // ############### INFO INPUT FILES/DIRS ################
-        if(args.length > 1)
-            MultipleInputs.addInputPath(job, new Path(args[1]), TextInputFormat.class);
-        else
-            MultipleInputs.addInputPath(job, new Path(INPUT_PATH_INFO), TextInputFormat.class);
-        // ################# OUTPUT FILES/DIRS ##################
-        if(args.length > 2)
-            FileOutputFormat.setOutputPath(job, new Path(args[2]));
-        else
-            FileOutputFormat.setOutputPath(job, new Path(OUTPUT_PATH));
         // ################# NUMBER OF REDUCERS #################
-        if(args.length > 3)
-            job.setNumReduceTasks(Integer.parseInt(args[3]));
+        if(args.length > 0)
+            job.setNumReduceTasks(Integer.parseInt(args[0]));
         else
             job.setNumReduceTasks(NUM_REDUCE_TASK); //Default = 1
         // ######################################################
+        if(args.length > 1)
+            MultipleInputs.addInputPath(job, new Path(args[1]), PageAndHeaderInputFormat.class);
+        else
+            MultipleInputs.addInputPath(job, new Path(INPUT_PATH_WET), PageAndHeaderInputFormat.class);
+        // ############### INFO INPUT FILES/DIRS ################
+        if(args.length > 2)
+            MultipleInputs.addInputPath(job, new Path(args[2]), TextInputFormat.class);
+        else
+            MultipleInputs.addInputPath(job, new Path(INPUT_PATH_INFO), TextInputFormat.class);
+        // ################## DICTIONARY FILE ###################
+        if(args.length > 3)
+            Map.DICTIONARY_PATH = args[3];
+        // ################# OUTPUT FILES/DIRS ##################
+        if(args.length > 4)
+            FileOutputFormat.setOutputPath(job, new Path(args[4]));
+        else
+            FileOutputFormat.setOutputPath(job, new Path(OUTPUT_PATH));
 
         //Set Distributed Cache (Dictionary Files)
         DistributedCache.addCacheFile(new Path(Map.DICTIONARY_PATH).toUri(), job.getConfiguration());
