@@ -23,6 +23,8 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
     private Dictionary dict;
     private LanguageElect langelect;
     private boolean wordsHaveBeenSplitted = false;
+    private Text keyText = new Text();
+    private Text valueText = new Text();
 
     /**
      * Mi permette di fare i settaggi iniziali del mapper tra cui di recuperare ed elaborare tutte le informazioni dei
@@ -67,16 +69,23 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
                 return;
 
             String valueStringToEmit = langelect.getLanguagesWithStats(getPageWords(lineString));
-            if(wordsHaveBeenSplitted == true)
+            if(wordsHaveBeenSplitted)
                 valueStringToEmit += WORDS_SPLITTED_TAG;
-            context.write(new Text(url), new Text(valueStringToEmit));
+            //EMIT
+            keyText.set(url);
+            valueText.set(valueStringToEmit);
+            context.write(keyText, valueText);
         }
         else{//PROVENIENZA INPUT: FILE INPUT
             String[] tuple = lineString.split("\t"); // formato: URL \t LANG \t CHARSET
-            context.write(new Text(tuple[0]), new Text(Reduce.REAL_LANGUAGE_FLAG  + tuple[1]));
+
+            //EMIT
+            keyText.set(tuple[0]);
+            valueText.set(Reduce.REAL_LANGUAGE_FLAG  + tuple[1]);
+            context.write(keyText, valueText);
         }
 
-        //NB <--- use Set per assegnare la stringa al testo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11!!!!
+        //NB <--- use Set per assegnare la stringa al testo !!!!!!!!!!!!!!!!!!!!
     }
 
     /**

@@ -28,6 +28,8 @@ public class Driver extends Configured implements Tool {
     public static final String INPUT_PATH_INFO = "/input/info/info-00000.info"; //input file path or input directory path
     public static String OUTPUT_PATH = "/output/" + dateUniqueId(); //output path
     public static final int NUM_REDUCE_TASK = 1;
+    private Text keyText = new Text();
+    private Text valueText = new Text();
     /*----------------------*/
 
     /**

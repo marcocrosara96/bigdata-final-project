@@ -12,6 +12,7 @@ import java.io.IOException;
 public class Reduce extends Reducer<Text, Text, Text, Text> {
     public static final String REAL_LANGUAGE_FLAG = "@Real@";
     private ResultChecker resultchecker = new ResultChecker();
+    private Text valueText = new Text();
 
     /**
      * !!! REDUCER !!!
@@ -40,7 +41,9 @@ public class Reduce extends Reducer<Text, Text, Text, Text> {
         if(emit) {
             String[] analyzedInfoSlitted = anlyzedInfo.split("\t");
             String outputString = resultchecker.getResultsWithAccuracy(analyzedInfoSlitted[0], solutionInfo) + "\t" + analyzedInfoSlitted[1];
-            context.write(url, new Text(outputString));
+            //EMIT
+            valueText.set(outputString);
+            context.write(url, valueText);
         }
     }
 }
