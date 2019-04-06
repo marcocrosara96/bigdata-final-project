@@ -25,3 +25,66 @@
     \end{table}
     \renewcommand\arraystretch{1.0}
 }
+
+%TOTALE: 88791
+%tick: 49668
+%x: 5371
+%plus: 14058
+%minus: 14941
+%divided: 4753
+\newcommand{\printHistogram}[0]{
+    %\pgfplotsset{scaled y ticks=false}
+    \begin{tikzpicture}
+    \begin{axis}[
+        symbolic x coords={\imgtick{},\imgx{},\imgplus{},\imgminus{},\imgdivided{}}, 
+        ylabel = {occorrenze ($\cdot 10^3$)}, 
+        xlabel = {Accuratezza dei risultati}, 
+        xtick=data]
+        
+        \addplot[ybar,fill=white] coordinates {
+            (\imgtick{}, 49.668)
+            (\imgx{}, 5.371)
+            (\imgplus{}, 14.058)
+            (\imgminus{}, 14.941)
+            (\imgdivided{}, 4.753)
+        };
+    \end{axis}
+    \end{tikzpicture}
+}
+
+\newcommand{\printTimeGraph}[0]{
+    \begin{tikzpicture}
+    \begin{axis}[
+      %ymin=20,
+      %ymax=90,
+      %width=15cm,
+      %height=7cm,
+      ylabel={tempo (minuti)},
+      xlabel={\#files WET analizzati},
+      %xticklabels={,2,4,6,8,10}, 
+      legend style={at={(0.13,0.83)},
+      anchor=west, legend columns=-1, font=\small},
+      legend cell align=left,
+      xtick=data
+     ]
+
+    \addlegendentry{abc}
+
+    \addplot[blue, mark=+] coordinates {
+        (2, 1.23)
+        (4, 2.32)
+        (6, 3.23)
+        (8, 4.32)
+        (10, 5.45)
+    };
+    
+    \addplot[gray, mark=] coordinates {
+        (2, 1.23)
+        (4, 2.46)
+        (6, 3.69)
+        (8, 4.92)
+        (10, 6.15)
+    };
+    \end{axis}
+    \end{tikzpicture}
+}
