@@ -18,7 +18,7 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
     public static final String DICTIONARY_FILENAME = "dictionary.json";
     public static String DICTIONARY_PATH = "/input/dictionary/" + DICTIONARY_FILENAME;
     private static final Pattern WORD_BOUNDARY = Pattern.compile("\\s*\\b\\s*");//Indent. gli spazi vuoti da word a word
-    private static final Pattern WORD_BOUNDARY_V2 = Pattern.compile("[\\[0-9\\]\\s!\\-$%^&*()_+|~=`{}\\[\\]°:\";'<>?,@#.\\/•]+");
+    private static final Pattern WORD_BOUNDARY_V2 = Pattern.compile("[\\[0-9\\]\\s!\\-$€%^&*()_+|~=`{}\\[\\]°:\";'<>?,@#.\\/•]+");
     public static final String WORDS_SPLITTED_TAG = "[WS]";
     private Dictionary dict;
     private LanguageElect langelect;
