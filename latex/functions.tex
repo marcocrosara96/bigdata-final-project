@@ -62,21 +62,14 @@
       ylabel={tempo (minuti)},
       xlabel={\#files WET analizzati},
       %xticklabels={,2,4,6,8,10}, 
-      legend style={at={(0.13,0.83)},
-      anchor=west, legend columns=-1, font=\small},
+      legend style={at={(0.08,0.83)},
+      anchor=west, font=\small},
       legend cell align=left,
       xtick=data
      ]
 
-    \addlegendentry{abc}
-
-    \addplot[blue, mark=+] coordinates {
-        (2, 1.23)
-        (4, 2.32)
-        (6, 3.23)
-        (8, 4.32)
-        (10, 5.45)
-    };
+    \addlegendentry{and. proporzionale}
+    \addlegendentry{andamento reale}
     
     \addplot[gray, mark=] coordinates {
         (2, 1.23)
@@ -85,6 +78,15 @@
         (8, 4.92)
         (10, 6.15)
     };
+    
+    \addplot[blue, mark=+] coordinates {
+        (2, 1.23)
+        (4, 2.32)
+        (6, 3.23)
+        (8, 4.32)
+        (10, 5.45)
+    };
+    
     \end{axis}
     \end{tikzpicture}
 }

@@ -40,6 +40,7 @@
 \newcommand{\function}[1]{\textit{#1}}
 \newcommand{\command}[1]{\texttt{#1}}
 \newcommand{\mintedstyle}[1]{\url{#1}}
+\newcommand{\imgref}[1]{[Figura \ref{#1}]}
 %\newcommand{\path}[1]{\textit{#1}} #already defined
 
 % ------------------- ENVIROMENTS AND THEOREMS
@@ -87,16 +88,16 @@ Anno Accademico 2018/2019
 Il progetto è partito dalla curiosità di analizzare un grosso quantitativo di pagine web, con lo scopo di farne in qualche modo categorizzazione. Come punto di partenza si è scelto di cercare un dataset opportuno a questo tipo di analisi. Dopo una ricerca approfondita è stato scelto \CC{}\cite{commoncrawl}: una enorme collezione di pagine dati in formato \textit{raw}, da cui sono stati estratti metadati e testo semplice. Tutti i dati in formato non elaborato sono raccolti mediante l'uso di un Crawler che esegue la scansione del web.
 
 \begin{definition}
-Il Crawler, comunemente chiamato anche Spider o Bot, è un software/script che ha lo scopo di scansionare dei dati. Tale termine viene tipicamente associato alla scansione di pagine web oppure di database con il fine di estrapolarne i contenuti. In particolare nella SEO il Crawler viene associato allo spider di Google. In realtà il crawling è una delle fasi per l’indicizzazione dei siti nella SERP(Search Engine Results Page), la pagina dei risultati di un motore di ricerca.
+Il Crawler, comunemente chiamato anche Spider o Bot, è un software/script che ha lo scopo di scansionare dei dati. Tale termine viene tipicamente associato alla scansione di pagine web oppure di database, con il fine di estrapolarne i contenuti. In particolare nella SEO il Crawler viene associato allo spider di Google. In generale il crawling è una delle fasi per l’indicizzazione dei siti nella SERP(Search Engine Results Page), la pagina dei risultati di un motore di ricerca.
 \end{definition}
 
 \subsection{Idea e obbiettivi del progetto}
-Il progetto che si è pensato di realizzare con il dataset \CC{} è un riconoscitore della lingua di una pagina web. Nello specifico, a partire dall'enorme mole di pagine a disposizione, progettare un programma \MR{} che sia in grado di ritornare per ogni pagina identificata da un url univoco, la o le lingue in cui tale testo è stato scritto. L'idea per la realizzazione è che a partire dal testo della pagina vengano estratte le singole parole tramite una semplice ma specifica operazione di \textit{split}, dettagliata meglio in seguito. Successivamente tramite un confronto di queste ultime con un campione di circa 300 parole per ogni lingua, rendere possibile stabilire in modo approssimato ma statistico le lingue di appartenenza della pagina.
+Il progetto che si è pensato di realizzare con il dataset \CC{} è un riconoscitore della lingua di una pagina web. Nello specifico, a partire dall'enorme mole di pagine a disposizione, è stato progettato un programma \MR{} che sia in grado di ritornare per ogni pagina identificata da un url univoco, la o le lingue in cui tale testo è stato scritto. L'idea per la realizzazione è che a partire dal testo della pagina vengano estratte le singole parole tramite una semplice ma specifica operazione di \textit{split}, dettagliata meglio in seguito. Successivamente, tramite un confronto di queste ultime con un campione di circa 300 parole per ogni lingua, si rende possibile stabilire in modo approssimato ma statistico le lingue di appartenenza della pagina.
 
 Data la consapevolezza dell'assai complicata operazione di riconoscimento di una lingua di un testo e della poca precisione di un sistema unicamente basato su divisione di testo e confronti limitati, poniamo l'obbiettivo di questo progetto. Il nostro goal è la realizzazione di un programma \MR{} ben strutturato e modulare che sia in grado di analizzare e riconoscere la lingua dato un qualsiasi opportuno algoritmo.
-L'obbiettivo del progetto non è dunque quello di realizzare un sistema che riesca a riconoscere in maniera precisa il maggior quantitativo possibile di coppie pagina/lingua ma quello di progettare un \MR{} con una architettura adatta a svolgere questo tipo di analisi in maniera semplice.
+L'obbiettivo del progetto non è dunque quello di realizzare un sistema che riesca a riconoscere in maniera precisa il maggior quantitativo possibile di coppie pagina/lingua ma quello di progettare un \MR{} con un'architettura adatta a svolgere questo tipo di analisi in maniera semplice.
 
-Oltre all'obbiettivo di ritornare le lingue delle pagine web ce ne poniamo un altro: quello di verificare se queste lingue da noi riconosciute sono corrette. Nello specifico supponiamo di voler dare la possibilità di testare lo script che individua le lingue. Il controllo verrà effettuato a partire da coppie \textit{\textlangle url, lingua\_corretta\textrangle} che \CC{} fornisce tramite dei file che contengono i risultati di un analizzatore esterno non \MR{}  che verrà introdotto a seguito. Dato un url relativo a una pagina il nostro programma \MR{} dovrà dunque essere in grado di confrontare se la lingua o le lingue da noi riconosciute sono le stesse che vengono proposte dall'analizzatore esistente, o in un caso più generico se sono le stesse riportate nei file \info{}.
+Oltre all'obbiettivo di ritornare le lingue delle pagine web ce ne poniamo un altro: quello di verificare se queste lingue da noi riconosciute sono corrette. Nello specifico, supponiamo di voler dare la possibilità di testare lo script che individua le lingue. Il controllo verrà effettuato a partire da coppie \textit{\textlangle url, lingua\_corretta\textrangle} che \CC{} fornisce tramite dei file che contengono i risultati di un analizzatore esterno(non \MR{}) che verrà introdotto in seguito. Dato un url relativo a una pagina, il nostro programma \MR{} dovrà dunque essere in grado di confrontare se la lingua o le lingue da noi riconosciute sono le stesse che vengono proposte dall'analizzatore esistente, o in un caso più generico se sono le stesse riportate nei file \info{}.
 
 % fare facilmente riferimento all'analizzatore di lingua \MR 
 
@@ -106,7 +107,7 @@ Di seguito una tabella presente anche sulla pagina web di \CC{}, utile per capir
 
 \commonCrawlFilesTable
 
-Tra i vari formati proposti quelli che ci interessano poiché utilizzati nel progetto sono \textit{`WET'} e \textit{`Url Index'}. I primi contengono il testo estratto dalle pagine web, nella pratica a partire dalla sorgente html presente sul \textit{WARC} sono stati rimossi tutti i tag ed è stato mantenuto solo il testo semplice. Si ottiene quindi una pagina dal contenuto testuale non strutturato che ci ritorna utile per l'estrazione delle parole. Ogni pagina viene preceduta da alcune righe di header che riportano alcune informazioni come la data di acquisizione, la lunghezza del testo in caratteri e ovviamente l'url a cui noi attribuiremo una lingua e che utilizzeremo come identificatore della pagina web stessa. Qui sotto un piccolissimo estratto di un file \WET{} relativo a una pagina in inglese, risulta semplice distinguere l'header e il relativo \pt{}.
+Tra i vari formati proposti, quelli che ci interessano, poiché utilizzati nel progetto, sono \textit{`WET'} e \textit{`Url Index'}. I primi contengono il testo estratto dalle pagine web, nella pratica a partire dalla sorgente html presente sul \textit{WARC}; sono stati rimossi tutti i tag ed è stato mantenuto solo il testo semplice. Si ottiene quindi una pagina dal contenuto testuale non strutturato che ci ritorna utile per l'estrazione delle parole. Ogni pagina viene preceduta da alcune righe di header che riportano alcune informazioni, tra cui: la data di acquisizione, la lunghezza del testo in caratteri e ovviamente l'url a cui noi attribuiremo una lingua e che utilizzeremo come identificatore della pagina web stessa. Qui sotto un piccolissimo estratto di un file \WET{} relativo a una pagina in inglese. Risulta semplice distinguere l'header e il relativo \pt{}.
 
 %--------------------------------------------------------------->
 \begin{minted}[mathescape, escapeinside=@@]{text}
@@ -134,9 +135,9 @@ My favourite sport is hockey. And I love karate!
 RSS Feed ... Powered by Create your own unique website.
 \end{minted}
 
-Nei nostri test utilizzeremo solo pochi file \WET{} che da soli contengono migliaia di pagine web in formato \pt{}. Come detto prima l'altro tipo di file del dataset che andremo a utilizzare sono gli \UrlIndex{}. Questi ultimi contengono infatti tra le altre innumerevoli informazioni, la lingua che \cld{} (\textit{Compact Language Detector} 2) ha individuato per la pagina relativa all'url in questione. \cld{} è un analizzatore esterno esterno che identifica probabilisticamente più di 80 lingue diverse in \textit{Unicode UTF-8}.
+Nei nostri test utilizzeremo solo pochi file \WET{} che da soli contengono migliaia di pagine web in formato \pt{}. Come detto prima l'altro tipo di file del dataset che andremo a utilizzare sono gli \UrlIndex{}. Questi ultimi contengono infatti tra le altre innumerevoli informazioni, la lingua che \cld{} (\textit{Compact Language Detector} 2) ha individuato per la pagina relativa all'url in questione. \cld{} è un analizzatore esterno che identifica probabilisticamente più di 80 lingue diverse in \textit{Unicode UTF-8}.
 
-Esempio di una lina appartenente a un file \UrlIndex{} qualsiasi:
+Esempio di una linea appartenente a un file \UrlIndex{} qualsiasi:
 %--------------------------------------------------------------->
 \begin{minted}[mathescape, escapeinside=@@]{text}
 1,102,30,163)/modules/mylinks/... 20190218011538 {@\hl{"url":"http://1}@
@@ -147,13 +148,13 @@ W652S3ED7OOFLHE", "length": "7990", "offset": "605284", "filename
 @\hl{es":"zho,eng"}@}
 \end{minted}
 
-Bisogna ora però discutere di un problema affrontato nella fase di progettazione: l'elenco di lingue che \cld{} propone per un determinato url e dunque la relativa linea nel file \UrlIndex{}, non ha una corrispondenza specifica con un file \WET{}. Questo significa che dato un url con relativa pagina su un file \WET{}, le relative informazioni estratte da \cld{} potrebbero trovarsi in uno qualsiasi delle centinaia di file \UrlIndex{}. Detto questo le soluzioni possibili sono due. La prima è rendere disponibili a \MR{} tutti i file \UrlIndex{} per l'analisi delle lingue relative anche a un solo file \WET{} (infattibile per lo spazio necessario sul cluster a disposizione). La seconda opzione(quella scelta) è rimappare le linee dei file \UrlIndex{} su dei nuovi file \info{} in modo tale che nel primo file siano presenti tutti e soli gli url con le relative informazioni del primo file \WET{}, sul secondo siano presenti gli url del secondo \WET{} e così via.
-Anche se onerosa, l'operazione di riscrittura dei file è stata molto facilitata dall'informazione presente su ogni linea del file \UrlIndex{} che indica in quale file \textit{WARC} e dunque \WET{} è presente la relativa pagina. Si può vedere questa ultima informazione tra quelle evidenziate nell'estratto del file \UrlIndex{} dato prima. Elaborando tale linea e spostandola nel nuovo file \filename{info-00001.info} si ottiene il risultato seguente. Il carattere separatore è un \textit{tab}.
+Ora è necessario discutere di un problema affrontato nella fase di progettazione: l'elenco di lingue che \cld{} propone per un determinato url e dunque la relativa linea nel file \UrlIndex{}, non ha una corrispondenza specifica con un file \WET{}. Questo significa che dato un url con relativa pagina su un file \WET{}, le relative informazioni estratte da \cld{} potrebbero trovarsi in uno qualsiasi delle centinaia di file \UrlIndex{}. Detto questo le soluzioni possibili sono due. La prima è rendere disponibili a \MR{} tutti i file \UrlIndex{} per l'analisi delle lingue relative anche a un solo file \WET{} (infattibile per lo spazio necessario sul cluster a disposizione). La seconda opzione(quella scelta) è rimappare le linee dei file \UrlIndex{} su dei nuovi file \info{} in modo tale che nel primo file siano presenti tutti e soli gli url con le relative informazioni del primo file \WET{}, sul secondo siano presenti gli url del secondo \WET{} e così via.
+Anche se onerosa, l'operazione di riscrittura dei file è stata molto facilitata dall'informazione presente su ogni linea del file \UrlIndex{} che indica in quale file \textit{WARC} e dunque \WET{} è presente la relativa pagina. Si può vedere questa ultima informazione tra quelle evidenziate nell'estratto del file \UrlIndex{} prima fornito. Elaborando tale linea e spostandola nel nuovo file \filename{info-00001.info} si ottiene il risultato seguente. Il carattere separatore è un \textit{tab}.
 \begin{minted}{text}
 http://163.30.102.1/modules/mylinks/...   zho,eng    UTF-8 
 \end{minted}
 
-Prima di partire con la descrizione dell'analizzatore è utile dire che la versione utilizzata del dataset \CC{} è quella relativa a \textit{Febbraio 2019}, l'ultima versione disponibile durante la fase di realizzazione dell'analizzatore. Infine è opportuno sottolineare che quando nelle sezioni seguenti si farà riferimento a una `pagina': si vorrà intendere  a una parte del file \WET{} che rappresenta una pagina web analizzata dallo spider ed è dunque formata da header(con url) e relativo \pt{}.
+Prima di iniziare la descrizione dell'analizzatore \MR{} è utile menzionare che la versione utilizzata del dataset \CC{} è quella relativa a \textit{Febbraio 2019}, l'ultima versione disponibile durante la fase di realizzazione del tool. Infine è opportuno sottolineare che quando nelle sezioni seguenti si farà riferimento a una `pagina', si vorrà intendere  a una parte del file \WET{} che rappresenta una pagina web analizzata dallo spider ed è dunque un \pt{}. Ogni pagina è preceduta dal relativo header(con url).
 
 %   _____ _______ _____  _    _ _______ _______ _    _ _____            
 %  / ____|__   __|  __ \| |  | |__   __|__   __| |  | |  __ \     /\    
@@ -165,63 +166,54 @@ Prima di partire con la descrizione dell'analizzatore è utile dire che la versi
 \section{Struttura generale dell'analizzatore}
 
 \begin{figure}[H]
-  \centering
-  \includesvg[width=11.8cm]{images/map_reduce_scheme_render.svg}
-  \caption{Schema astratto \MR{} realizzato}
+   \centering
+   \includesvg[width=11.8cm]{images/map_reduce_scheme_render.svg}
+   \caption{Schema astratto \MR{} realizzato}
+   \label{fig:mapreduce}
 \end{figure}
 
 \subsection{Input Format e Distributed Cache}
-Qui sopra uno schema astratto che mostra il funzionamento generale dell'analizzatore \MR{} realizzato. Per poter cominciare l'analisi, i mapper hanno bisogno di 3 tipologie di file: 
+Qui sopra uno schema astratto\imgref{fig:mapreduce} che mostra il funzionamento generale dell'analizzatore \MR{} realizzato. Per poter cominciare l'analisi, i mapper hanno bisogno di 3 tipologie di file: 
 \begin{itemize}
     \item Uno o più file \textit{WET} che contengono come già visto in precedenza le pagine in formato \pt{} con il relativo header(e dunque l'url univoco).
     \item Uno o più file \textit{info} che mappano gli url con la `soluzione' sulla lingua proposta da \cld{} e il charset della pagina (che nel nostro analizzatore non useremo).
     \item \filename{dictionary.json} : è il dizionario in formato json che contiene una lista delle 300 parole più frequenti per ogni lingua.
 \end{itemize}
-Tutte le tipologie di file devono essere rese disponibili nell'\textit{HDFS}. Avviando il tool \MR{}, bisogna specificare i vari file in input al programma \textit{jar}, come specificato meglio in seguito. Ogni tipologia di file viene tuttavia trattata in modo diverso, infatti le prime due passano attraverso il normale processo di \textit{split} degli input sui vari mapper, mentre il dizionario essendo necessario ovunque nella sua interezza, viene caricato sulla \DC{}. In particolare:
+Tutte le tipologie di file devono essere rese disponibili nell'\textit{HDFS}. Avviando il tool \MR{}, è necessario specificare i vari file in input al programma \textit{jar}, come si piega meglio in seguito. Ogni tipologia di file viene tuttavia trattata in modo diverso: infatti le prime due passano attraverso il normale processo di \textit{split} degli input sui vari mapper, mentre il dizionario, essendo necessario ovunque nella sua interezza, viene caricato sulla \DC{}. In particolare:
 \begin{itemize}
     \item I file \textit{WET} sono associati a un \textit{Input Format} realizzato ad hoc per questo programma: \class{PageAndHeaderInputFormat} invece di inviare al mapper una singola linea del file invia l'intera pagina in \pt{} completa del suo header. Il mapper infatti ha bisogno dell'intera pagina con l'indicazione dell'url per poter fare l'analisi della lingua.
     \item I file \textit{info} sono invece associati a \filename{TextInputFormat.java}. Tale classe è predefinita per la fase di split e invia ai mapper una singola rigola che come già detto più volte corrisponde alla tupla \textit{\textlangle url,lingue\cld{},charset\textrangle}.
-    \item Il file \filename{dictionary.json} essendo necessario nella sua interezza a tutti i mapper non è associato a un \textit{Input Format} ma viene caricato dal \filename{Driver} sulla \DC{} nelle fasi iniziali di \MR{}.
+    \item Il file \filename{dictionary.json} essendo necessario nella sua interezza a tutti i mapper non è associato a un \textit{Input Format}, viene invece caricato dal \filename{Driver} sulla \DC{} nelle fasi iniziali di \MR{}.
 \end{itemize}
 
 \subsection{Map e Reduce}
-Ogni mapper quando viene creato esegue una fase di \function{setup()} in cui carica il dizionario, prelevandolo dalla \DC{} tramite una processo di \textit{parsing} del json. Il processo di parsing viene svolto da \function{JsonParser}. Nella funzione principale il mapper riceve le \textit{input lines} relative ai file \WET{} e ai file \info{}, vengono dunque distinti i due casi:
+Ogni mapper quando viene creato esegue una fase di \function{setup()} in cui carica il dizionario, prelevandolo dalla \DC{} tramite una processo di \textit{parsing} del json. Il processo di parsing viene svolto da \function{JsonParser}. Nella funzione principale il mapper riceve le \textit{input lines} relative ai file \WET{} e ai file \info{}. Vengono a seguito distinti i due casi:
 \begin{itemize}
     \item Nel caso fosse un input relativo a un file \info{}, il mapper esegue un semplice \textit{emit} usando come chiave l'url e come valore l'elenco delle lingue identificate da \cld{}.
     \item Nel caso in cui invece le informazioni passate dai \textit{TextFormat} fossero relative a un file \WET{}, significa che tale input è un insieme di linee che rappresentano una pagina con preposto il relativo header. Il mapper eseguirà dunque una separazione tra header e pagina, ed emetterà una coppia \textit{\textlangle key:Text, value:Text\textrangle}. La chiave sarà l'url estratto dall'header e il valore sarà invece il risultato della funzione \function{getLanguagesWithStats()} di \class{LanguageElect}, a cui viene dato in pasto l'insieme di parole presenti sul testo. Tale insieme è ottenuto con una RegExp applicata sul testo della pagina.
 \end{itemize}
 
-Ai reducer arrivano dunque due tipi di tuple: \textit{\textlangle url, lingue\_con\_Statistiche\textrangle} e \textit{\textlangle url, lingue\_\cld\textrangle}. Ovviamente le due tuple relative alla stessa chiave(cioè con l'url uguale) sono a disposizione dello stesso reducer. Le due tipologie di coppie vengono distinte l'una dall'altra grazie a dei tag specifici che vengono inseriti dal mapper all'inizio del valore nella tupla e vengono poi rimossi dal reducer. Il reducer ora confronterà i risultati della lingua proposta dal tool e quelli di \cld{}, mettendo assieme i risultati del confronto e aggiungendo il relativo simbolo che indica la precisione dei risultati. Il reducer emetterà infine l'url con tutte le informazioni relative alla lingua, a seguito la descrizione dell'output finale dell'analisi \MR{}. 
+Ai reducer arrivano dunque due tipi di tuple: \textit{\textlangle url, lingue\_con\_Statistiche\textrangle} e \textit{\textlangle url, lingue\_\cld\textrangle}. Ovviamente le due tuple relative alla stessa chiave(cioè con l'url uguale) sono a disposizione dello stesso reducer. Le due tipologie di coppie vengono distinte l'una dall'altra grazie a dei tag specifici che vengono inseriti dal mapper all'inizio del valore nella tupla e sono poi rimossi dal reducer. Il reducer ora confronterà i risultati della lingua proposta dal tool e quelli di \cld{}, mettendo assieme i risultati del confronto e aggiungendo il relativo simbolo che indica la precisione dei risultati. Il reducer emetterà infine l'url con tutte le informazioni relative alla lingua, e tali linee verranno salvate in \textit{hdfs} sul relativo file di output. A seguito la descrizione dell'output finale dell'analisi \MR{}. 
 
 \subsection{Formato dell'output del tool}
-L'output del tool saranno un insieme di linee emesse dai Reducer nel formato seguente:
+L'output del tool sarà un insieme di linee emesse dai Reducer nel formato seguente:
 \begin{minted}[mathescape, escapeinside=@@]{text}
 @\textit{URL}@ Response:@\textit{lang1,lang2...}@ | Expected:@\textit{lang1,lang2,...}@ @\textit{SYMBOL\_OF}@
 @\textit{\_PREC.\{\imgtick{},\imgx{},\imgplus{},\imgminus{},\imgdivided{}\}}@ @\textit{STATS[lang1=N.N\%,...}@,Not_Found:@\textit{N\%]}@ [WS]@\textit{\_TAG}@
 \end{minted}
 
-Andando a descrivere i singoli campi:
+I singoli campi sono descritti di seguito:
 \begin{itemize}
-    \item URL: indirizzo url della pagina analizzata
-    \item Response: elenco delle lingue che il tool identifica come rappresentative della pagina analizzata
-    \item Expected: elenco delle lingue identificate dall'analizzatore \cld{} per l'url in questione
-    \item SYMBOL\_OF\_PRECISION: simbolo che indica la precisione delle lingue identificate come rappresentative rispetto ai risultati di \cld{}, a seguito elencheremo i diversi simboli e il loro significato.
-    \item STATS: statistiche contenenti la percentuale di tutte le lingue identificate nel testo. Sono un insieme più ampio rispetto alle lingue elencate in `Response' poichè potrebbero esserci anche lingue con una percentuale bassa che corrispondono a un errore del rilevamento della lingua e vengono dunque scartate tra i risultati ma sono presenti tra le statistiche. Vengono elencate al massimo cinque lingue, le rimanenti, se esistenti, sono quelle con la presenza più bassa sul testo e vengono raggruppate in `\mintedstyle{Other\_Langs}' con la relativa somma delle percentuali. \'E presente infine la percentuale di parole che non sono state rilevate in nessuna lingua. Le percentuali sono calcolate come numero parole di una lingua rispetto al numero di parole totali, come motrato meglio in seguito.
+    \item URL: indirizzo url della pagina analizzata.
+    \item Response: elenco delle lingue che il tool identifica come rappresentative della pagina analizzata.
+    \item Expected: elenco delle lingue identificate dall'analizzatore \cld{} per l'url in questione.
+    \item SYMBOL\_OF\_PRECISION: simbolo che indica la precisione delle lingue identificate come rappresentative rispetto ai risultati di \cld{}, nelle sezioni sucessive elencheremo i diversi simboli e il loro significato.
+    \item STATS: statistiche contenenti la percentuale di tutte le lingue identificate nel testo. Sono un insieme più ampio rispetto alle lingue elencate in `Response' poichè potrebbero esserci anche lingue con una percentuale bassa che corrispondono a un errore del rilevamento della lingua e vengono dunque scartate tra i risultati ma sono presenti tra le statistiche. Vengono elencate al massimo cinque lingue, le rimanenti, se esistenti, sono quelle con la presenza più bassa sul testo e vengono raggruppate in `\mintedstyle{Other\_Langs}' con la relativa somma delle percentuali. \'E presente infine la percentuale di parole che non sono state rilevate in nessuna lingua. Le percentuali sono calcolate come numero di parole di una lingua rispetto al numero di parole totali, come mostrato meglio in seguito.
     \item WS: tag opzionale che sta per `Words Split', se presente segnala che le parole identificate nel testo sono state divise ulteriormente per migliorare il rilevamento delle lingue orientali come cinese e giapponese.
 \end{itemize}
 
-I simboli che indicano la precisione dell'analisi effettuata sulla pagina rispetto al risultato indicato da \cld{} sono:
-\begin{itemize}
-    \item \imgtick{} : indica che \MR{} ha rilevato lo stesso identico insieme di lingue proposte da \cld{}
-    \item \imgx{} : nessuna delle lingue rilevate con il tool coincide con quelle di \cld{}
-    \item \imgplus{} : il tool ha ritornato come risultato le lingue di \cld{} ma ne ha proposte anche altre che \cld{} non ha rilevato. \MR{} ha dunque rilevato più lingue del previsto. 
-    \item \imgminus{} : il tool \MR{} ha proposto meno lingue di quelle rilevate da \cld{}.
-    \item \imgdivided{} : il tool realizzato ha proposto alcune lingue che \cld{} non ha rilevato e ci sono anche alcune lingue che \cld{} ha rilevato ma che il tool non ha segnalato.
-\end{itemize}
+Se nei file \textit{info} non vi è una corrispondenza per l'url corrente(ristretto numero di casi) e dunque \cld{} non propone delle lingue per la pagina, si assume ottimisticamente che le lingue ritornate dal tool \MR{} siano quelle corrette. A seguito un esempio di risultato di analisi su una singola pagina web.
 
-Se nei file \textit{info} non vi è una corrispondenza per l'url corrente(ristretto numero di casi) e dunque \cld{} non propone delle lingue per la pagina corrente, si assume ottimisticamente che le lingue ritornate dal tool \MR{} siano quelle corrette.
-
-A seguito un esempio di risultato di analisi su una singola pagina web.
 \begin{minted}[mathescape, escapeinside=@@]{text}
 http://42stocks.com/cgi-bin/symbol.py?symbol=mtnb Response:eng |
 Expected:eng @\imgtick{}@ eng:6.91%;slv:1.22%;slk:1.22%;swa:1.22%;ron:1.22%
@@ -257,7 +249,7 @@ ary.json /output/output123
 Il numero predefinito di reducer, se non verrà altrimenti specificato è 1.
 
 \subsection{La classe \textit{Driver}}
-La classe \class{Driver} si occupa di configurare e inoltrare il job che deve essere eseguito dal cluster Hadoop, in questo modo inizia l'elaborazione. Tra tutte le operazioni che svolge questa classe vi è la configurazione dei file di input con il corretto \textit{InputFormat}, della cartella di output e dei reducer in base agli argomenti dati in input(come spiegato nella sezione precedente). Un'altra operazione svolta è relativa a impostare la classe mapper e la classe reducer che nel nostro caso sono rispettivamente \filename{Map} e \filename{Reduce}. Infine la classe \filename{Driver} si occupa anche di assegnare il file \filename{dictionary.json} alla \DC{}, in modo tale da renderlo successivamente disponibile a tutti i mapper per la consultazione.
+La classe \class{Driver} si occupa di configurare e inoltrare il job che deve essere eseguito dal cluster Hadoop, iniziando così l'elaborazione. Tra tutte le operazioni che svolge questa classe vi è l'assegnamento dei file di input al corretto \textit{InputFormat} e la configurazione della cartella di output e dei reducer in base agli argomenti dati in input(come spiegato nella sezione precedente). Un'altra operazione svolta consiste nell'impostare la classe mapper e la classe reducer, che nel nostro caso sono rispettivamente \filename{Map} e \filename{Reduce}. Infine la classe \filename{Driver} si occupa anche di assegnare il file \filename{dictionary.json} alla \DC{}, in modo tale da renderlo successivamente disponibile a tutti i mapper per la consultazione.
 
 \subsection{Lo standard ISO, dictionary.json e le relative classi}
 In tutto il progetto e dunque anche in \cld{} e negli output del processo \MR{}, lo standard usato per rappresentare la lingua è \isoTwo{}.
@@ -270,7 +262,7 @@ Per questioni implementative, legate alla maggiore facilità di rappresentare le
 
 All'interno di \filename{dictionary.json} le lingue implementate sono poco meno di 70, tuttavia solo per una parte di esse è stata ottimizzato e testato approfonditamente il rilevamento all'interno del dataset. Una lingua è implementata nel dizionario se la sua lista di \textit{words} non è vuota.
 
-Qui sotto un piccolo estratto del dizionario relativo alle lingue Africano e Tedesco.
+Qui sotto un piccolo estratto del dizionario relativo alle lingue Afrikaans e Tedesco.
 %--------------------------------------------------------------->
 \begin{minted}{json}
 {
@@ -293,10 +285,10 @@ Qui sotto un piccolo estratto del dizionario relativo alle lingue Africano e Ted
 }
 \end{minted}
 
-Per realizzare il dizionario sono stati utilizzate alcune fonti che propongono un elenco delle parole più usate in ogni lingua.\cite{1000words}\cite{101languages}
+Per realizzare il dizionario sono state utilizzate alcune fonti che propongono un elenco delle parole più usate in ogni lingua.\cite{1000words}\cite{101languages}
 
 \subsection{La classe \class{Map}}
-La classe \class{Map} che estende \class{Mapper} è ovviamente l'omonima nel processo \MR{}, il suo funzionamento è già stato spiegato in modo grossolano nelle sezioni precedenti, rimangono però da dettagliare:
+La classe \class{Map} che estende \class{Mapper} è ovviamente l'omonima nel processo \MR{}, il suo funzionamento è già stato spiegato brevemente nelle sezioni precedenti, rimangono però da dettagliare:
 \begin{itemize}
     \item Come il mapper passa dal testo della pagina all'insieme di parole associate.
     \item Come vengono rappresentate le lingue e il dizionario all'interno del tool \MR{}.
@@ -313,9 +305,9 @@ private static final Pattern WORD_BOUNDARY_V2 = Pattern.compile(
 "[\\[0-9\\]\\s!\\-$€%^&*()_+|~=`{}\\[\\]°:\";'<>?,@#.\\/•]+");
 \end{minted}
 
-La regular expression descrive cosa separa una word da un'altra, questo insieme di caratteri individuati dall'espressione regolare verrà usato dal mapper per dividere il \pt{} della pagina nell'insieme di parole. La RegExp costruita appositamente per questa analisi, considera come caratteri di separazione uno o più dei seguenti: cifre, spazi, punteggiatura, parentesi e caratteri vari che non possono appartenere a una parola. 
+La regular expression descrive cosa separa una word da un'altra, questo insieme di caratteri individuati dall'espressione regolare verrà usato dal mapper per dividere il \pt{} della pagina nell'insieme di parole corrispondenti. La RegExp costruita appositamente per questa analisi, considera come caratteri di separazione uno o più dei seguenti: cifre, spazi, punteggiatura, parentesi e caratteri vari che non possono appartenere a una parola. 
 
-A seguito un semplice esempio di suddivisione di un frammento di una pagina, nelle parole che lo compongono. Quelle evidenziate sono le word.
+A seguito un semplice esempio di suddivisione di un frammento di una pagina, nelle parole che lo compongono. Quelle evidenziate sono le \textit{word}.
 
 %--------------------------------------------------------------->
 \begin{minted}[mathescape, escapeinside=@@]{text}
@@ -353,10 +345,10 @@ public class Dictionary {
 \end{minted}
 
 \noindent
-\class{JsonParser} implementa il metodo \function{loadDictionary()} che viene invocato nella fase di \textit{setup} di ogni mapper per caricare sull'istanza di \class{Dictionary} le parole presenti su \filename{dictionary.json}. Il processo di \textit{parsing} del \textit{json} sfrutta una libreria standard.
+\class{JsonParser} implementa il metodo \function{loadDictionary()} che viene invocato nella fase di \textit{setup} di ogni mapper per caricare sull'istanza di \class{Dictionary} le parole presenti in \filename{dictionary.json}. Il processo di \textit{parsing} del \textit{json} sfrutta una libreria standard.
 
 \subsection{Le statistiche}
-Le statistiche rappresentano la percentuale di presenza di ogni lingua su una pagina, tale percentuale è calcolata in base al numero di parole nel testo che vengono identificate per ogni lingua. Le statistiche sono fondamentali poiché sono la base con la quale il tool determinerà una o più lingue da associare all'url e dunque alla pagina. 
+Le statistiche rappresentano la percentuale di presenza di ogni lingua su una pagina; tale percentuale è calcolata in base al numero di parole nel testo che vengono identificate per ogni lingua. Le statistiche sono fondamentali poiché sono la base con la quale il tool determinerà una o più lingue da associare all'url e dunque alla pagina. 
 \begin{equation*}
      percentuale\_lang1 = \frac{\#parole\_lang1}{\#parole\_totali\_sulla\_pagina} (\cdot 100)
 \end{equation*}
@@ -369,29 +361,31 @@ Other_Langs:4.88%; Not_Found:83.33%
 
 \subsection{Scelta della lingue rappresentative di una pagina}
 
-In \class{LanguageElect} viene dunque dato un penso ad ogni lingua in base al numero di parole presententi per essa sulla pagina, si trasformano poi questi punteggi in statistiche come visto nella sezione precedente; infine si passa a scegliere le lingue rappresentative per la pagina.
-Tale scelta si basa ovviamente nel selezionare le lingue che hanno una percentuale più alta ma la scelta deve essere più studiata: se ci limitiamo a prendere le due o tre lingue con la percentuale maggiore potremmo fare degli errori. Immaginiamo di voler ritornare sempre le due lingue con percentuale più alta e avere banalmente delle statistiche di questo tipo: \mintedstyle{eng:6.12\%;mlt:0.95\%;slv:0.93\%;} andremmo quindi a selezionare sia l'inglese che il maltese. Tuttavia ci rendiamo subito conto che il maltese pur avendo la seconda percentuale più alta è probabilmente un'errore della nostra analisi, visto che la differenza di grandezza con il valore dell'inglese è troppo ampia. Per evitare di prendere le lingue con una percentuale troppo bassa e in generale per ottimizzare questo importante procedimento, facciamo dei passaggi: 
+In \class{LanguageElect} viene dunque dato un penso ad ogni lingua in base al numero di parole presententi per essa sulla pagina; si trasformano poi questi punteggi in statistiche come visto nella sezione precedente; infine si passa a scegliere le lingue rappresentative per la pagina.
+Tale scelta si basa nel selezionare le lingue che hanno una percentuale più alta ma la scelta deve essere più studiata: se ci si limita a prendere le due o tre lingue con la percentuale maggiore si corre il rischio di fare degli errori. Immaginiamo di voler ritornare sempre le due lingue con percentuale più alta e avere banalmente delle statistiche di questo tipo: \mintedstyle{eng:6.12\%;mlt:0.95\%;slv:0.93\%;} andremmo quindi a selezionare sia l'inglese che il maltese. Tuttavia ci rendiamo subito conto che il maltese pur avendo la seconda percentuale più alta è probabilmente un'errore della nostra analisi, visto che la differenza di grandezza con il valore dell'inglese è troppo ampia. Per evitare di prendere le lingue con una percentuale troppo bassa e in generale per ottimizzare questo importante procedimento, facciamo dei passaggi: 
 \begin{itemize}
     \item Impostiamo un limite minimo che deve avere la percentuale di presenza di una lingua per non essere considerata un errore di analisi. Tale valore dopo alcune valutazioni è stato settato a \function{VALID\_LANGUAGE\_THRESHOLD = 1.0}. Tutte le lingue che hanno una percentuale sotto l'1\% verranno dunque scartate a meno della condizione seguente.
     \item Se nessuna lingua supera l'1\% allora pur rendendoci conto che i risultati ritornati potrebbero essere non rappresentativi, ritorniamo comunque la o le percentuali che tra tutte risultano essere le più elevate.
     \item Impostiamo un massimo numero di lingue che potranno essere ritornate dalla nostra valutazione, tale numero è calcolato appositamente ma alla base c'è la costante \function{MAX\_NUMBER\_LANG\_TO\_SHOW = 6}.
-    \item Impostiamo \function{VALID\_LANGUAGE\_MAX\_STEP = 3} che rappresenta la massima differenza che può esserci tra la percentuale più alta e le altre percentuali che vengono selezionate. e.g. \mintedstyle{jpn:19.83\%;zho:2.96\%;ron:0.49\%;swe:0.25;} in questo caso sia il giapponese(\textit{jpn}) che il cinese(\textit{zho}) superano la soglia minima. Il primo possiede tuttavia una percentuale molto più elevata rispetto al secondo e dunque nell'ottica che \textit{zho} sia un errore, ha senso ritornare come lingua significativa per la pagina solo il giapponese. Nella pratica data la lingua con la percentuale più alta, vengono tenute le lingue che non differiscono dalla prima più del \function{VALID\_LANGUAGE\_MAX\_STEP}.
-    \item Seguendo l'idea del punto precedente possiamo però generare ulteriore errore nella valutazione. Supponiamo di avere ad esempio \mintedstyle{eng:31.23\%;jpn:25.83\%;zho:1.16\%;} in questo caso la nostra analisi ritornerebbe solo l'inglese, poichè \%\textit{eng} - \%\textit{jpn} \mintedstyle{>} \function{VALID\_LANGUAGE\_MAX\_STEP} = 3. Ragionando sui risultati ottenuti capiamo tuttavia che rimuovere il giapponese che ha una percentuale così alta è molto probabilmente un errore, infatti la pagina potrebbe essere scritta in due diverse lingue. Per evitare quindi di rimuovere delle lingue con una percentuale così elevata, pur mantenendo l'idea relativa al punto precedente, introduciamo un limite oltre il quale l'eliminazione con lo \textit{step} non verrà più effettuata, tale limite è \function{LIMIT\_OF\_CLEAR\_PERCENTAGE = 10}. In questo modo nell'esempio verrà mantenuto sia l'inglese che il giapponese.
+    \item Impostiamo \function{VALID\_LANGUAGE\_MAX\_STEP = 3} che rappresenta la massima differenza che può esserci tra la percentuale più alta e le altre percentuali che vengono selezionate. e.g. \mintedstyle{jpn:19.83\%;zho:2.96\%;ron:0.49\%;swe:0.25;} in questo caso sia il giapponese(\textit{jpn}) che il cinese(\textit{zho}) superano la soglia minima. Il primo possiede tuttavia una percentuale molto più elevata rispetto al secondo e dunque nell'ottica che \textit{zho} sia un errore, ha senso ritornare come lingua significativa per la pagina solo il giapponese. Nella pratica, data la lingua con la percentuale più alta, vengono tenute le lingue che non differiscono dalla prima più del \function{VALID\_LANGUAGE\_MAX\_STEP}.
+    \item Seguendo l'idea del punto precedente possiamo però generare un ulteriore errore nella valutazione. Supponiamo di avere ad esempio \mintedstyle{eng:31.23\%;jpn:25.83\%;zho:1.16\%;} in questo caso la nostra analisi ritornerebbe solo l'inglese, poichè \%\textit{eng} - \%\textit{jpn} \mintedstyle{>} \function{VALID\_LANGUAGE\_MAX\_STEP} = 3. Ragionando sui risultati ottenuti capiamo tuttavia che rimuovere il giapponese che ha una percentuale così alta è molto probabilmente un errore, infatti la pagina potrebbe essere scritta in due diverse lingue. Per evitare quindi di rimuovere delle lingue con una percentuale così elevata, pur mantenendo l'idea relativa al punto precedente, introduciamo un limite oltre il quale l'eliminazione con lo \textit{step} non verrà più effettuata. Tale limite è \function{LIMIT\_OF\_CLEAR\_PERCENTAGE = 10}. In questo modo nell'esempio verrà mantenuto sia l'inglese che il giapponese.
 \end{itemize}
 
 Scelte le lingue rappresentative della pagina, \class{LanguageElect} le ritornerà con le statistiche alla classe principale \class{Map}, quest'ultima effettuerà l'\textit{emit} come descritto precedentemente. 
 
 \subsection{Ottimizzazione del tool per le lingue orientali}
 
-L'operazione di individuazione della lingue in pagine con testi scritti in lingue orientali, ad esempio cinese e giapponese, se non correttamente ottimizzata, risulta avere un grado di errore elevatissimo. La motivazione è nell'esempio seguente. Si supponga di avere un testo di questo tipo:
+L'operazione di individuazione delle lingue in pagine con testi scritti in lingue orientali, ad esempio cinese e giapponese, se non correttamente ottimizzata, risulta avere un grado di errore elevatissimo. La motivazione è nell'esempio seguente. Si supponga di avere un testo di questo tipo:
 \begin{center}
 \imgchina
 \end{center}
-In cinese quella sopra è una intera frase ma con le nostre tecniche di divisione del testo ovviamente risulterà essere una sola parola poiché non vi sono spazi tra un simbolo e l'altro. Il risultato di un'analisi su questo testo darebbe perciò zero \textit{word} appartenenti alla lingua cinese.
+In cinese quella sopra è una intera frase ma con le nostre tecniche di divisione del testo ovviamente risulterà essere una sola parola, non vi sono infatti spazi tra un `simbolo' e l'altro. Il risultato di un'analisi su questo testo darebbe perciò zero \textit{word} appartenenti alla lingua cinese.
 La soluzione adottata per risolvere questo problema è molto semplice e intuitiva ma anche efficace: se una parola inizia con un carattere orientale, la stessa viene suddivisa nei singoli caratteri che la compongono e prendendo i caratteri consecutivi a due a due. Ognuno di questi caratteri o di queste coppie di caratteri diventerà una nuova \textit{word}. Nell'esempio precedente:
 \begin{center}
 \imgchinasplitted
 \end{center}
+In questo modo i risultati migliorano notevolmente e si raggiunge quasi sempre il risultato proposto da \cld{}. Qui sotto un piccolo estratto del codice che permette di individuare le parole in lingue orientali per poi eseguirne il successivo \textit{split}.
+
 %--------------------------------------------------------------->
 \begin{minted}{Java}
 if((word.charAt(i)>='\u3041' && word.charAt(i)<='\u309F')|| //[1]
@@ -404,15 +398,30 @@ if((word.charAt(i)>='\u3041' && word.charAt(i)<='\u309F')|| //[1]
    (word.charAt(i)>='\u9FA6' && word.charAt(i)<='\u9FCC')   //[8] 
    //[1] -> Unicode - Hiragana       [2] -> Unicode - Katakana
    //[3] -> Unicode - Kat. Phon.Ext. [4] -> Unicode - Kanbun
-   //[5] -> Han Ideogr. - Chinese A  [6] -> H.I Chinese B
-   //[7] -> H.I Chinese C            [8] -> H.I Chinese D
+   //[5] -> Han Ideogr. - Chinese A  [6] -> Han I. Chinese B
+   //[7] -> Han I. Chinese C         [8] -> Han I. Chinese D
 ) { asian = true; }
 ...
 \end{minted}
 
-\subsection{La classe \textit{Reduce}}
-\subsection{Rappresentazione e verifica dei risultati}
-\filename{ResultChecker}
+\subsection{\class{Reduce} e \class{ResultChecker}}
+La classe \class{Reduce} estende \class{Reducer} e ovviamente ne implementa il metodo \function{reduce()}. Come detto precedentemente, quest'ultimo riceve le due tipologie di coppie \textit{\textlangle key,value\textrangle} e le mette assieme per poi effettuare un ultimo \textit{emit}, la tupla verrà quindi memorizzata sul relativo file nella cartella di output in \textit{hdfs}. Nel fare l'emissione del risultato, il reducer aggiunge il carattere che identifica quanto è stato preciso \class{LanguageElect} a valutare la/le lingue della pagina e riporterà il tag \mintedstyle{[WS]} se è stato fatto lo \textit{split} relativo alla lingue orientali. La precisione ricordiamo ancora una volta essere calcolata rispetto ai risultati di \cld{}. Le operazioni di confronto per ricavare la precisione sono svolte da \class{ResultChecker} (che viene chiamato dal reducer) e sono delle semplici operazioni di confronto tra i due insiemi di lingue.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{images/sets.png}
+    \caption{Precisione del tool \MR{}}
+    \label{fig:sets}
+\end{figure}
+
+Descriviamo qui a seguito tutti i simboli che indicano la precisione dell'analisi effettuata sulla pagina rispetto al risultato indicato da \cld{}, sia a parole che con l'indicazione degli insiemi\imgref{fig:sets}. Verrà rappresentato con \textit{ToolLangs\_Set} l'insieme delle lingue trovate dal tool \MR{} e con \textit{\cld{}Langs\_Set} l'insieme di lingue che propone \cld{} per l'url corrente.
+\begin{itemize}
+    \item[{[1]}] \imgtick{} : indica che \MR{} ha rilevato lo stesso identico insieme di lingue proposte da \cld{}. $ToolLangs\_Set = \cld{}Langs\_Set$
+    \item[{[2]}] \imgx{} : nessuna delle lingue rilevate con il tool coincide con quelle di \cld{}. $ToolLangs\_Set \cap \cld{}Langs\_Set = \emptyset$
+    \item[{[3]}] \imgminus{} : il tool \MR{} ha proposto meno lingue di quelle rilevate da \cld{}. $ToolLangs\_Set \subset \cld{}Langs\_Set$
+    \item[{[4]}] \imgplus{} : il tool ha ritornato come risultato le lingue di \cld{} ma ne ha proposte anche altre che \cld{} non ha rilevato. \MR{} ha dunque rilevato più lingue del previsto. $\cld{}Langs\_Set \subset ToolLangs\_Set$
+    \item[{[5]}] \imgdivided{} : il tool realizzato ha proposto alcune lingue che \cld{} non ha rilevato e ci sono anche alcune lingue che \cld{} ha rilevato ma che il tool non ha segnalato. $(ToolLangs\_Set \cap \cld{}Langs\_Set \neq \emptyset) \wedge (ToolLangs\_Set  \not\subset \cld{}Langs\_Set) \wedge (\cld{}Langs\_Set \not\subset ToolLangs\_Set)$
+\end{itemize}
 
 %  _______ ______  _____ _______            _____  _____  _____ _    _ _        
 % |__   __|  ____|/ ____|__   __|          |  __ \|_   _|/ ____| |  | | |       
@@ -421,9 +430,9 @@ if((word.charAt(i)>='\u3041' && word.charAt(i)<='\u309F')|| //[1]
 %    | |  | |____ ____) |  | |             | | \ \ _| |_ ____) | |__| | |____ _ 
 %    |_|  |______|_____/   |_|             |_|  \_\_____|_____/ \____/|______(_)
 \newpage
-\section{Test su cluster e Risultati Finali}
+\section{Test su cluster e Risultati finali}
 
-Sono stati svolti numerosi test su cluster, a seguito vine riportata come esempio l'esecuzione del tool \MR{} su 2 file \WET{} e con 5 reducer.  
+Sono stati svolti numerosi test su cluster, a seguito viene riportato come esempio l'esecuzione del tool \MR{} su 2 file \WET{}, con 5 reducer.  
 
 %--------------------------------------------------------------->
 \begin{minted}{bash}
@@ -505,7 +514,8 @@ File Output Format Counters
 \end{minted}
 
 \noindent
-\'E interessante notare che durante l'esecuzione dello script \MR{}, quando Hadoop ci mostra le percentuali di completamento delle due fasi, la fase di reduce sembra iniziare prima che quella di map sia stata completata:
+Il risultato del processo \MR{} non viene analizzato ora poiché, appurata la completa esecuzione del job senza errori, la parte rilevante risulta essere unicamente legata ai tempi di esecuzione. In particolare è interessante notare come cambiano le tempistiche, rispetto alla variazione del numero di file in input al tool; tale correlazione verrà discussa in seguito.
+Notiamo tuttavia un dettaglio: durante l'esecuzione dello script \MR{}, quando Hadoop ci mostra le percentuali di completamento delle due fasi(rimosse nel risultato sovrastante per questioni di spazio), la fase di reduce sembra iniziare prima che quella di map sia stata completata:
 \begin{minted}{bash}
 ...
 19/03/24 11:50:25 INFO mapreduce.Job:  map 84% reduce 19%
@@ -513,7 +523,7 @@ File Output Format Counters
 ...
 \end{minted}
 Tale particolarità si nota poco quando si fa funzionare lo script su piccoli input di test ma nel nostro caso è invece molto evidente. Per ovvi motivi i reducer non possono iniziare a elaborare i risultati dei mapper prima di essere sicuri che questi ultimi abbiano finito di emettere tutte le coppie \textit{\textlangle key,value\textrangle}, ma possono comunque fare lo \textit{`shuffle'}.
-La fase di \textit{shuffle} consiste concettualmente in un mix di sorting e group-by, ovvero vengono raggruppano tutte le coppie \textit{\textlangle key,value\textrangle} per chiave e si ordinano in modo da poter eseguire al meglio le operazioni nel reducer. Questa fase può quindi iniziare prima che i mapper abbiano completato tutti gli \textit{emit}.
+La fase di \textit{shuffle} consiste concettualmente in un mix di sorting e group-by, ovvero vengono raggruppate tutte le coppie \textit{\textlangle key,value\textrangle} per chiave e si ordinano in modo da poter eseguire al meglio le operazioni nel reducer. Questa fase può quindi iniziare prima che i mapper abbiano completato tutti gli \textit{emit}.
 
 Un piccolissimo estratto del risultato di \MR{}:
 \begin{minted}[mathescape, escapeinside=@@]{text}
@@ -540,10 +550,25 @@ http://4646234.org/www_26701_com/baixiaojie....html Response:zho
 \end{minted}
 
 \subsection{Accuratezza dei risultati e tempo di esecuzione}
+Andando a contare il numero di linee in output del tool \MR{} per ogni livello di accuratezza, i risultati ottenuti dall'analisi di due file \WET{} e dunque su un totale di 88791 linee di output sono: 49668\imgtick{}, 5371\imgx{}, 14058\imgplus{}, 14941\imgminus{}, 4753\imgdivided{}. Visualizzando tali valori su un istogramma il risultato è quello riportato in \imgref{graph:histogram}. Tenendo conto di tutti i miglioramenti che si potrebbero ancora apportare per ottimizzare l'analisi, i risultati ottenuti sono molto buoni e superiori alle aspettative.
 
-\printHistogram{}
+Risulta molto indicativo osservare quanto impiega il tool a terminare il processo \MR{} sul cluster, per questo è stato realizzato un grafico\imgref{graph:points} che relaziona il numero di file \WET{} analizzati e il tempo di esecuzione. I valori dei tempi mostrati tengono conto solo del processo di Map e di quello di Reduce, non viene quindi sommato il tempo di `setup' iniziale del \textit{Driver}. Guardando l'andamento, possiamo notare che al crescere del numero di file \WET{} elaborati dal tool il tempo di esecuzione non cresce proporzionalmente. Per essere più precisi: se rapportiamo il tempo di esecuzione ottenuto con due file in input a 4, 6, 8 e 10 file input, otteniamo quella che nel grafico è la linea grigia; i risultati reali sono invece rappresentati dalla linea blu. Il cluster risulta quindi comportarsi bene al crescere delle dimensioni dell'input, come d'altronde ci si aspetta.
 
-\printTimeGraph{}
+\begin{figure}[h!]
+    \centering
+    \scalebox{0.9}
+    \printHistogram{}
+    \caption{Istogramma dell'accuratezza dei risultati}
+    \label{graph:histogram}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \scalebox{0.9}
+    \printTimeGraph{}
+    \caption{Grafico del tempo di esecuzione dei job \MR{}}
+    \label{graph:points}
+\end{figure}
 
 %   _____ ____  _   _  _____ _     _    _  _____ _____ ____  _   _ _____ 
 %  / ____/ __ \| \ | |/ ____| |   | |  | |/ ____|_   _/ __ \| \ | |_   _|
@@ -553,7 +578,7 @@ http://4646234.org/www_26701_com/baixiaojie....html Response:zho
 %  \_____\____/|_| \_|\_____|______\____/|_____/|_____\____/|_| \_|_____|
 \newpage
 \section{Considerazioni conclusive}
-Nel tool realizzato il punto focale è stato la progettazione di una buona struttura \MR{}, più che la ricerca di un sistema che permettesse di fare un'analisi linguistica il più precisa e completa possibile. Lo stato dell'arte per l'analisi delle lingue prevede l'uso di \textit{machine learning} oppure nei sistemi più basilari uno studio di tipo \textit{letter frequency} nelle parole. Visto l'obbiettivo limitato e non avendo sufficienti conoscenze di linguistica per uno studio completo, non ci si è soffermati sulla ricerca del metodo migliore per fare \textit{language detection} ma si è scelto di sviluppare la tecnica intuitiva di riconoscere la lingua tramite un confronto con le parole più usate nella stessa. Nonostante questa `semplificazione' è stato possibile ottenere una buona precisione nei risultati, l'accuratezza ha inoltre un ampio margine di miglioramento, quest'ultimo può essere ottenuto tramite perfezionamento del dizionario e aggiungendo condizioni specifiche per ogni lingua. In ottica quindi di voler migliorare il tool realizzato e la relativa analisi delle lingue, i punti su cui concentrarsi in futuro potrebbero essere:
+Nel tool realizzato il punto focale è stato la progettazione di una buona struttura \MR{}, più che la ricerca di un sistema che permettesse di fare un'analisi linguistica il più precisa e completa possibile. Lo stato dell'arte per l'analisi delle lingue prevede l'uso di \textit{machine learning} oppure nei sistemi più basilari uno studio di tipo \textit{letter frequency} nelle parole. Visto l'obbiettivo limitato e non avendo sufficienti conoscenze di linguistica per uno studio completo, non ci si è soffermati sulla ricerca del metodo migliore per fare \textit{language detection} ma si è scelto di sviluppare la tecnica intuitiva di riconoscere la lingua tramite un confronto con le parole più usate nella stessa. Nonostante questa `semplificazione' è stato possibile ottenere una buona precisione nei risultati, l'accuratezza ha inoltre un ampio margine di miglioramento, che può essere ottenuto tramite perfezionamento del dizionario e aggiungendo condizioni specifiche per ogni lingua. In ottica quindi di voler migliorare il tool realizzato e la relativa analisi delle lingue, i punti su cui concentrarsi in futuro potrebbero essere:
 \begin{itemize}
     \item Aumentare il numero di lingue analizzabili dal tool, implementandone di nuove sul dizionario.
     \item Ottimizzare il dizionario stesso e le lingue già implementate: è possibile ad esempio migliorare i \textit{word set} facendo riferimento a più fonti e valutando di togliere le parole che pur essendo molto utilizzate in una lingua sono molto presenti anche in altre. Si consideri ad esempio le parole molto corte che possono facilmente avere un significato in molti paesi, queste ultime possono peggiorare notevolmente i risultati dell'analisi poiché rendono difficile disambiguare le diverse lingue.\\
@@ -561,7 +586,7 @@ Nel tool realizzato il punto focale è stato la progettazione di una buona strut
     \item Migliorare l'analizzatore con tecniche di \textit{letter frequency} sulle parole individuate nelle pagine.
     \item Raffinare le statistiche e le tecniche usate per la scelta finale delle lingue, date le percentuali di presenza di ciascuna di esse. Imparando le caratteristiche sintattiche e semantiche di ciascuna lingua è possibile inoltre creare delle strutture nel codice che possano aiutare nell'individuazione e nella disambiguazione. Un esempio è la già implementata divisione in sottostringhe delle parole relative ai testi delle lingue orientali per migliorare il riconoscimento che viene ottenuto dalle stesse.
 \end{itemize}
-Ovviamente per molti dei punti qui descritti sarebbe necessario avere una buona conoscenza linguistica per poter conoscere i metodi chiave su cui far leva per migliorare il riconoscimento di una lingua. Per concludere la trattazione possiamo dunque considerare raggiunto l'obbiettivo che è stato posto all'inizio: la struttura \MR{} implementata nel tool realizzato si è rivelata adatta al tipo di \textit{dataset analysis} effettuata, i risultati ottenuti si sono rivelati essere molto buoni nonostante la semplicità della tecnica scelta per l'individuazione della lingua.   
+Ovviamente per molti dei punti qui descritti sarebbe necessario avere una buona conoscenza linguistica per poter conoscere i metodi chiave su cui far leva per migliorare il riconoscimento di una lingua. Nel concludere possiamo dunque considerare raggiunto l'obbiettivo che è stato posto all'inizio: la struttura \MR{} implementata nel tool realizzato si è rivelata adatta al tipo di \textit{dataset analysis} effettuata, i risultati ottenuti si sono rivelati essere molto buoni nonostante la semplicità della tecnica scelta per l'individuazione della lingua.   
 
 \newpage
 
