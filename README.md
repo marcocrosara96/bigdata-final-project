@@ -2,7 +2,7 @@
 ## Master's degree in Computer Science and Engineering - UniVr
 
 ### Relazione con tutte le spiegazioni in merito al progetto
-Disponibile qui: https://github.com/marcocrosara96/bigdata-final-project/blob/master/README.md
+Disponibile qui: https://github.com/marcocrosara96/bigdata-final-project/blob/master/Relazione.pdf
 
 ### Link utili e riferimenti usati nel progetto
 - Dataset Search: https://toolbox.google.com/datasetsearch
